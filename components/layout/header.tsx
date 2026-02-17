@@ -57,7 +57,7 @@ function MobileNav({
                 height={32}
                 className="h-8 w-8"
               />
-              <span className="text-lg font-bold tracking-tight text-slate-900">
+              <span className="text-lg font-bold tracking-tight text-slate-600">
                 Cortex
               </span>
             </Link>
@@ -137,7 +137,7 @@ export function Header() {
             height={32}
             className="h-8 w-8"
           />
-          <span className="text-lg font-bold tracking-tight text-slate-900">
+          <span className="text-lg font-bold tracking-tight text-slate-600">
             Cortex <span className="hidden sm:inline">Automations</span>
           </span>
         </Link>
