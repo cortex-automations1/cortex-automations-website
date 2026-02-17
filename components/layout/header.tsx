@@ -137,16 +137,8 @@ export function Header() {
             height={32}
             className="h-8 w-8"
           />
-          <Image
-            src="/images/logo-long.png"
-            alt="Cortex Automations"
-            width={160}
-            height={32}
-            className="hidden h-7 w-auto sm:block"
-            priority
-          />
-          <span className="text-lg font-bold tracking-tight text-slate-900 sm:hidden">
-            Cortex
+          <span className="text-lg font-bold tracking-tight text-slate-900">
+            Cortex <span className="hidden sm:inline">Automations</span>
           </span>
         </Link>
 
