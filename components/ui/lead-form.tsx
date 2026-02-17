@@ -63,21 +63,21 @@ export function LeadForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-xl border border-green-200 bg-green-50 p-8 text-center">
-        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-          <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+      <div className="card-gradient-border p-8 text-center">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-500/10">
+          <svg className="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
           </svg>
         </div>
-        <h3 className="mt-4 text-lg font-semibold text-green-900">
+        <h3 className="mt-4 text-lg font-semibold text-white">
           Thanks! We&apos;ll be in touch within 24 hours.
         </h3>
-        <p className="mt-2 text-sm text-green-700">
+        <p className="mt-2 text-sm text-neutral-400">
           We&apos;ve received your message and will get back to you shortly.
         </p>
         <button
           onClick={() => setStatus("idle")}
-          className="mt-6 text-sm font-medium text-green-600 hover:text-green-700"
+          className="mt-6 text-sm font-medium text-brand-400 hover:text-brand-300"
         >
           Send another message
         </button>
@@ -85,88 +85,44 @@ export function LeadForm() {
     );
   }
 
+  const inputClasses =
+    "mt-1.5 block w-full rounded-lg border border-white/10 bg-surface-200 px-3.5 py-2.5 text-sm text-white shadow-sm placeholder:text-neutral-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      {/* Name */}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-slate-700">
-          Name <span className="text-red-500">*</span>
+        <label htmlFor="name" className="block text-sm font-medium text-neutral-300">
+          Name <span className="text-red-400">*</span>
         </label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          required
-          value={form.name}
-          onChange={handleChange}
-          className="mt-1.5 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-          placeholder="Your name"
-        />
+        <input type="text" id="name" name="name" required value={form.name} onChange={handleChange} className={inputClasses} placeholder="Your name" />
       </div>
 
-      {/* Email */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-slate-700">
-          Email <span className="text-red-500">*</span>
+        <label htmlFor="email" className="block text-sm font-medium text-neutral-300">
+          Email <span className="text-red-400">*</span>
         </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          value={form.email}
-          onChange={handleChange}
-          className="mt-1.5 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-          placeholder="you@company.com"
-        />
+        <input type="email" id="email" name="email" required value={form.email} onChange={handleChange} className={inputClasses} placeholder="you@company.com" />
       </div>
 
-      {/* Company */}
       <div>
-        <label htmlFor="company" className="block text-sm font-medium text-slate-700">
-          Company <span className="text-red-500">*</span>
+        <label htmlFor="company" className="block text-sm font-medium text-neutral-300">
+          Company <span className="text-red-400">*</span>
         </label>
-        <input
-          type="text"
-          id="company"
-          name="company"
-          required
-          value={form.company}
-          onChange={handleChange}
-          className="mt-1.5 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-          placeholder="Your company"
-        />
+        <input type="text" id="company" name="company" required value={form.company} onChange={handleChange} className={inputClasses} placeholder="Your company" />
       </div>
 
-      {/* Phone (optional) */}
       <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-slate-700">
-          Phone <span className="text-slate-400">(optional)</span>
+        <label htmlFor="phone" className="block text-sm font-medium text-neutral-300">
+          Phone <span className="text-neutral-600">(optional)</span>
         </label>
-        <input
-          type="tel"
-          id="phone"
-          name="phone"
-          value={form.phone}
-          onChange={handleChange}
-          className="mt-1.5 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-          placeholder="+1 (555) 000-0000"
-        />
+        <input type="tel" id="phone" name="phone" value={form.phone} onChange={handleChange} className={inputClasses} placeholder="+1 (555) 000-0000" />
       </div>
 
-      {/* Service Interest */}
       <div>
-        <label htmlFor="service" className="block text-sm font-medium text-slate-700">
-          Service Interest <span className="text-red-500">*</span>
+        <label htmlFor="service" className="block text-sm font-medium text-neutral-300">
+          Service Interest <span className="text-red-400">*</span>
         </label>
-        <select
-          id="service"
-          name="service"
-          required
-          value={form.service}
-          onChange={handleChange}
-          className="mt-1.5 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
-        >
+        <select id="service" name="service" required value={form.service} onChange={handleChange} className={inputClasses}>
           <option value="">Select a service</option>
           {SERVICES.map(function (service) {
             return (
@@ -179,35 +135,23 @@ export function LeadForm() {
         </select>
       </div>
 
-      {/* Message */}
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-slate-700">
-          Message <span className="text-red-500">*</span>
+        <label htmlFor="message" className="block text-sm font-medium text-neutral-300">
+          Message <span className="text-red-400">*</span>
         </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={4}
-          value={form.message}
-          onChange={handleChange}
-          className="mt-1.5 block w-full rounded-lg border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 resize-none"
-          placeholder="Tell us about your project..."
-        />
+        <textarea id="message" name="message" required rows={4} value={form.message} onChange={handleChange} className={`${inputClasses} resize-none`} placeholder="Tell us about your project..." />
       </div>
 
-      {/* Error */}
       {status === "error" && (
-        <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">
+        <div className="rounded-lg border border-red-500/20 bg-red-500/10 p-3 text-sm text-red-400">
           {errorMessage}
         </div>
       )}
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={status === "loading"}
-        className="w-full rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-black transition-colors hover:bg-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {status === "loading" ? "Sending..." : "Send Message"}
       </button>

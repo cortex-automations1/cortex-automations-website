@@ -58,7 +58,7 @@ const SOCIAL_ICONS: Record<string, () => React.JSX.Element> = {
 
 export function Footer() {
   return (
-    <footer className="bg-navy-950 text-slate-300">
+    <footer className="border-t border-white/5 bg-surface-0">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Main footer content */}
         <div className="grid gap-12 py-16 lg:grid-cols-5 lg:gap-8">
@@ -76,7 +76,7 @@ export function Footer() {
                 Cortex Automations
               </span>
             </Link>
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-neutral-500">
               Full-stack development agency specializing in SaaS platforms, mobile apps,
               web design, and AI automation. Design With Intelligence.
             </p>
@@ -92,7 +92,7 @@ export function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded-lg p-2 text-slate-500 transition-colors hover:bg-slate-800 hover:text-slate-300"
+                    className="rounded-lg p-2 text-neutral-600 transition-colors hover:bg-white/5 hover:text-neutral-300"
                     aria-label={social.label}
                   >
                     <Icon />
@@ -107,7 +107,7 @@ export function Footer() {
             {FOOTER_COLUMNS.map(function (column) {
               return (
                 <div key={column.title}>
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-white">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-400">
                     {column.title}
                   </h3>
                   <ul className="mt-4 space-y-3">
@@ -120,7 +120,7 @@ export function Footer() {
                               href={link.href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm text-slate-400 transition-colors hover:text-white"
+                              className="text-sm text-neutral-500 transition-colors hover:text-white"
                             >
                               {link.label}
                             </a>
@@ -131,7 +131,7 @@ export function Footer() {
                         <li key={link.href}>
                           <Link
                             href={link.href}
-                            className="text-sm text-slate-400 transition-colors hover:text-white"
+                            className="text-sm text-neutral-500 transition-colors hover:text-white"
                           >
                             {link.label}
                           </Link>
@@ -146,8 +146,8 @@ export function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-slate-800 py-8">
-          <p className="text-center text-sm text-slate-500">
+        <div className="border-t border-white/5 py-8">
+          <p className="text-center text-sm text-neutral-600">
             &copy; {new Date().getFullYear()} Cortex Automations LLC. All rights reserved.
           </p>
         </div>

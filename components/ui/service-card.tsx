@@ -29,15 +29,15 @@ export function ServiceCard({ name, shortDescription, icon, slug }: ServiceCardP
   return (
     <Link
       href={`/services#${slug}`}
-      className="group rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:shadow-md hover:border-brand-200"
+      className="card-gradient-border group p-6 transition-all hover:bg-surface-200"
     >
-      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-100">
+      <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-500/10 text-brand-400 transition-colors group-hover:bg-brand-500/20">
         <Icon className="h-6 w-6" />
       </div>
-      <h3 className="mt-4 text-lg font-semibold text-slate-900">
+      <h3 className="mt-4 text-lg font-semibold text-white">
         {name}
       </h3>
-      <p className="mt-2 text-sm leading-relaxed text-slate-600">
+      <p className="mt-2 text-sm leading-relaxed text-neutral-400">
         {shortDescription}
       </p>
     </Link>

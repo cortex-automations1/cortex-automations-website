@@ -19,24 +19,24 @@ export default function HomePage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-white via-brand-50/30 to-white section-padding">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 -z-10 overflow-hidden"
-        >
-          <div className="absolute -top-40 right-0 h-[500px] w-[500px] rounded-full bg-brand-100/40 blur-3xl" />
-          <div className="absolute -bottom-20 left-0 h-[400px] w-[400px] rounded-full bg-brand-50/60 blur-3xl" />
+      <section className="relative overflow-hidden section-padding">
+        {/* Background effects */}
+        <div aria-hidden="true" className="absolute inset-0 -z-10">
+          <div className="bg-grid absolute inset-0 opacity-40" />
+          <div className="absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] rounded-full bg-brand-500/8 blur-[120px]" />
+          <div className="absolute right-0 top-0 h-[300px] w-[300px] rounded-full bg-purple-500/5 blur-[100px]" />
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
 
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-wider text-brand-600">
+          <p className="text-sm font-semibold uppercase tracking-wider text-brand-400">
             Design With Intelligence
           </p>
-          <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-7xl">
             We Build Software{" "}
             <span className="text-gradient">That Scales</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600 sm:text-xl">
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-400 sm:text-xl">
             Full-stack development agency specializing in SaaS platforms, mobile apps,
             web design, and AI automation. From concept to production, we ship.
           </p>
@@ -45,14 +45,14 @@ export default function HomePage() {
               href={CAL_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-brand-600 px-8 text-base font-semibold text-white shadow-lg shadow-brand-600/25 transition-colors hover:bg-brand-700"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-white px-8 text-base font-semibold text-black transition-all hover:bg-neutral-200"
             >
               Book a Discovery Call
               <ArrowRight className="h-4 w-4" />
             </a>
             <Link
               href="/portfolio"
-              className="inline-flex h-12 items-center justify-center rounded-lg border-2 border-slate-300 px-8 text-base font-semibold text-slate-700 transition-colors hover:border-brand-600 hover:text-brand-600"
+              className="inline-flex h-12 items-center justify-center rounded-lg border border-white/15 px-8 text-base font-semibold text-neutral-300 transition-all hover:border-white/30 hover:text-white hover:bg-white/5"
             >
               See Our Work
             </Link>
@@ -61,13 +61,14 @@ export default function HomePage() {
       </section>
 
       {/* Services Overview */}
-      <section className="section-padding bg-slate-50">
+      <section className="relative section-padding">
+        <div className="absolute inset-0 -z-10 border-t border-white/5" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             title="What We Build"
             subtitle="End-to-end development services for businesses that need reliable, scalable software."
           />
-          <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICES.map(function (service) {
               return (
                 <ServiceCard
@@ -84,7 +85,8 @@ export default function HomePage() {
       </section>
 
       {/* Featured Projects */}
-      <section className="section-padding bg-white">
+      <section className="relative section-padding">
+        <div className="absolute inset-0 -z-10 border-t border-white/5 bg-surface-50" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between">
             <SectionHeading
@@ -94,13 +96,13 @@ export default function HomePage() {
             />
             <Link
               href="/portfolio"
-              className="hidden items-center gap-1 text-sm font-medium text-brand-600 transition-colors hover:text-brand-700 sm:inline-flex"
+              className="hidden items-center gap-1 text-sm font-medium text-brand-400 transition-colors hover:text-brand-300 sm:inline-flex"
             >
               View all
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="mt-12 grid gap-8 lg:grid-cols-3">
+          <div className="mt-12 grid gap-6 lg:grid-cols-3">
             {featuredProjects.map(function (project) {
               return (
                 <ProjectCard
@@ -119,7 +121,7 @@ export default function HomePage() {
           <div className="mt-8 text-center sm:hidden">
             <Link
               href="/portfolio"
-              className="inline-flex items-center gap-1 text-sm font-medium text-brand-600"
+              className="inline-flex items-center gap-1 text-sm font-medium text-brand-400"
             >
               View all projects
               <ArrowRight className="h-4 w-4" />
@@ -129,7 +131,8 @@ export default function HomePage() {
       </section>
 
       {/* Process */}
-      <section className="section-padding bg-slate-50">
+      <section className="relative section-padding">
+        <div className="absolute inset-0 -z-10 border-t border-white/5" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             title="How We Work"
@@ -137,18 +140,18 @@ export default function HomePage() {
           />
           <div className="relative mt-16">
             {/* Connecting line (desktop) */}
-            <div className="absolute left-0 right-0 top-8 hidden h-0.5 bg-gradient-to-r from-brand-200 via-brand-400 to-brand-200 lg:block" />
+            <div className="absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent lg:block" />
             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
               {PROCESS_STEPS.map(function (step) {
                 return (
                   <div key={step.number} className="relative text-center">
-                    <div className="relative z-10 mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-600 text-xl font-bold text-white shadow-lg shadow-brand-600/25">
+                    <div className="relative z-10 mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-brand-500/30 bg-surface-100 text-xl font-bold text-brand-400 glow-brand-sm">
                       {step.number}
                     </div>
-                    <h3 className="mt-4 text-lg font-semibold text-slate-900">
+                    <h3 className="mt-4 text-lg font-semibold text-white">
                       {step.title}
                     </h3>
-                    <p className="mt-2 text-sm text-slate-600">
+                    <p className="mt-2 text-sm text-neutral-400">
                       {step.description}
                     </p>
                   </div>
@@ -160,7 +163,8 @@ export default function HomePage() {
       </section>
 
       {/* Tech Stack */}
-      <section className="section-padding bg-white">
+      <section className="relative section-padding">
+        <div className="absolute inset-0 -z-10 border-t border-white/5 bg-surface-50" />
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             title="Our Tech Stack"
@@ -170,7 +174,7 @@ export default function HomePage() {
             {TECH_STACK.map(function (group) {
               return (
                 <div key={group.category}>
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-500">
                     {group.category}
                   </h3>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -178,7 +182,7 @@ export default function HomePage() {
                       return (
                         <span
                           key={item}
-                          className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700"
+                          className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-neutral-300"
                         >
                           {item}
                         </span>
@@ -193,7 +197,10 @@ export default function HomePage() {
       </section>
 
       {/* Stats Bar */}
-      <section className="bg-navy-900 py-16 lg:py-20">
+      <section className="relative border-y border-white/5 py-16 lg:py-20">
+        <div aria-hidden="true" className="absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[200px] w-[600px] rounded-full bg-brand-500/5 blur-[100px]" />
+        </div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
             {STATS.map(function (stat) {
@@ -202,7 +209,7 @@ export default function HomePage() {
                   <div className="text-4xl font-bold text-white sm:text-5xl">
                     {stat.value}
                   </div>
-                  <p className="mt-2 text-sm text-slate-300">{stat.label}</p>
+                  <p className="mt-2 text-sm text-neutral-500">{stat.label}</p>
                 </div>
               );
             })}
