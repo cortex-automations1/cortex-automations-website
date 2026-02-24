@@ -51,7 +51,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">3. Data Storage & Security</h2>
+            <h2 className="text-xl font-bold text-white mb-4">3. Data Storage &amp; Security</h2>
             <p>
               Inquiry data submitted through our contact form is forwarded to our internal CRM
               (SignFlow) for lead management. All data is transmitted over HTTPS and stored

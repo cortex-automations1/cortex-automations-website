@@ -146,20 +146,52 @@ export default function AboutPage() {
       <section className="py-24 bg-surface-0 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">The Team</h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Leadership</h2>
+            <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+              Architected by engineers who understand both the code and the business logic.
+            </p>
           </div>
+
           <div className="flex justify-center">
-            <div className="max-w-sm text-center">
-              <div className="mx-auto flex h-24 w-24 items-center justify-center rounded-full border border-brand-500/30 bg-surface-100 text-3xl font-bold text-brand-400 glow-brand-sm">
-                DP
+            <div className="relative group w-full max-w-3xl">
+              {/* Glow effect on hover */}
+              <div className="absolute -inset-px bg-gradient-to-r from-brand-500/0 via-brand-500/10 to-brand-500/0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+              <div className="relative p-8 md:p-12 rounded-3xl bg-surface-50 border border-surface-200 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-10">
+                {/* Avatar Node */}
+                <div className="shrink-0 relative">
+                  <div className="absolute inset-0 bg-brand-500/20 blur-2xl rounded-full" />
+                  <div className="relative flex h-32 w-32 items-center justify-center rounded-2xl border border-brand-500/30 bg-surface-100/80 backdrop-blur-sm text-4xl font-bold text-brand-400 shadow-xl shadow-surface-0/50 -rotate-3 group-hover:rotate-0 transition-transform duration-500">
+                    DP
+                  </div>
+                </div>
+
+                {/* Bio Content */}
+                <div className="text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-100 border border-surface-200 text-brand-400 text-xs font-mono uppercase tracking-wider mb-5">
+                    <Terminal className="w-3 h-3" /> Root Access
+                  </div>
+                  <h3 className="text-3xl font-bold text-white mb-1">David Perez</h3>
+                  <p className="text-brand-400 font-medium mb-6">Founder &amp; Lead Engineer</p>
+                  <p className="text-neutral-400 leading-relaxed text-lg mb-8">
+                    Full-stack engineer with a passion for building scalable systems and premium
+                    UI/UX. Background in IT services, cloud infrastructure, and complex SaaS
+                    development—including multi-tenant platforms like SignFlow and specialized
+                    healthcare tools like Claro EHR. Focused on shipping quality software that
+                    solves real problems.
+                  </p>
+
+                  {/* Tech Badges */}
+                  <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-100 border border-surface-200 text-neutral-300 text-xs font-medium">
+                      <Terminal className="w-3.5 h-3.5 text-brand-500" /> Full-Stack Architecture
+                    </span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-100 border border-surface-200 text-neutral-300 text-xs font-medium">
+                      <Eye className="w-3.5 h-3.5 text-brand-500" /> UI/UX Design
+                    </span>
+                  </div>
+                </div>
               </div>
-              <h3 className="mt-6 text-xl font-semibold text-white">David Perez</h3>
-              <p className="mt-1 font-medium text-brand-400">Founder &amp; Lead Engineer</p>
-              <p className="mt-4 text-sm leading-relaxed text-neutral-400">
-                Full-stack engineer with a passion for building scalable systems. Background in IT
-                services, cloud infrastructure, and SaaS development. Focused on shipping quality
-                software that solves real problems.
-              </p>
             </div>
           </div>
         </div>
