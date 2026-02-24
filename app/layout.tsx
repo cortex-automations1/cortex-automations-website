@@ -21,13 +21,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Cortex Automations",
-    images: [{ url: "/images/og-image.png", width: 1200, height: 630 }],
+    images: [{ url: "/images/og-image.jpg", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
   },
   icons: {
     icon: "/favicon.ico",
+    apple: "/apple-touch-icon.jpg",
   },
 };
 
