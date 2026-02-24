@@ -1,5 +1,6 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Terminal } from "lucide-react";
 import { CAL_LINK } from "@/lib/constants";
+import Link from "next/link";
 
 interface CTASectionProps {
   title?: string;
@@ -11,29 +12,35 @@ export function CTASection({
   subtitle = "Book a free discovery call and let's discuss your project.",
 }: CTASectionProps) {
   return (
-    <section className="relative overflow-hidden border-t border-white/5 section-padding">
-      {/* Glow effects */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-0 -translate-x-1/2 h-[400px] w-[600px] rounded-full bg-brand-500/10 blur-[120px]" />
-      </div>
+    <section className="relative overflow-hidden border-t border-surface-200 bg-surface-50 py-24 z-10">
+      {/* Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] glow-brand opacity-10 blur-[100px] pointer-events-none" />
 
-      <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
+      <div className="mx-auto max-w-4xl px-6 text-center relative z-10 animate-fade-in-up">
+        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-6">
           {title}
         </h2>
-        <p className="mx-auto mt-4 max-w-xl text-lg text-neutral-400">
+        <p className="mx-auto mb-10 max-w-2xl text-lg md:text-xl text-neutral-400">
           {subtitle}
         </p>
-        <div className="mt-8">
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href={CAL_LINK}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-white px-8 py-3.5 text-base font-semibold text-black transition-all hover:bg-neutral-200"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-8 py-4 text-base font-medium text-white transition-colors hover:bg-brand-600 shadow-lg shadow-brand-500/20 group"
           >
-            Book a Discovery Call
-            <ArrowRight className="h-4 w-4" />
+            Book Discovery Call
+            <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
           </a>
+          <Link
+            href="/contact"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-surface-100 border border-surface-300 px-8 py-4 text-base font-medium text-white transition-colors hover:bg-surface-200"
+          >
+            <Terminal className="h-4 w-4 text-neutral-400" />
+            Initialize Project
+          </Link>
         </div>
       </div>
     </section>
