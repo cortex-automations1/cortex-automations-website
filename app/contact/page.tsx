@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Mail, Calendar, Terminal } from "lucide-react";
-import { CAL_LINK, SOCIAL_LINKS } from "@/lib/constants";
+import { SOCIAL_LINKS } from "@/lib/constants";
 import { LeadForm } from "@/components/ui/lead-form";
+import { CalendarWidget } from "@/components/ui/calendar-widget";
 import { createMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createMetadata({
@@ -69,18 +70,9 @@ export default function ContactPage() {
                 </p>
               </div>
 
-              {/* Cal.com Embed */}
-              <div className="rounded-2xl bg-surface-100 border border-surface-200 overflow-hidden h-[600px] shadow-2xl relative">
-                <div className="absolute inset-0 flex items-center justify-center text-neutral-500 -z-10 animate-pulse">
-                  Loading calendar...
-                </div>
-                <iframe
-                  src={`${CAL_LINK}?embed=true&theme=dark&layout=month_view`}
-                  width="100%"
-                  height="100%"
-                  className="w-full h-full relative z-10 bg-transparent border-0"
-                  title="Schedule a Discovery Call"
-                />
+              {/* Calendar.com Inline Widget */}
+              <div className="rounded-2xl bg-surface-100 border border-surface-200 overflow-hidden shadow-2xl">
+                <CalendarWidget />
               </div>
             </div>
 

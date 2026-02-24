@@ -1,5 +1,5 @@
 export const SITE_URL = "https://cortexautomations.ai";
-export const CAL_LINK = "https://cal.com/cortex-automations/discovery";
+export const CAL_LINK = "https://www.calendar.com/david-perez/webdev/";
 
 export const NAV_LINKS = [
   { label: "Services", href: "/services" },
