@@ -1,49 +1,26 @@
 import type { MetadataRoute } from "next";
-import { PROJECTS } from "@/lib/constants";
-
-const BASE_URL = "https://cortexautomations.ai";
+import { SITE_URL, PROJECTS } from "@/lib/constants";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const projectRoutes: MetadataRoute.Sitemap = PROJECTS.map(function (project) {
+  const baseRoutes = ["", "/about", "/services", "/portfolio", "/contact"].map(
+    function (route) {
+      return {
+        url: `${SITE_URL}${route}`,
+        lastModified: new Date(),
+        changeFrequency: "monthly" as const,
+        priority: route === "" ? 1 : 0.8,
+      };
+    },
+  );
+
+  const projectRoutes = PROJECTS.map(function (project) {
     return {
-      url: `${BASE_URL}/portfolio/${project.slug}`,
+      url: `${SITE_URL}/portfolio/${project.slug}`,
       lastModified: new Date(),
       changeFrequency: "monthly" as const,
-      priority: 0.7,
+      priority: 0.6,
     };
   });
 
-  return [
-    {
-      url: BASE_URL,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${BASE_URL}/services`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${BASE_URL}/portfolio`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.8,
-    },
-    ...projectRoutes,
-    {
-      url: `${BASE_URL}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${BASE_URL}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-  ];
+  return [...baseRoutes, ...projectRoutes];
 }
