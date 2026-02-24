@@ -116,7 +116,7 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-white mb-4">7. Changes to This Policy</h2>
             <p>
               We may update this policy as our services evolve. Material changes will be reflected
-              by updating the "last updated" date at the top of this page. Continued use of our
+              by updating the &ldquo;last updated&rdquo; date at the top of this page. Continued use of our
               website following any changes constitutes acceptance of the updated policy.
             </p>
           </section>

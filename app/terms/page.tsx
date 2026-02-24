@@ -112,7 +112,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-white mb-4">9. Changes to Terms</h2>
             <p>
-              We reserve the right to update these terms at any time. The "last updated" date at
+              We reserve the right to update these terms at any time. The &ldquo;last updated&rdquo; date at
               the top of this page reflects the most recent revision. Continued use of our website
               or services after any changes constitutes your acceptance of the updated terms.
             </p>
