@@ -1,194 +1,141 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { ServiceCard } from "@/components/ui/service-card";
-import { ProjectCard } from "@/components/ui/project-card";
-import { SectionHeading } from "@/components/sections/section-heading";
-import { CTASection } from "@/components/sections/cta-section";
-import {
-  SERVICES,
-  PROJECTS,
-  PROCESS_STEPS,
-  TECH_STACK,
-  STATS,
-  CAL_LINK,
-} from "@/lib/constants";
+import Link from 'next/link';
+import { ArrowRight, Terminal, Layers, Smartphone, Monitor, Brain, Cpu, Code2, Database, ShieldCheck, Zap } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { SERVICES, PROJECTS, CAL_LINK } from '@/lib/constants';
+
+const SERVICE_ICONS: Record<string, LucideIcon> = {
+  'saas-platforms': Layers,
+  'mobile-apps': Smartphone,
+  'web-design': Monitor,
+  'ai-automation': Brain,
+};
 
 export default function HomePage() {
-  const featuredProjects = PROJECTS.slice(0, 3);
-
   return (
     <>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden section-padding">
-        {/* Background effects */}
-        <div aria-hidden="true" className="absolute inset-0 -z-10">
-          <div className="bg-grid absolute inset-0 opacity-40" />
-          <div className="absolute left-1/2 top-1/4 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] rounded-full bg-brand-500/8 blur-[120px]" />
-          <div className="absolute right-0 top-0 h-[300px] w-[300px] rounded-full bg-purple-500/5 blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        </div>
+      {/* HERO SECTION */}
+      <section className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden section-padding">
+        {/* Background Effects */}
+        <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] glow-brand opacity-20 blur-[120px] pointer-events-none" />
 
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-wider text-brand-400">
-            Design With Intelligence
-          </p>
-          <h1 className="mx-auto mt-4 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-7xl">
-            We Build Software{" "}
-            <span className="text-gradient">That Scales</span>
+        <div className="max-w-7xl mx-auto relative z-10 text-center animate-fade-in-up">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-surface-300 bg-surface-100/50 backdrop-blur-sm text-neutral-300 text-sm font-medium mb-8">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-500"></span>
+            </span>
+            Engineering scalable digital infrastructure
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight max-w-4xl mx-auto leading-tight">
+            We Build High-Performance <br className="hidden md:block" />
+            <span className="text-gradient">Software Systems</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-400 sm:text-xl">
-            Full-stack development agency specializing in SaaS platforms, mobile apps,
-            web design, and AI automation. From concept to production, we ship.
+
+          <p className="text-neutral-400 text-lg md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed">
+            Cortex Automations is a premier full-stack development partner. We engineer seamless UIs, robust APIs, and complex automation workflows for modern enterprises.
           </p>
-          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-            <a
-              href={CAL_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-lg bg-white px-8 text-base font-semibold text-black transition-all hover:bg-neutral-200"
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 group"
             >
-              Book a Discovery Call
-              <ArrowRight className="h-4 w-4" />
-            </a>
+              Start a Project
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
             <Link
               href="/portfolio"
-              className="inline-flex h-12 items-center justify-center rounded-lg border border-white/15 px-8 text-base font-semibold text-neutral-300 transition-all hover:border-white/30 hover:text-white hover:bg-white/5"
+              className="w-full sm:w-auto px-8 py-4 bg-surface-100 text-white font-medium rounded-lg border border-surface-200 hover:bg-surface-200 transition-colors flex items-center justify-center gap-2"
             >
-              See Our Work
+              <Terminal className="w-4 h-4 text-neutral-400" />
+              View Architecture
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Services Overview */}
-      <section className="relative section-padding">
-        <div className="absolute inset-0 -z-10 border-t border-white/5" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            title="What We Build"
-            subtitle="End-to-end development services for businesses that need reliable, scalable software."
-          />
-          <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map(function (service) {
-              return (
-                <ServiceCard
-                  key={service.slug}
-                  name={service.name}
-                  shortDescription={service.shortDescription}
-                  icon={service.icon}
-                  slug={service.slug}
-                />
-              );
-            })}
+      {/* TECH STACK TRUST BAR */}
+      <section className="border-y border-surface-200 bg-surface-50 py-10 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-center text-sm font-mono text-neutral-500 uppercase tracking-widest mb-6">Powered by the modern stack</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+            <div className="flex items-center gap-2 text-white font-medium"><Code2 className="w-5 h-5" /> Next.js 15</div>
+            <div className="flex items-center gap-2 text-white font-medium"><Terminal className="w-5 h-5" /> TypeScript</div>
+            <div className="flex items-center gap-2 text-white font-medium"><Cpu className="w-5 h-5" /> Node.js</div>
+            <div className="flex items-center gap-2 text-white font-medium"><Database className="w-5 h-5" /> PostgreSQL</div>
+            <div className="flex items-center gap-2 text-white font-medium"><Zap className="w-5 h-5" /> Tailwind 4</div>
           </div>
         </div>
       </section>
 
-      {/* Featured Projects */}
-      <section className="relative section-padding">
-        <div className="absolute inset-0 -z-10 border-t border-white/5 bg-surface-50" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between">
-            <SectionHeading
-              title="Featured Projects"
-              subtitle="A selection of platforms we've designed, built, and shipped."
-              centered={false}
-            />
-            <Link
-              href="/portfolio"
-              className="hidden items-center gap-1 text-sm font-medium text-brand-400 transition-colors hover:text-brand-300 sm:inline-flex"
-            >
-              View all
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+      {/* VALUE PROP / WHY CORTEX */}
+      <section className="section-padding bg-surface-0 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16 md:mb-24">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Beyond Basic Web Development</h2>
+            <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+              We don&apos;t use templates. We architect custom solutions designed to handle complex business logic, secure data, and scale effortlessly.
+            </p>
           </div>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {featuredProjects.map(function (project) {
-              return (
-                <ProjectCard
-                  key={project.slug}
-                  name={project.name}
-                  category={project.category}
-                  tagline={project.tagline}
-                  description={project.description}
-                  techStack={project.techStack}
-                  highlights={project.highlights}
-                  link={project.link}
-                />
-              );
-            })}
-          </div>
-          <div className="mt-8 text-center sm:hidden">
-            <Link
-              href="/portfolio"
-              className="inline-flex items-center gap-1 text-sm font-medium text-brand-400"
-            >
-              View all projects
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
 
-      {/* Process */}
-      <section className="relative section-padding">
-        <div className="absolute inset-0 -z-10 border-t border-white/5" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            title="How We Work"
-            subtitle="A proven process that keeps projects on track and stakeholders aligned."
-          />
-          <div className="relative mt-16">
-            {/* Connecting line (desktop) */}
-            <div className="absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-brand-500/30 to-transparent lg:block" />
-            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-              {PROCESS_STEPS.map(function (step) {
-                return (
-                  <div key={step.number} className="relative text-center">
-                    <div className="relative z-10 mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-brand-500/30 bg-surface-100 text-xl font-bold text-brand-400 glow-brand-sm">
-                      {step.number}
-                    </div>
-                    <h3 className="mt-4 text-lg font-semibold text-white">
-                      {step.title}
-                    </h3>
-                    <p className="mt-2 text-sm text-neutral-400">
-                      {step.description}
-                    </p>
-                  </div>
-                );
-              })}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200 card-gradient-border relative group overflow-hidden animate-fade-in-up">
+              <div className="absolute top-0 right-0 w-32 h-32 glow-brand opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+              <Layers className="w-10 h-10 text-brand-500 mb-6" />
+              <h3 className="text-xl font-bold text-white mb-4">Multi-Tenant Platforms</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                From high-performance CRMs to enterprise SaaS products, we build scalable architectures with robust role-based access controls and seamless data isolation.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200 card-gradient-border relative group overflow-hidden animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+              <div className="absolute top-0 right-0 w-32 h-32 glow-brand opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+              <ShieldCheck className="w-10 h-10 text-brand-500 mb-6" />
+              <h3 className="text-xl font-bold text-white mb-4">Specialized Workflows</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                We handle heavily regulated and complex logic, including healthcare EHR integrations, secure API endpoints, and automated data pipelines.
+              </p>
+            </div>
+
+            <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200 card-gradient-border relative group overflow-hidden animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+              <div className="absolute top-0 right-0 w-32 h-32 glow-brand opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+              <Zap className="w-10 h-10 text-brand-500 mb-6" />
+              <h3 className="text-xl font-bold text-white mb-4">Premium UI/UX</h3>
+              <p className="text-neutral-400 leading-relaxed">
+                Powerful backend infrastructure means nothing if the frontend is difficult to use. We prioritize frictionless, accessible, and high-converting user interfaces.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Tech Stack */}
-      <section className="relative section-padding">
-        <div className="absolute inset-0 -z-10 border-t border-white/5 bg-surface-50" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            title="Our Tech Stack"
-            subtitle="We use modern, battle-tested technologies to build reliable software."
-          />
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {TECH_STACK.map(function (group) {
+      {/* SERVICES TEASER */}
+      <section className="section-padding bg-surface-50 border-t border-surface-200 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16 gap-6">
+            <div>
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Core Capabilities</h2>
+              <p className="text-neutral-400 text-lg max-w-xl">
+                End-to-end engineering for platforms that demand reliability.
+              </p>
+            </div>
+            <Link href="/services" className="inline-flex items-center text-brand-400 hover:text-brand-300 font-medium transition-colors group">
+              View All Services <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {SERVICES.slice(0, 4).map(function (service) {
+              const Icon = SERVICE_ICONS[service.slug] ?? Terminal;
               return (
-                <div key={group.category}>
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-neutral-500">
-                    {group.category}
-                  </h3>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {group.items.map(function (item) {
-                      return (
-                        <span
-                          key={item}
-                          className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-neutral-300"
-                        >
-                          {item}
-                        </span>
-                      );
-                    })}
+                <div key={service.slug} className="p-6 rounded-xl bg-surface-100 border border-surface-200 hover:border-brand-500/50 transition-colors group">
+                  <div className="w-10 h-10 rounded-lg bg-surface-200 border border-surface-300 flex items-center justify-center mb-4 group-hover:bg-brand-500/10 transition-colors">
+                    <Icon className="w-5 h-5 text-brand-400" />
                   </div>
+                  <h3 className="text-lg font-bold text-white mb-2">{service.name}</h3>
+                  <p className="text-neutral-400 text-sm">{service.shortDescription}</p>
                 </div>
               );
             })}
@@ -196,29 +143,72 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Stats Bar */}
-      <section className="relative border-y border-white/5 py-16 lg:py-20">
-        <div aria-hidden="true" className="absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-[200px] w-[600px] rounded-full bg-brand-500/5 blur-[100px]" />
-        </div>
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
-            {STATS.map(function (stat) {
+      {/* FEATURED PROJECTS TEASER */}
+      <section className="section-padding bg-surface-0 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">Featured Architecture</h2>
+            <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+              A look at the systems powering modern businesses.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {PROJECTS.slice(0, 2).map(function (project) {
               return (
-                <div key={stat.label} className="text-center">
-                  <div className="text-4xl font-bold text-white sm:text-5xl">
-                    {stat.value}
+                <div key={project.slug} className="p-8 rounded-2xl bg-surface-50 border border-surface-200 card-gradient-border relative group overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 glow-brand opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                  <div className="relative z-10">
+                    <span className="text-brand-400 text-xs font-mono uppercase tracking-wider mb-2 block">{project.category}</span>
+                    <h3 className="text-3xl font-bold text-white mb-4">{project.name}</h3>
+                    <p className="text-neutral-400 mb-8">{project.tagline}</p>
+                    <Link
+                      href={`/portfolio/${project.slug}`}
+                      className="inline-flex items-center px-5 py-2.5 rounded-lg bg-surface-200 text-white font-medium hover:bg-surface-300 transition-colors"
+                    >
+                      Read Case Study
+                    </Link>
                   </div>
-                  <p className="mt-2 text-sm text-neutral-500">{stat.label}</p>
                 </div>
               );
             })}
           </div>
+
+          <div className="mt-12 text-center">
+            <Link href="/portfolio" className="inline-flex items-center text-brand-400 hover:text-brand-300 font-medium transition-colors">
+              Explore All Projects <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <CTASection />
+      {/* FINAL BOTTOM CTA */}
+      <section className="py-24 bg-surface-50 border-t border-surface-200 relative overflow-hidden z-10">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] glow-brand opacity-10 blur-[100px] pointer-events-none" />
+
+        <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">Ready to build?</h2>
+          <p className="text-neutral-400 text-xl mb-10 max-w-2xl mx-auto">
+            Stop settling for off-the-shelf solutions. Let&apos;s engineer a custom platform that scales with your business.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/contact"
+              className="w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              Initialize Project <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href={CAL_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 py-4 bg-surface-100 text-white font-medium rounded-lg border border-surface-300 hover:bg-surface-200 transition-colors"
+            >
+              Book Discovery Call
+            </a>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

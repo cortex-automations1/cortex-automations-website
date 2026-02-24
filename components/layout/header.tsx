@@ -3,183 +3,153 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Menu, X, Terminal } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { NAV_LINKS, CAL_LINK } from "@/lib/constants";
+import { CAL_LINK } from "@/lib/constants";
 
-function MobileNav({
-  isOpen,
-  onClose,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
-  useEffect(
-    function lockBodyScroll() {
-      if (isOpen) {
-        document.body.style.overflow = "hidden";
-      } else {
-        document.body.style.overflow = "";
-      }
-      return () => {
-        document.body.style.overflow = "";
-      };
-    },
-    [isOpen],
-  );
-
-  return (
-    <>
-      {/* Backdrop */}
-      <div
-        className={cn(
-          "fixed inset-0 z-40 bg-black/60 backdrop-blur-sm transition-opacity duration-300 lg:hidden",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none",
-        )}
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Slide-out panel */}
-      <div
-        className={cn(
-          "fixed inset-y-0 right-0 z-50 w-full max-w-sm bg-surface-100 shadow-2xl transition-transform duration-300 ease-out lg:hidden",
-          isOpen ? "translate-x-0" : "translate-x-full",
-        )}
-      >
-        <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
-            <Link href="/" className="flex items-center gap-2" onClick={onClose}>
-              <Image
-                src="/images/logo-icon.png"
-                alt="Cortex Automations"
-                width={32}
-                height={32}
-                className="h-8 w-8"
-              />
-              <span className="text-lg font-bold tracking-tight text-white">
-                Cortex
-              </span>
-            </Link>
-            <button
-              onClick={onClose}
-              className="rounded-lg p-2 text-neutral-400 hover:bg-white/5 hover:text-white transition-colors"
-              aria-label="Close menu"
-            >
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-
-          <nav className="flex-1 overflow-y-auto px-6 py-4">
-            <ul className="space-y-1">
-              {NAV_LINKS.map(function (link) {
-                return (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      onClick={onClose}
-                      className="block rounded-lg px-3 py-3 text-base font-medium text-neutral-300 hover:bg-white/5 hover:text-white transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-
-          <div className="border-t border-white/10 px-6 py-4">
-            <a
-              href={CAL_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block w-full rounded-lg bg-brand-600 px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-brand-500 transition-colors"
-            >
-              Book a Call
-            </a>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-}
+const NAVIGATION = [
+  { name: "Home", href: "/" },
+  { name: "Services", href: "/services" },
+  { name: "Portfolio", href: "/portfolio" },
+  { name: "Contact", href: "/contact" },
+];
 
 export function Header() {
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(function watchScroll() {
     function handleScroll() {
-      setScrolled(window.scrollY > 10);
+      setScrolled(window.scrollY > 20);
     }
-
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(
+    function closeMobileOnNavigation() {
+      setIsOpen(false);
+    },
+    [pathname],
+  );
 
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 w-full transition-all duration-300",
+        "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         scrolled
-          ? "border-b border-white/10 bg-black/70 backdrop-blur-xl"
-          : "bg-transparent",
+          ? "bg-surface-0/80 backdrop-blur-md border-surface-200 shadow-lg shadow-surface-0/20"
+          : "bg-transparent border-transparent",
       )}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group" aria-label="Cortex Automations home">
-          <Image
-            src="/images/logo-icon.png"
-            alt=""
-            width={32}
-            height={32}
-            className="h-8 w-8"
-          />
-          <span className="text-lg font-bold tracking-tight text-neutral-300">
-            Cortex <span className="hidden sm:inline">Automations</span>
-          </span>
-        </Link>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="flex items-center justify-between h-20">
 
-        {/* Desktop navigation */}
-        <nav className="hidden items-center gap-8 lg:flex">
-          {NAV_LINKS.map(function (link) {
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group">
+            <Image
+              src="/images/logo-icon.png"
+              alt="Cortex Automations Logo"
+              width={32}
+              height={32}
+              className="object-contain group-hover:scale-105 transition-transform"
+            />
+            <span className="text-xl font-bold text-white tracking-tight">
+              Cortex <span className="text-brand-400">Automations</span>
+            </span>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-8">
+            {NAVIGATION.map(function (item) {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    "text-sm font-medium transition-colors hover:text-brand-400",
+                    isActive ? "text-white" : "text-neutral-400",
+                  )}
+                >
+                  {item.name}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Desktop CTA */}
+          <div className="hidden md:flex items-center gap-4">
+            <a
+              href={CAL_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-5 py-2.5 text-sm font-medium text-white bg-surface-100 border border-surface-200 rounded-lg hover:bg-surface-200 transition-colors"
+            >
+              Book Discovery Call
+            </a>
+            <Link
+              href="/contact"
+              className="px-5 py-2.5 text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/20 flex items-center gap-2"
+            >
+              <Terminal className="w-4 h-4" /> Start Project
+            </Link>
+          </div>
+
+          {/* Mobile toggle */}
+          <button
+            className="md:hidden p-2 text-neutral-400 hover:text-white transition-colors"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile dropdown */}
+      <div
+        className={cn(
+          "md:hidden absolute top-20 left-0 w-full bg-surface-50 border-b border-surface-200 transition-all duration-300 ease-in-out overflow-hidden",
+          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
+        )}
+      >
+        <div className="px-6 py-6 space-y-4 flex flex-col">
+          {NAVIGATION.map(function (item) {
+            const isActive = pathname === item.href;
             return (
               <Link
-                key={link.label}
-                href={link.href}
-                className="text-sm font-medium text-neutral-400 transition-colors hover:text-white"
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "text-base font-medium transition-colors block py-2",
+                  isActive ? "text-brand-400" : "text-neutral-300 hover:text-white",
+                )}
               >
-                {link.label}
+                {item.name}
               </Link>
             );
           })}
-        </nav>
-
-        {/* Desktop CTA */}
-        <div className="hidden items-center gap-4 lg:flex">
-          <a
-            href={CAL_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black transition-all hover:bg-neutral-200 active:scale-[0.98]"
-          >
-            Book a Call
-          </a>
+          <div className="pt-4 border-t border-surface-200 flex flex-col gap-3">
+            <Link
+              href="/contact"
+              className="w-full py-3 text-center text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600 transition-colors"
+            >
+              Start Project
+            </Link>
+            <a
+              href={CAL_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full py-3 text-center text-sm font-medium text-white bg-surface-100 border border-surface-200 rounded-lg hover:bg-surface-200 transition-colors"
+            >
+              Book Discovery Call
+            </a>
+          </div>
         </div>
-
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setMobileOpen(true)}
-          className="rounded-lg p-2 text-neutral-400 hover:bg-white/5 hover:text-white transition-colors lg:hidden"
-          aria-label="Open menu"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
       </div>
-
-      <MobileNav isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
     </header>
   );
 }

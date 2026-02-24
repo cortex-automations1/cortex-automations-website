@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { ProjectCard } from "@/components/ui/project-card";
-import { CTASection } from "@/components/sections/cta-section";
+import { ArrowRight, Layers, Activity, Cloud, GitMerge, Sparkles } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { PROJECTS } from "@/lib/constants";
+import { CTASection } from "@/components/sections/cta-section";
 import { createMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createMetadata({
@@ -11,51 +13,85 @@ export const metadata: Metadata = createMetadata({
   path: "/portfolio",
 });
 
+const PROJECT_ICONS: Record<string, LucideIcon> = {
+  "signflow-pro": Layers,
+  "cloud-x": Cloud,
+  "livemonitor": Activity,
+  "liquidlogic": GitMerge,
+};
+
 export default function PortfolioPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative overflow-hidden section-padding">
-        <div aria-hidden="true" className="absolute inset-0 -z-10">
-          <div className="bg-grid absolute inset-0 opacity-40" />
-          <div className="absolute left-1/2 top-0 -translate-x-1/2 h-[400px] w-[600px] rounded-full bg-brand-500/8 blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-        </div>
-        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Our <span className="text-gradient">Portfolio</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-neutral-400">
-            Real platforms built for real businesses. Here&apos;s a look at some of the
-            projects we&apos;ve designed, developed, and shipped to production.
-          </p>
-        </div>
-      </section>
+      <div className="relative overflow-hidden bg-surface-0 section-padding px-4 sm:px-6 lg:px-8">
+        {/* Background grid */}
+        <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
 
-      {/* Projects Grid */}
-      <section className="relative section-padding">
-        <div className="absolute inset-0 -z-10 border-t border-white/5" />
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-6 md:grid-cols-2">
-            {PROJECTS.map(function (project) {
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header */}
+          <header className="mb-16 md:mb-24 animate-fade-in">
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+              Our <span className="text-gradient">Digital Infrastructure</span>
+            </h1>
+            <p className="text-neutral-400 text-xl max-w-2xl leading-relaxed">
+              We don&apos;t just write code. We architect scalable, high-performance systems
+              designed to automate workflows and drive enterprise growth.
+            </p>
+          </header>
+
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {PROJECTS.map(function (project, index) {
+              const Icon = PROJECT_ICONS[project.slug] ?? Layers;
+              const isFeatured = index === 0;
+              const href = project.link ?? "#";
+
               return (
-                <ProjectCard
+                <a
                   key={project.slug}
-                  name={project.name}
-                  category={project.category}
-                  tagline={project.tagline}
-                  description={project.description}
-                  techStack={project.techStack}
-                  highlights={project.highlights}
-                  link={project.link}
-                />
+                  href={href}
+                  target={project.link ? "_blank" : undefined}
+                  rel={project.link ? "noopener noreferrer" : undefined}
+                  className={cn(
+                    "group relative p-8 rounded-2xl border border-surface-200 bg-surface-50 overflow-hidden card-gradient-border transition-transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-500/10 flex flex-col justify-between min-h-[280px] animate-fade-in-up",
+                    isFeatured && "md:col-span-2 bg-surface-100",
+                  )}
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  {/* Hover glow */}
+                  <div className="absolute top-0 right-0 w-64 h-64 glow-brand opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" />
+
+                  <div className="relative z-10 flex justify-between items-start">
+                    <div className="p-3 bg-surface-200 rounded-xl border border-surface-300">
+                      <Icon className="w-6 h-6 text-brand-500" />
+                    </div>
+                    {isFeatured && (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 text-brand-400 text-xs font-mono uppercase tracking-wider border border-brand-500/20">
+                        <Sparkles className="w-3 h-3" /> Featured Architecture
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="relative z-10 mt-auto pt-8">
+                    <p className="text-brand-400 text-sm font-mono mb-2 uppercase tracking-wider">
+                      {project.category}
+                    </p>
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                      {project.name}
+                    </h3>
+                    <p className="text-neutral-400 max-w-md">{project.tagline}</p>
+
+                    <div className="mt-6 flex items-center text-white text-sm font-medium opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                      View Project <ArrowRight className="ml-2 w-4 h-4" />
+                    </div>
+                  </div>
+                </a>
               );
             })}
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* CTA */}
       <CTASection
         title="Want to see your project here?"
         subtitle="Let's build something worth showcasing."
