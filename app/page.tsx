@@ -130,13 +130,13 @@ export default function HomePage() {
             {SERVICES.slice(0, 4).map(function (service) {
               const Icon = SERVICE_ICONS[service.slug] ?? Terminal;
               return (
-                <div key={service.slug} className="p-6 rounded-xl bg-surface-100 border border-surface-200 hover:border-brand-500/50 transition-colors group">
+                <Link key={service.slug} href={`/services/${service.slug}`} className="p-6 rounded-xl bg-surface-100 border border-surface-200 hover:border-brand-500/50 transition-colors group">
                   <div className="w-10 h-10 rounded-lg bg-surface-200 border border-surface-300 flex items-center justify-center mb-4 group-hover:bg-brand-500/10 transition-colors">
                     <Icon className="w-5 h-5 text-brand-400" />
                   </div>
                   <h3 className="text-lg font-bold text-white mb-2">{service.name}</h3>
                   <p className="text-neutral-400 text-sm">{service.shortDescription}</p>
-                </div>
+                </Link>
               );
             })}
           </div>

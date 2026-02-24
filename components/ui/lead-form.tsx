@@ -22,8 +22,8 @@ const INITIAL_FORM: FormData = {
   message: "",
 };
 
-export function LeadForm() {
-  const [form, setForm] = useState<FormData>(INITIAL_FORM);
+export function LeadForm({ initialService = "" }: { initialService?: string }) {
+  const [form, setForm] = useState<FormData>({ ...INITIAL_FORM, service: initialService });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 

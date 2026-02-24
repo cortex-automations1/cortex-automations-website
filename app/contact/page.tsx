@@ -12,7 +12,10 @@ export const metadata: Metadata = createMetadata({
   path: "/contact",
 });
 
-export default function ContactPage() {
+type Props = { searchParams: Promise<{ scope?: string }> };
+
+export default async function ContactPage({ searchParams }: Props) {
+  const { scope } = await searchParams;
   return (
     <>
       {/* HERO SECTION */}
@@ -52,7 +55,7 @@ export default function ContactPage() {
               <div className="p-1 rounded-2xl bg-surface-100/50 border border-surface-200 card-gradient-border shadow-2xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-64 h-64 glow-brand opacity-0 group-hover:opacity-5 transition-opacity duration-500 pointer-events-none" />
                 <div className="relative z-10">
-                  <LeadForm />
+                  <LeadForm initialService={scope} />
                 </div>
               </div>
             </div>
