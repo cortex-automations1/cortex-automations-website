@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, Terminal, Layers, Smartphone, Monitor, Brain, Cpu, Code2, Database, ShieldCheck, Zap } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { SERVICES, PROJECTS, CAL_LINK } from '@/lib/constants';
+import { SERVICES, PROJECTS, PROCESS_STEPS, TESTIMONIALS, CAL_LINK } from '@/lib/constants';
 
 const SERVICE_ICONS: Record<string, LucideIcon> = {
   'saas-platforms': Layers,
@@ -143,6 +143,39 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* HOW WE WORK */}
+      <section className="section-padding bg-surface-0 border-t border-surface-200 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-sm font-mono text-brand-400 uppercase tracking-widest mb-4">Process</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">How We Work</h2>
+            <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+              From first call to production deployment — a clear process with no surprises.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+            <div className="hidden lg:block absolute top-10 left-[14%] right-[14%] h-px bg-gradient-to-r from-transparent via-surface-300 to-transparent pointer-events-none" />
+            {PROCESS_STEPS.map(function (step, index) {
+              return (
+                <div
+                  key={step.number}
+                  className="relative p-6 rounded-2xl bg-surface-50 border border-surface-200 card-gradient-border text-center animate-fade-in-up group overflow-hidden"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 glow-brand opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                  <div className="w-12 h-12 rounded-full bg-surface-100 border border-brand-500/30 text-brand-400 font-mono font-bold text-lg flex items-center justify-center mx-auto mb-5 relative z-10 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                    {step.number}
+                  </div>
+                  <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
+                  <p className="text-neutral-400 text-sm leading-relaxed">{step.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       {/* FEATURED PROJECTS TEASER */}
       <section className="section-padding bg-surface-0 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
@@ -178,6 +211,39 @@ export default function HomePage() {
             <Link href="/portfolio" className="inline-flex items-center text-brand-400 hover:text-brand-300 font-medium transition-colors">
               Explore All Projects <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="section-padding bg-surface-0 border-t border-surface-200 relative z-10">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <p className="text-sm font-mono text-brand-400 uppercase tracking-widest mb-4">Client Results</p>
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">What Clients Say</h2>
+            <p className="text-neutral-400 text-sm italic">Testimonials coming soon — replace with real client quotes.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {TESTIMONIALS.map(function (testimonial, index) {
+              return (
+                <div
+                  key={testimonial.author}
+                  className="p-8 rounded-2xl bg-surface-50 border border-surface-200 card-gradient-border relative group overflow-hidden flex flex-col animate-fade-in-up"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 glow-brand opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
+                  <div className="text-brand-500/20 text-7xl font-serif leading-none mb-2 select-none">&ldquo;</div>
+                  <p className="text-neutral-300 leading-relaxed mb-8 flex-1 relative z-10">
+                    {testimonial.quote}
+                  </p>
+                  <div className="border-t border-surface-200 pt-6 relative z-10">
+                    <p className="text-white font-semibold">{testimonial.author}</p>
+                    <p className="text-neutral-500 text-sm">{testimonial.role}, {testimonial.company}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

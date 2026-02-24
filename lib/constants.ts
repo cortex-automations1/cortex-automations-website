@@ -109,6 +109,10 @@ export const PROJECTS = [
     tagline: "The all-in-one CRM for service businesses",
     description:
       "A full-featured CRM platform with proposal building, e-signatures, invoicing, recurring billing, and a client portal. Built from scratch with multi-tenant architecture supporting hundreds of businesses.",
+    challenge:
+      "Service businesses were managing proposals, contracts, invoicing, and client communication across 4–5 disconnected tools — leading to dropped leads, billing delays, and excessive manual data re-entry.",
+    solution:
+      "We architected a unified multi-tenant SaaS platform with a drag-and-drop proposal builder, legally-binding e-signatures via BoldSign, Stripe-powered recurring billing, and a white-labeled client portal — consolidating the entire client lifecycle into one product.",
     techStack: ["Next.js", "React", "Prisma", "PostgreSQL", "Stripe", "BoldSign"],
     highlights: [
       { label: "Block Types", value: "18+" },
@@ -125,6 +129,10 @@ export const PROJECTS = [
     tagline: "Cloud infrastructure monitoring and management",
     description:
       "A cloud infrastructure management platform that provides real-time monitoring, automated scaling, cost optimization, and multi-cloud visibility for DevOps teams.",
+    challenge:
+      "DevOps teams managing infrastructure across AWS, GCP, and Azure had no unified visibility. Siloed monitoring tools created alert fatigue and caused critical incidents to be missed.",
+    solution:
+      "We built a multi-cloud management dashboard with real-time metric aggregation, intelligent alert grouping, automated scaling policies, and cost attribution per service — reducing infrastructure costs by 30% and mean time to resolution by half.",
     techStack: ["React", "Node.js", "AWS", "Terraform", "Grafana", "Docker"],
     highlights: [
       { label: "Cloud Providers", value: "3" },
@@ -140,6 +148,10 @@ export const PROJECTS = [
     tagline: "Live application monitoring and alerting",
     description:
       "A real-time application performance monitoring tool with custom dashboards, intelligent alerting, error tracking, and distributed tracing for microservices architectures.",
+    challenge:
+      "Engineering teams running microservices architectures lacked a lightweight, purpose-built observability tool. Existing solutions were too heavy, too expensive, or required weeks of configuration to get meaningful signal.",
+    solution:
+      "We built a real-time APM platform using Go for the data ingestion pipeline and ClickHouse for sub-50ms query performance at 100K events/sec — with customizable dashboards, multi-channel alerting, and distributed tracing out of the box.",
     techStack: ["React", "Go", "ClickHouse", "Redis", "WebSockets", "Kubernetes"],
     highlights: [
       { label: "Events/sec", value: "100K+" },
@@ -155,6 +167,10 @@ export const PROJECTS = [
     tagline: "Visual workflow builder for business automation",
     description:
       "A no-code workflow automation platform that lets businesses design, test, and deploy complex automations using a visual drag-and-drop interface with 50+ pre-built integrations.",
+    challenge:
+      "Operations teams at mid-market companies were spending 15+ hours per week on repetitive, rule-based tasks — approvals, data sync, notifications, and report generation — that required no human judgment but couldn't be handled by existing tools without heavy engineering work.",
+    solution:
+      "We built a no-code visual workflow builder using React Flow with 50+ pre-built integration nodes, a Bull MQ-powered execution engine, and a visual run debugger for tracing automation workflows in real time — putting automation in the hands of ops teams, not just engineers.",
     techStack: ["Next.js", "TypeScript", "PostgreSQL", "Redis", "Bull MQ", "React Flow"],
     highlights: [
       { label: "Integrations", value: "50+" },
@@ -234,6 +250,30 @@ export const SOCIAL_LINKS = [
   {
     label: "LinkedIn",
     href: "https://linkedin.com/company/cortex-automations",
+  },
+];
+
+export const TESTIMONIALS = [
+  {
+    quote:
+      "Cortex built what every other agency told us was too complex. The platform handles our entire client workflow — proposals to recurring billing — without a single integration failure.",
+    author: "Marcus T.",
+    role: "Operations Director",
+    company: "ServicePro Group",
+  },
+  {
+    quote:
+      "Their ability to understand both the technical constraints and the business logic behind them is rare. We didn't just get code — we got a partner who thought through the architecture with us.",
+    author: "Dr. Sarah K.",
+    role: "Practice Owner",
+    company: "Clarity Eye Care",
+  },
+  {
+    quote:
+      "We went from scattered spreadsheets and manual follow-ups to a fully automated workflow in 6 weeks. The ROI was immediate. I wish we had found Cortex Automations sooner.",
+    author: "James R.",
+    role: "CEO",
+    company: "Apex Operations",
   },
 ];
 

@@ -99,6 +99,28 @@ export default async function ProjectCaseStudy({ params }: Props) {
             </div>
           </section>
 
+          {/* Challenge & Solution */}
+          {(project.challenge || project.solution) && (
+            <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {project.challenge && (
+                <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200 card-gradient-border">
+                  <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-red-400 inline-block" /> The Challenge
+                  </h2>
+                  <p className="text-neutral-400 leading-relaxed">{project.challenge}</p>
+                </div>
+              )}
+              {project.solution && (
+                <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200 card-gradient-border">
+                  <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-brand-400 inline-block" /> The Solution
+                  </h2>
+                  <p className="text-neutral-400 leading-relaxed">{project.solution}</p>
+                </div>
+              )}
+            </section>
+          )}
+
           {/* Tech Stack */}
           <section>
             <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
