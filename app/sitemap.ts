@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { SITE_URL, PROJECTS } from "@/lib/constants";
+import { SITE_URL, PROJECTS, SERVICES } from "@/lib/constants";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseRoutes = ["", "/about", "/services", "/portfolio", "/contact"].map(
@@ -13,6 +13,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   );
 
+  const serviceRoutes = SERVICES.map(function (service) {
+    return {
+      url: `${SITE_URL}/services/${service.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    };
+  });
+
   const projectRoutes = PROJECTS.map(function (project) {
     return {
       url: `${SITE_URL}/portfolio/${project.slug}`,
@@ -22,5 +31,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  return [...baseRoutes, ...projectRoutes];
+  return [...baseRoutes, ...serviceRoutes, ...projectRoutes];
 }

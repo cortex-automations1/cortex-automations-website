@@ -12,7 +12,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Cortex Automations | Design With Intelligence",
+    default: "Cortex Automations | Engineering Scalable Digital Infrastructure",
     template: "%s | Cortex Automations",
   },
   description:
@@ -31,6 +31,26 @@ export const metadata: Metadata = {
   },
 };
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Cortex Automations",
+  url: "https://cortexautomations.ai",
+  logo: "https://cortexautomations.ai/logo-icon.png",
+  description:
+    "Full-stack development agency specializing in SaaS platforms, mobile apps, web design, and AI automation.",
+  email: "hello@cortexautomations.ai",
+  address: {
+    "@type": "PostalAddress",
+    addressRegion: "FL",
+    addressCountry: "US",
+  },
+  sameAs: [
+    "https://github.com/cortex-automations1",
+    "https://linkedin.com/company/cortex-automations",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -39,6 +59,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="min-h-screen bg-surface-0 font-sans text-white antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Header />
         <main>{children}</main>
         <Footer />

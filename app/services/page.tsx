@@ -63,13 +63,19 @@ export default function ServicesPage() {
                   <h2 className="text-3xl md:text-4xl font-bold text-white">{service.name}</h2>
                   <p className="text-neutral-400 text-lg leading-relaxed">{service.description}</p>
 
-                  <div className="pt-4">
+                  <div className="pt-4 flex items-center gap-6">
                     <Link
                       href={`/contact?scope=${service.slug}`}
                       className="inline-flex items-center text-white font-medium hover:text-brand-400 transition-colors group"
                     >
                       Discuss this architecture{" "}
                       <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                    <Link
+                      href={`/services/${service.slug}`}
+                      className="text-sm text-neutral-500 hover:text-neutral-300 transition-colors"
+                    >
+                      Learn more →
                     </Link>
                   </div>
                 </div>
