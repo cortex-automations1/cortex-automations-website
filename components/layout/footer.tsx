@@ -82,7 +82,7 @@ export function Footer() {
                 return (
                   <li key={service.slug}>
                     <Link
-                      href={`/services#${service.slug}`}
+                      href={`/services/${service.slug}`}
                       className="text-sm text-neutral-400 hover:text-brand-400 transition-colors"
                     >
                       {service.name}

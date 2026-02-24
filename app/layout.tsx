@@ -37,7 +37,7 @@ const jsonLd = {
   "@type": "Organization",
   name: "Cortex Automations",
   url: "https://cortexautomations.ai",
-  logo: "https://cortexautomations.ai/logo-icon.png",
+  logo: "https://cortexautomations.ai/images/logo-icon.png",
   description:
     "Full-stack development agency specializing in SaaS platforms, mobile apps, web design, and AI automation.",
   email: "hello@cortexautomations.ai",
