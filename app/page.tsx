@@ -11,6 +11,7 @@ import {
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/scroll-reveal";
+import { HeroVisual } from "@/components/ui/hero-visual";
 import { Smartphone, Monitor, Brain } from "lucide-react";
 
 const SERVICE_ICONS: Record<string, LucideIcon> = {
@@ -80,9 +81,9 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
 
-          {/* Right — 40 % decorative */}
+          {/* Right — 40 % visual */}
           <div className="hidden lg:flex w-[40%] items-center justify-center">
-            <div className="bg-brand-500/10 border border-brand-500/20 rounded-3xl w-full aspect-square rotate-12" />
+            <HeroVisual />
           </div>
         </div>
       </section>
