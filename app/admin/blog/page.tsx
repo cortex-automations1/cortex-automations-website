@@ -1,8 +1,9 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Plus, Clock } from "lucide-react";
+import { Clock } from "lucide-react";
 import { isAuthenticated } from "@/lib/admin-auth";
 import { getAllDrafts } from "@/lib/blog";
+import { GenerateButton } from "./generate-button";
 
 export const metadata = {
   title: "Blog Drafts — Admin",
@@ -21,21 +22,16 @@ function formatDate(dateString: string): string {
   });
 }
 
-export default async function AdminBlogPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ generated?: string; error?: string }>;
-}) {
+export default async function AdminBlogPage() {
   if (!(await isAuthenticated())) {
     redirect("/admin/login");
   }
 
-  const { generated, error } = await searchParams;
   const drafts = getAllDrafts();
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex items-start justify-between mb-10 gap-6">
         <div>
           <h1 className="text-4xl font-bold text-heading mb-2 tracking-tight">
             Blog Drafts
@@ -44,36 +40,14 @@ export default async function AdminBlogPage({
             {drafts.length} {drafts.length === 1 ? "draft" : "drafts"} waiting for review.
           </p>
         </div>
-        <form action="/api/admin/blog/generate-new" method="POST">
-          <button
-            type="submit"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-medium transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Generate new draft
-          </button>
-        </form>
+        <GenerateButton />
       </div>
-
-      {generated && (
-        <div className="mb-6 p-4 rounded-lg border border-brand-500/30 bg-brand-500/10 text-brand-400 text-sm">
-          Generation kicked off. The new draft will appear here after the deploy completes.
-        </div>
-      )}
-
-      {error && (
-        <div className="mb-6 p-4 rounded-lg border border-red-500/30 bg-red-500/10 text-red-400 text-sm">
-          {error === "no-topics"
-            ? "No topics left in the queue. Add more to content/blog/topics.json."
-            : `Generation failed: ${error}`}
-        </div>
-      )}
 
       {drafts.length === 0 ? (
         <div className="p-12 rounded-2xl bg-surface-50 border border-surface-200 text-center">
           <p className="text-body mb-4">No drafts yet.</p>
           <p className="text-muted text-sm">
-            Click &ldquo;Generate new draft&rdquo; to have Claude draft a post based on the next topic in the queue.
+            Click &ldquo;Generate New Blog&rdquo; to have Claude draft a post based on the next topic in the queue.
           </p>
         </div>
       ) : (

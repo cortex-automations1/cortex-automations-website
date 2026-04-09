@@ -7,132 +7,177 @@
       "angle": "Technical case study — how we replaced 5 tools with one product, architectural decisions, and what we'd do differently",
       "keywords": ["saas case study", "crm development", "multi-tenant saas", "service business software"],
       "audience": "business-owners",
-      "used": false
+      "used": true
     },
     {
       "id": "case-study-capital-property",
       "category": "case-study",
-      "title": "Rebuilding Capital Property Group: From a broken template to a polished platform",
+      "title": "Rebuilding Capital Property Group: From a broken template to a polished real estate platform",
       "angle": "Before/after case study — the problems with their original site, the redesign decisions, and the business impact",
-      "keywords": ["real estate website", "website redesign", "property management website", "dark theme design"],
+      "keywords": ["real estate website", "website redesign", "property management website"],
       "audience": "business-owners",
       "used": false
     },
     {
-      "id": "cost-transparency",
+      "id": "case-study-dealprop-ai",
+      "category": "case-study",
+      "title": "How DealProp's AI deal analyzer went from hack to production feature",
+      "angle": "The specific technical journey of building a production AI feature — prompt engineering, edge cases, hallucination handling, cost optimization",
+      "keywords": ["ai feature development", "llm production", "real estate ai", "openai cost"],
+      "audience": "mixed",
+      "used": false
+    },
+    {
+      "id": "industry-multi-tenant-patterns",
+      "category": "tech-decisions",
+      "title": "Three patterns for multi-tenant SaaS, and when each one breaks",
+      "angle": "Compare schema-per-tenant, row-level-security, and app-level scoping. Pull examples from DealProp (RLS), SignFlow (row-level), Spite House (hybrid). Talk about what Stripe, Vercel, and Linear do. Opinion on which pattern wins for indie devs vs enterprise.",
+      "keywords": ["multi-tenant saas", "tenant isolation", "row level security", "saas architecture"],
+      "audience": "developers",
+      "used": false
+    },
+    {
+      "id": "industry-ai-feature-framing",
+      "category": "ai",
+      "title": "The AI features users actually want (and the ones they don't)",
+      "angle": "A pattern we've seen across projects: AI features marketed as 'AI does X for you' fail; AI features marketed as 'AI gives you a head start on X' succeed. Examples from DealProp, other Cortex work, plus industry examples from GitHub Copilot, Cursor, Linear, Notion AI. The framing problem is the product problem.",
+      "keywords": ["ai ux", "ai feature design", "llm product design", "ai product management"],
+      "audience": "mixed",
+      "used": false
+    },
+    {
+      "id": "industry-cost-transparency",
       "category": "cost-transparency",
       "title": "What custom SaaS actually costs in 2026",
-      "angle": "Real numbers for different project sizes — $20k, $50k, $100k, $250k — what you get at each level and where the money goes",
-      "keywords": ["custom saas cost", "software development cost", "saas pricing", "dev agency pricing"],
+      "angle": "Real price ranges for different project sizes — $20k, $50k, $100k, $250k — what you get at each level, where the money goes, and what SHOULD be off-the-shelf. Reference industry benchmarks (Clutch, Upwork, typical US dev agency rates). Honest about where Cortex fits on that spectrum.",
+      "keywords": ["custom saas cost", "software development cost", "dev agency pricing", "how much does custom software cost"],
       "audience": "business-owners",
       "used": false
     },
     {
-      "id": "industry-real-estate-investors",
-      "category": "industry-specific",
-      "title": "Software for real estate investors: what actually works",
-      "angle": "Deep dive on the tooling real estate investors need (deal analysis, rehab tracking, investor portals, property management) and why most off-the-shelf options fall short",
-      "keywords": ["real estate investor software", "real estate saas", "deal analyzer", "rehab tracking software"],
-      "audience": "business-owners",
-      "used": false
-    },
-    {
-      "id": "industry-service-businesses",
-      "category": "industry-specific",
-      "title": "Why service businesses need custom CRMs (and when they don't)",
-      "angle": "What's missing from HoneyBook, Jobber, ServiceTitan — and the signs you've outgrown off-the-shelf",
-      "keywords": ["service business crm", "custom crm", "jobber alternative", "honeybook alternative"],
-      "audience": "business-owners",
-      "used": false
-    },
-    {
-      "id": "ai-what-actually-helps",
-      "category": "ai",
-      "title": "The AI feature we shipped and then ripped out",
-      "angle": "Honest retrospective — where we tried to use AI, where it worked, where it failed, and what we learned about framing AI features for real users",
-      "keywords": ["ai features", "llm integration", "ai ux", "ai product design"],
-      "audience": "mixed",
-      "used": false
-    },
-    {
-      "id": "ai-practical-business",
-      "category": "ai",
-      "title": "AI in business software: where it actually helps",
-      "angle": "Balanced view with examples from actual client projects — DealProp's deal analysis, SignFlow's email drafting, etc.",
-      "keywords": ["ai business software", "llm use cases", "practical ai", "ai automation"],
-      "audience": "business-owners",
-      "used": false
-    },
-    {
-      "id": "cloud-bill-tripled",
+      "id": "industry-cloud-bill",
       "category": "cloud",
       "title": "Why your SaaS bill tripled after launch (and how to fix it)",
-      "angle": "The hidden cost patterns of serverless and managed services — egress fees, per-request pricing, caching mistakes. Real numbers from audited projects.",
-      "keywords": ["saas costs", "vercel cost", "aws bill", "serverless cost", "cloud cost optimization"],
+      "angle": "The hidden cost patterns: egress fees, per-request pricing, unoptimized database queries, background job queues. Reference patterns from multiple Cortex projects AND public postmortems from companies like 37signals leaving the cloud, Ahrefs on AWS costs, Cloudflare's pitch vs reality. Include a simple audit checklist.",
+      "keywords": ["saas cost optimization", "vercel cost", "aws cost", "serverless cost", "cloud bill"],
       "audience": "mixed",
       "used": false
     },
     {
-      "id": "cloud-vercel-vs-railway",
+      "id": "industry-serverless-vs-containers",
       "category": "cloud",
-      "title": "Vercel, Railway, or self-hosted: our decision framework",
-      "angle": "When we pick each, with specific project examples and the trade-offs around cost, complexity, and control",
-      "keywords": ["vercel vs railway", "serverless vs containers", "deployment platform", "hosting comparison"],
+      "title": "Serverless, containers, or self-hosted: our decision framework after 50+ projects",
+      "angle": "When to pick each, with real examples from Cortex projects at different tiers. Industry context: why Vercel works for marketing sites but fails for long-running jobs, why Railway is winning mid-sized SaaS, why self-hosted is making a comeback (Hetzner, Coolify). Include decision flowchart.",
+      "keywords": ["vercel vs railway", "serverless vs containers", "where to host saas", "hosting comparison"],
       "audience": "developers",
       "used": false
     },
     {
-      "id": "tech-nextjs-vs-alternatives",
+      "id": "industry-nextjs-alternatives",
       "category": "tech-decisions",
       "title": "We tried to stop using Next.js. Here's what happened.",
-      "angle": "Honest evaluation of Remix, TanStack Start, SvelteKit, and Qwik — what each does better, what we actually tried, and why we came back",
-      "keywords": ["next.js alternatives", "react frameworks", "remix vs nextjs", "framework comparison"],
+      "angle": "Honest evaluation of Remix, TanStack Start, SvelteKit, Qwik, Astro — what each does better, what we actually tried on internal projects, why we came back to Next.js. Discuss where each alternative IS the right call. This isn't a Next.js love letter.",
+      "keywords": ["next.js alternatives", "react frameworks", "remix vs nextjs", "tanstack start"],
       "audience": "developers",
       "used": false
     },
     {
-      "id": "how-to-choose-developer",
+      "id": "industry-choose-developer",
       "category": "seo-commercial",
-      "title": "How to choose a custom software developer",
-      "angle": "A genuinely helpful buyer's guide — questions to ask, red flags, how to evaluate portfolios, pricing structures, and what contracts should include",
+      "title": "How to choose a custom software developer in 2026",
+      "angle": "A genuinely helpful buyer's guide. Questions to ask, red flags, how to evaluate portfolios, pricing structures at different agencies, what contracts should include, ownership of code, what 'fixed price' really means. Almost no Cortex self-promotion — this is pure industry guidance.",
       "keywords": ["how to choose a developer", "hire dev agency", "custom software developer", "dev agency questions"],
       "audience": "business-owners",
       "used": false
     },
     {
-      "id": "how-much-does-it-cost-website",
-      "category": "seo-commercial",
-      "title": "How much does a custom business website cost in 2026?",
-      "angle": "Price ranges with what you get at each tier, what drives cost up, what 'cheap' sites actually cost in the long run",
-      "keywords": ["business website cost", "custom website price", "how much does a website cost", "web design pricing"],
+      "id": "industry-ai-production-gotchas",
+      "category": "ai",
+      "title": "Five things nobody tells you about shipping AI features",
+      "angle": "Production realities of shipping LLM-powered features: prompt injection, cost blowouts, hallucination handling, latency, fallbacks when the model is down. Examples from DealProp's AI deal analyzer and public stories from companies like Notion AI, Intercom Fin, Linear. The gap between demos and production is a chasm.",
+      "keywords": ["ai production", "llm engineering", "ai feature gotchas", "openai production"],
+      "audience": "developers",
+      "used": false
+    },
+    {
+      "id": "industry-service-business-crm",
+      "category": "industry-specific",
+      "title": "Why service businesses outgrow Jobber, HoneyBook, and ServiceTitan",
+      "angle": "The industry-specific patterns we see: what these tools do well, where they break, when a business should consider custom. Reference SignFlow as one of many paths, but mostly talk about the SaaS space itself. Pricing comparisons, feature gap analysis, switching costs.",
+      "keywords": ["jobber alternative", "honeybook alternative", "service business crm", "custom crm"],
       "audience": "business-owners",
       "used": false
     },
     {
-      "id": "performance-audit",
+      "id": "industry-real-estate-software",
+      "category": "industry-specific",
+      "title": "The real estate investor tech stack in 2026",
+      "angle": "Deep dive on tools real estate investors use: PropStream, DealCheck, REIPro, REsimpli, BRRRR calculators. What works, what doesn't, where DealProp fits. Honest about when you should use existing tools vs build custom.",
+      "keywords": ["real estate investor software", "propstream alternative", "dealcheck", "rei tech stack"],
+      "audience": "business-owners",
+      "used": false
+    },
+    {
+      "id": "industry-performance-audit",
       "category": "authority",
-      "title": "From 8.2s to 0.9s: a real Lighthouse performance audit",
-      "angle": "Walk through a real client performance fix with actual numbers, the specific bottlenecks we found, and the code changes that mattered",
-      "keywords": ["lighthouse audit", "web performance", "core web vitals", "website speed optimization"],
+      "title": "A real Core Web Vitals audit: from 8.2s LCP to 0.9s",
+      "angle": "Walk through a real client performance fix with actual numbers. The specific bottlenecks (unoptimized images, blocking JS, CSS-in-JS runtime, oversized fonts, too many hydration boundaries). The code changes that mattered. Generic advice vs what actually moved the needle.",
+      "keywords": ["core web vitals", "lighthouse audit", "web performance", "nextjs performance"],
       "audience": "developers",
       "used": false
     },
     {
-      "id": "security-owasp-top-10",
+      "id": "industry-security-owasp",
       "category": "authority",
-      "title": "The OWASP Top 10 mistakes we see in small-business apps",
-      "angle": "Real security issues we've found and fixed in client projects — not theoretical, specific patterns with code examples",
-      "keywords": ["owasp top 10", "web application security", "saas security", "common security mistakes"],
+      "title": "The OWASP Top 10 mistakes we see in small-business SaaS",
+      "angle": "Real security issues we've found in client code reviews: broken access control, injection, SSRF, insecure direct object references, weak auth, exposed admin endpoints. Specific code examples of wrong vs right. This is Cortex demonstrating expertise, not selling.",
+      "keywords": ["owasp top 10", "saas security", "web application security", "common security mistakes"],
       "audience": "developers",
       "used": false
     },
     {
-      "id": "before-after-spreadsheets-to-saas",
+      "id": "industry-before-after",
       "category": "before-after",
-      "title": "From 8 spreadsheets to one dashboard: a small business transformation",
-      "angle": "Story of a client going from spreadsheet chaos to a custom internal tool — the process, the cost, the before/after, the ROI timeline",
-      "keywords": ["spreadsheet to saas", "business process automation", "internal tools", "custom dashboard"],
+      "title": "From 8 spreadsheets to one dashboard: a small-business transformation",
+      "angle": "Tell a story of a client going from spreadsheet chaos to a custom internal tool. The process, the cost, the timeline, the ROI. Use composite details drawn from multiple real Cortex projects. Honest about what we got right and what took longer than expected.",
+      "keywords": ["spreadsheet to saas", "business automation", "internal tools", "custom dashboard"],
       "audience": "business-owners",
+      "used": false
+    },
+    {
+      "id": "industry-website-mistakes",
+      "category": "industry-specific",
+      "title": "Why your business website is costing you customers (6 patterns we keep seeing)",
+      "angle": "The specific site issues that hurt conversion: slow mobile load times, hidden contact info, dead blogs, generic hero sections, broken forms, no social proof. Real examples from sites we've audited (without naming names). Industry data on conversion rates.",
+      "keywords": ["business website mistakes", "website conversion", "small business website", "web design tips"],
+      "audience": "business-owners",
+      "used": false
+    },
+    {
+      "id": "industry-stripe-vs-alternatives",
+      "category": "tech-decisions",
+      "title": "Stripe, Lemon Squeezy, or Paddle: what to actually use",
+      "angle": "The real differences nobody talks about: international tax handling, chargeback rates, platform policies, API ergonomics, pricing math at different scales. What we use on DealProp, SignFlow, and Spite House (hint: different ones for different reasons). When a Merchant of Record beats rolling your own.",
+      "keywords": ["stripe vs lemon squeezy", "saas payments", "merchant of record", "paddle vs stripe"],
+      "audience": "developers",
+      "used": false
+    },
+    {
+      "id": "industry-nocode-limits",
+      "category": "tech-decisions",
+      "title": "Where no-code hits the wall (and when it's still the right call)",
+      "angle": "Honest look at Webflow, Bubble, Softr, Retool, n8n. What they're genuinely great for. Where they fall apart (performance, ownership, specific logic, scaling). Industry examples of companies that grew on no-code then had to rebuild. The Cortex take: we use n8n and Retool on our own ops, we don't build client products on them.",
+      "keywords": ["no code limits", "webflow vs custom", "bubble alternative", "retool vs custom"],
+      "audience": "mixed",
+      "used": false
+    },
+    {
+      "id": "industry-data-centers",
+      "category": "cloud",
+      "title": "The data center comeback: why companies are leaving AWS",
+      "angle": "Industry trend piece. 37signals' well-known exit, the economics of bare metal, Hetzner's momentum, the self-hosted SaaS movement. What this means for small dev shops and their clients. Not self-promotional — this is industry commentary.",
+      "keywords": ["leaving aws", "bare metal hosting", "hetzner", "self-hosted saas", "cloud repatriation"],
+      "audience": "mixed",
       "used": false
     }
   ],
@@ -142,7 +187,8 @@
     "required": [
       "Specific numbers and real examples, not vague generalities",
       "Honest trade-offs — nothing is presented as a silver bullet",
-      "Reference real Cortex projects by name where relevant",
+      "For case studies: reference the project by name with specific detail",
+      "For non-case-studies: pull examples from MULTIPLE Cortex projects where relevant AND freely reference industry patterns, other companies, tools, and trends",
       "At least one opinion or contrarian take per post",
       "Strong opening hook — no throat-clearing intros"
     ],
@@ -153,7 +199,9 @@
       "'As an AI' anything",
       "Marketing jargon (synergy, leverage, robust solutions, etc.)",
       "Multi-exclamation-point enthusiasm",
-      "Empty listicles without substance"
+      "Empty listicles without substance",
+      "Treating Cortex as the only studio that exists in the industry",
+      "Forcing every post to be about a single Cortex project"
     ],
     "reference_posts": [
       "how-we-built-dealprop",
