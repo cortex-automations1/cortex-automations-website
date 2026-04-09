@@ -1,39 +1,164 @@
 {
   "queue": [
     {
-      "id": "1",
-      "title": "Why we use Next.js 15 for every client project",
-      "angle": "Technical opinion — the specific features that made us standardize on this stack",
-      "keywords": ["nextjs 15", "app router", "react server components"],
+      "id": "case-study-signflow",
+      "category": "case-study",
+      "title": "Building SignFlow: A full client-lifecycle CRM for service businesses",
+      "angle": "Technical case study — how we replaced 5 tools with one product, architectural decisions, and what we'd do differently",
+      "keywords": ["saas case study", "crm development", "multi-tenant saas", "service business software"],
+      "audience": "business-owners",
       "used": false
     },
     {
-      "id": "2",
-      "title": "The real cost of custom software vs templates",
-      "angle": "Business advice — what template sites can't do and when custom pays for itself",
-      "keywords": ["custom software cost", "template vs custom", "saas pricing"],
+      "id": "case-study-capital-property",
+      "category": "case-study",
+      "title": "Rebuilding Capital Property Group: From a broken template to a polished platform",
+      "angle": "Before/after case study — the problems with their original site, the redesign decisions, and the business impact",
+      "keywords": ["real estate website", "website redesign", "property management website", "dark theme design"],
+      "audience": "business-owners",
       "used": false
     },
     {
-      "id": "3",
-      "title": "Building a multi-portal SaaS: lessons from DealProp",
-      "angle": "Technical case study — architectural decisions for role-based multi-tenant apps",
-      "keywords": ["multi-tenant saas", "role based access", "saas architecture"],
+      "id": "cost-transparency",
+      "category": "cost-transparency",
+      "title": "What custom SaaS actually costs in 2026",
+      "angle": "Real numbers for different project sizes — $20k, $50k, $100k, $250k — what you get at each level and where the money goes",
+      "keywords": ["custom saas cost", "software development cost", "saas pricing", "dev agency pricing"],
+      "audience": "business-owners",
       "used": false
     },
     {
-      "id": "4",
-      "title": "Why your business website is costing you customers",
-      "angle": "Marketing/conversion — common mistakes on small business sites",
-      "keywords": ["small business website", "website conversion", "web design"],
+      "id": "industry-real-estate-investors",
+      "category": "industry-specific",
+      "title": "Software for real estate investors: what actually works",
+      "angle": "Deep dive on the tooling real estate investors need (deal analysis, rehab tracking, investor portals, property management) and why most off-the-shelf options fall short",
+      "keywords": ["real estate investor software", "real estate saas", "deal analyzer", "rehab tracking software"],
+      "audience": "business-owners",
       "used": false
     },
     {
-      "id": "5",
-      "title": "AI in business software: where it actually helps (and where it doesn't)",
-      "angle": "Balanced view — real AI use cases vs hype, with examples from actual client work",
-      "keywords": ["ai business software", "ai automation", "llm integration"],
+      "id": "industry-service-businesses",
+      "category": "industry-specific",
+      "title": "Why service businesses need custom CRMs (and when they don't)",
+      "angle": "What's missing from HoneyBook, Jobber, ServiceTitan — and the signs you've outgrown off-the-shelf",
+      "keywords": ["service business crm", "custom crm", "jobber alternative", "honeybook alternative"],
+      "audience": "business-owners",
+      "used": false
+    },
+    {
+      "id": "ai-what-actually-helps",
+      "category": "ai",
+      "title": "The AI feature we shipped and then ripped out",
+      "angle": "Honest retrospective — where we tried to use AI, where it worked, where it failed, and what we learned about framing AI features for real users",
+      "keywords": ["ai features", "llm integration", "ai ux", "ai product design"],
+      "audience": "mixed",
+      "used": false
+    },
+    {
+      "id": "ai-practical-business",
+      "category": "ai",
+      "title": "AI in business software: where it actually helps",
+      "angle": "Balanced view with examples from actual client projects — DealProp's deal analysis, SignFlow's email drafting, etc.",
+      "keywords": ["ai business software", "llm use cases", "practical ai", "ai automation"],
+      "audience": "business-owners",
+      "used": false
+    },
+    {
+      "id": "cloud-bill-tripled",
+      "category": "cloud",
+      "title": "Why your SaaS bill tripled after launch (and how to fix it)",
+      "angle": "The hidden cost patterns of serverless and managed services — egress fees, per-request pricing, caching mistakes. Real numbers from audited projects.",
+      "keywords": ["saas costs", "vercel cost", "aws bill", "serverless cost", "cloud cost optimization"],
+      "audience": "mixed",
+      "used": false
+    },
+    {
+      "id": "cloud-vercel-vs-railway",
+      "category": "cloud",
+      "title": "Vercel, Railway, or self-hosted: our decision framework",
+      "angle": "When we pick each, with specific project examples and the trade-offs around cost, complexity, and control",
+      "keywords": ["vercel vs railway", "serverless vs containers", "deployment platform", "hosting comparison"],
+      "audience": "developers",
+      "used": false
+    },
+    {
+      "id": "tech-nextjs-vs-alternatives",
+      "category": "tech-decisions",
+      "title": "We tried to stop using Next.js. Here's what happened.",
+      "angle": "Honest evaluation of Remix, TanStack Start, SvelteKit, and Qwik — what each does better, what we actually tried, and why we came back",
+      "keywords": ["next.js alternatives", "react frameworks", "remix vs nextjs", "framework comparison"],
+      "audience": "developers",
+      "used": false
+    },
+    {
+      "id": "how-to-choose-developer",
+      "category": "seo-commercial",
+      "title": "How to choose a custom software developer",
+      "angle": "A genuinely helpful buyer's guide — questions to ask, red flags, how to evaluate portfolios, pricing structures, and what contracts should include",
+      "keywords": ["how to choose a developer", "hire dev agency", "custom software developer", "dev agency questions"],
+      "audience": "business-owners",
+      "used": false
+    },
+    {
+      "id": "how-much-does-it-cost-website",
+      "category": "seo-commercial",
+      "title": "How much does a custom business website cost in 2026?",
+      "angle": "Price ranges with what you get at each tier, what drives cost up, what 'cheap' sites actually cost in the long run",
+      "keywords": ["business website cost", "custom website price", "how much does a website cost", "web design pricing"],
+      "audience": "business-owners",
+      "used": false
+    },
+    {
+      "id": "performance-audit",
+      "category": "authority",
+      "title": "From 8.2s to 0.9s: a real Lighthouse performance audit",
+      "angle": "Walk through a real client performance fix with actual numbers, the specific bottlenecks we found, and the code changes that mattered",
+      "keywords": ["lighthouse audit", "web performance", "core web vitals", "website speed optimization"],
+      "audience": "developers",
+      "used": false
+    },
+    {
+      "id": "security-owasp-top-10",
+      "category": "authority",
+      "title": "The OWASP Top 10 mistakes we see in small-business apps",
+      "angle": "Real security issues we've found and fixed in client projects — not theoretical, specific patterns with code examples",
+      "keywords": ["owasp top 10", "web application security", "saas security", "common security mistakes"],
+      "audience": "developers",
+      "used": false
+    },
+    {
+      "id": "before-after-spreadsheets-to-saas",
+      "category": "before-after",
+      "title": "From 8 spreadsheets to one dashboard: a small business transformation",
+      "angle": "Story of a client going from spreadsheet chaos to a custom internal tool — the process, the cost, the before/after, the ROI timeline",
+      "keywords": ["spreadsheet to saas", "business process automation", "internal tools", "custom dashboard"],
+      "audience": "business-owners",
       "used": false
     }
-  ]
+  ],
+  "style_guide": {
+    "voice": "First person plural (we/us/our), direct, confident, plain-spoken. Not marketing fluff.",
+    "length": "1000-1500 words for most posts, 1500-2000 for deep case studies",
+    "required": [
+      "Specific numbers and real examples, not vague generalities",
+      "Honest trade-offs — nothing is presented as a silver bullet",
+      "Reference real Cortex projects by name where relevant",
+      "At least one opinion or contrarian take per post",
+      "Strong opening hook — no throat-clearing intros"
+    ],
+    "forbidden": [
+      "Generic 'fast-paced digital landscape' openings",
+      "'Let's dive in' or 'In conclusion' filler",
+      "Vague claims without numbers",
+      "'As an AI' anything",
+      "Marketing jargon (synergy, leverage, robust solutions, etc.)",
+      "Multi-exclamation-point enthusiasm",
+      "Empty listicles without substance"
+    ],
+    "reference_posts": [
+      "how-we-built-dealprop",
+      "why-nextjs-15",
+      "custom-software-vs-templates"
+    ]
+  }
 }

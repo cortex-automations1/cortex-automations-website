@@ -1,0 +1,90 @@
+---
+title: "Why We Use Next.js 15 for Every Client Project"
+slug: "why-nextjs-15"
+description: "The specific Next.js 15 features that convinced us to stop evaluating alternatives for each new client engagement."
+publishedAt: "2026-04-07"
+tags: ["nextjs", "tech-stack", "opinion"]
+author: "David Perez"
+---
+
+We build a wide range of stuff for clients. Marketing sites for local businesses like Outback Excavating and Timber & Turf. Complex multi-portal SaaS like DealProp and SignFlow. Investor sites like Capital Property Group and Spite House Affiliates. The Cortex site you're reading this on. If there's a common thread across that list, it's that the surface area of what we do is not small.
+
+For years we did the "right tool for the job" thing. Marketing site? Astro. Internal dashboard? Remix. SaaS? Next.js. Small content site? Eleventy. It sounded responsible. In practice, it was brutal.
+
+## The "right tool for the job" argument fell apart
+
+Every new client engagement became a mini-architecture debate. *What's the traffic pattern? How much interactivity? Do we need SSG or SSR?* The discussions were fine. The problem was what came next.
+
+Context-switching between frameworks is expensive. Not in hours — in brain. When you spend your morning in a Remix loader and your afternoon in an Astro island, you are constantly paying a tiny mental tax on every decision. Tooling differs. Deployment differs. Component patterns differ. Hiring gets harder. Code reuse between projects goes to zero. The "right tool" is optimal for the project in isolation and pessimal for the shop.
+
+So we made a decision: **one framework, one stack, one deployment story, across every client project.** We picked Next.js 15.
+
+## What Next.js 15 specifically got right
+
+We didn't pick it because it was trendy. We picked it because of five specific things that, taken together, cover nearly every client we talk to.
+
+**App Router + React Server Components.** This is the big one. A five-page marketing site for a landscaping company and a deeply-interactive real-estate investment platform can now share the same mental model. Server components for everything that doesn't need interactivity; `"use client"` only where it does. The separation is clean. No more arguing about SSG vs SSR vs ISR — you just write components and the framework figures out the rest.
+
+**Turbopack.** Dev server startup went from "go grab coffee" to "it's already running." On the DealProp codebase, cold start dropped from around 12 seconds to under 2. Multiply that by every keystroke-to-preview cycle across a project and it's meaningful time back.
+
+**Partial prerendering.** This is the feature that killed our last real objection. A page can be mostly static (prerendered, cached, instant) with a dynamic hole where the personalized content streams in. Marketing pages with a logged-in-user header used to force us into full SSR or ugly client-side hydration dances. Now it's one component boundary and the framework handles the rest.
+
+**The metadata API.** Unglamorous but load-bearing. SEO metadata, Open Graph, canonical URLs, JSON-LD — all of it declaratively co-located with the page that owns it. We wrote one `createMetadata()` helper and every page on every client site uses it. Here's the pattern we use on almost everything:
+
+```typescript
+import type { Metadata } from "next";
+
+export function createMetadata({
+  title,
+  description,
+  path = "",
+}: {
+  title: string;
+  description: string;
+  path?: string;
+}): Metadata {
+  const baseUrl = "https://example.com";
+  const url = `${baseUrl}${path}`;
+  return {
+    title: title === "Brand" ? title : `${title} | Brand`,
+    description,
+    alternates: { canonical: url },
+    openGraph: { title, description, url, type: "website" },
+    twitter: { card: "summary_large_image", title, description },
+  };
+}
+```
+
+Every page imports this, passes three props, and gets consistent SEO. We copy this file between projects as-is.
+
+**Improved streaming and Suspense integration.** Long queries don't block the shell anymore. A dashboard can paint the layout, header, and nav instantly while the slow widget streams in. For clients with data-heavy internal tools, this single capability replaces a week of "add loading spinners everywhere" work.
+
+## What you give up by committing
+
+Let's be honest about the trade-offs, because pretending there aren't any is how you lose credibility.
+
+Next.js is opinionated. If you disagree with an opinion, you're going to feel it. Image handling, font loading, routing, data fetching — there's a blessed path, and fighting it is painful. We've learned to stop fighting and take the default.
+
+It's also a fast-moving framework. Minor versions occasionally break things. We upgrade client projects in batches and budget a day per upgrade. It's a real cost; we just decided it's worth paying for the consistency.
+
+And the cold-start cost on serverless is real if you're doing a lot of heavy server work. We've had to be careful about bundle size in server actions, and we've moved some background work to dedicated services rather than stuffing everything into the Next.js runtime.
+
+## What the commitment actually bought us
+
+The benefits aren't subtle once you make the call.
+
+**Onboarding is trivial.** A new developer learns our Next.js 15 conventions once, then knows every project we've ever shipped. No "this client uses Remix, this one uses Astro, this one uses Gatsby."
+
+**Code sharing is free.** Our `createMetadata`, our `cn` utility, our scroll-reveal components, our form patterns — all of it travels between projects unchanged. The Cortex site's header and the DealProp marketing page share primitives.
+
+**Estimates are more accurate.** When we don't have to re-learn a stack for every project, we know exactly how long common things take. Adding a new page? Ninety minutes. Building a new contact form with server actions? Three hours. Estimates aren't guesses anymore.
+
+**Deployment is one story.** Every project deploys to Vercel the same way. Same environment variable patterns, same preview deploys per PR, same analytics, same monitoring. No client-specific deployment weirdness.
+
+## When we'd pick something else
+
+We'd pick Expo + React Native for a mobile-first app, obviously. We'd pick Astro for a pure content site with zero interactivity and aggressive SEO requirements where the client wants to edit markdown files directly. We'd pick a Rust-based framework if a client came to us with a specific performance requirement that Node.js legitimately couldn't hit, though that's happened exactly zero times in five years.
+
+For anything that's a web app in the normal sense of those words — marketing sites, dashboards, SaaS platforms, client portals, investor tools, e-commerce front-ends — it's Next.js 15. We don't re-evaluate each time. The consistency is worth more than the marginal benefit of a better match on any individual project.
+
+That's what "the right tool for the job" actually looks like for a shop shipping across many clients. Not the most specialized tool — the one that lets you ship more, faster, with fewer landmines.

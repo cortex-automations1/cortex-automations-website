@@ -1,0 +1,128 @@
+---
+title: "How We Built DealProp: A Multi-Portal SaaS for Real Estate Investors"
+slug: "how-we-built-dealprop"
+description: "The architectural decisions, trade-offs, and lessons from building an AI-powered real estate investment platform with 3 user portals and 8 strategy modules."
+publishedAt: "2026-04-09"
+tags: ["case-study", "saas", "architecture", "ai"]
+author: "David Perez"
+featured: true
+---
+
+Most real estate investors we talked to were running their business on a combination of spreadsheets, Zillow tabs, a CRM they half-used, a property management tool, and email threads with contractors. Five tools, zero integration, and a paper trail that lived in someone's head.
+
+DealProp started as a conversation with an operator who wanted "one place to see every deal, every number, and every person involved." That sentence turned into about eighteen months of product work, three distinct user portals, eight deal-strategy modules, and a lot of opinionated decisions we want to talk about honestly.
+
+## The problem was never "another spreadsheet"
+
+The temptation, when you hear "we want to replace our spreadsheets," is to build a better spreadsheet. That's a trap. The spreadsheet isn't the problem — the problem is that the spreadsheet is a symptom of a workflow that touches four or five different people with four or five different jobs.
+
+A real estate deal isn't one document. It's a deal analysis, a scope of work, a contractor bid, an investor pitch, a closing checklist, a rehab timeline, and a disposition plan. Different people work on different parts. The deal analyst never touches the contractor portal. The investor doesn't care about the punch list. The contractor doesn't need to see the IRR calculator.
+
+So we stopped thinking about DealProp as one app and started thinking about it as three apps sharing a brain.
+
+## Why three portals was the right call
+
+We shipped DealProp with three distinct user experiences on day one:
+
+- **Operators** — the people sourcing and running deals. Full access to deal pipeline, analysis, financials, and every other module.
+- **Investors** — passive capital. Read-only views of deals they're funded into, distribution history, K-1 docs, performance dashboards.
+- **Vendors** — contractors, property managers, inspectors. Task-level access to the specific jobs they're assigned to, scope-of-work docs, and photo upload for progress tracking.
+
+Each portal has its own dashboard, its own navigation, its own mental model. But underneath, they're all hitting the same database, the same API, and the same business logic. A contractor marking a rehab line item complete updates the same record the operator sees in their punch list view.
+
+That's the trick: three UIs, one source of truth. If we'd built three separate apps with data sync between them, we'd still be debugging it.
+
+## The architectural decisions that mattered
+
+The stack is Next.js 15 (App Router + RSC), PostgreSQL via Drizzle, Clerk for auth, Stripe for capital calls and distributions, S3 for documents, and OpenAI for the AI modules. Nothing exotic. The interesting decisions weren't about technology — they were about boundaries.
+
+**Role-based auth as the central nervous system.** Every query is scoped by role. Not just "is this user allowed to see this page" but "what subset of this data can this user see." An operator sees the full deal pipeline. An investor sees only deals they've funded. A vendor sees only tasks assigned to them. We enforce this at the query layer, not the UI layer, because UI-layer security isn't security.
+
+Here's a simplified version of the pattern we use everywhere:
+
+```typescript
+interface DealAccessContext {
+  userId: string;
+  role: "operator" | "investor" | "vendor";
+  orgId: string;
+}
+
+async function getVisibleDeals(ctx: DealAccessContext) {
+  switch (ctx.role) {
+    case "operator":
+      return db.query.deals.findMany({
+        where: eq(deals.orgId, ctx.orgId),
+      });
+    case "investor":
+      return db.query.deals.findMany({
+        where: and(
+          eq(deals.orgId, ctx.orgId),
+          exists(
+            db
+              .select()
+              .from(investments)
+              .where(
+                and(
+                  eq(investments.dealId, deals.id),
+                  eq(investments.userId, ctx.userId),
+                ),
+              ),
+          ),
+        ),
+      });
+    case "vendor":
+      return db.query.deals.findMany({
+        where: and(
+          eq(deals.orgId, ctx.orgId),
+          exists(
+            db
+              .select()
+              .from(vendorAssignments)
+              .where(
+                and(
+                  eq(vendorAssignments.dealId, deals.id),
+                  eq(vendorAssignments.vendorId, ctx.userId),
+                ),
+              ),
+          ),
+        ),
+      });
+  }
+}
+```
+
+Every data-fetching function in the app takes a `DealAccessContext` or a variant of it. If you forget, you don't get a result — and in dev mode, you get a loud error. That's the closest we've come to making security a type-system concern.
+
+**Shared database, separate dashboards.** We debated whether to give each portal its own codebase. On paper, it's cleaner. In practice, it meant duplicating models, duplicating types, duplicating deployment pipelines, and living in merge-conflict hell. We went with one Next.js app, route groups for each portal (`/app/(operator)`, `/app/(investor)`, `/app/(vendor)`), shared components where it makes sense, and role-gated middleware that decides which route group you can even enter.
+
+**Eight strategy modules, one analysis engine.** Deals come in flavors: fix-and-flip, BRRRR, wholesale, rental, short-term rental, new construction, land, note investing. Each has different inputs, different math, different outputs. We were tempted to build eight separate "deal analyzer" screens. Instead, we built one deal engine with strategy-specific adapters. The analyzer UI is the same shell; the fields and calculations swap based on strategy. When someone asks us to add a ninth strategy, it's a day of work, not a sprint.
+
+## Where AI actually helped (and where it didn't)
+
+We integrated OpenAI in two specific places: **deal analysis summary** and **scope-of-work generation from photos**.
+
+The deal analysis one was easy and obvious. An investor uploads a property, the system pulls comps, runs the math, and an LLM writes a two-paragraph plain-English summary: what the deal looks like, what the risks are, what to watch out for. It's fast, it's cheap per call, and it turns a wall of numbers into something you can send to a co-investor without editing.
+
+The scope-of-work one was the interesting bet. Contractors would take photos during a property walkthrough and the AI would draft a rehab scope — line items, rough quantities, plain descriptions. It works surprisingly well for visible stuff (flooring, paint, cabinets) and falls apart completely on anything systems-related (HVAC, electrical, plumbing). So we shipped it as a *starting draft* that a human contractor edits, not as a finished document. That framing matters. If we'd marketed it as "AI writes your scope," we'd have angry users. As "AI gives you a head start on your scope," it's a feature people love.
+
+The stuff we **didn't** use AI for: anything involving money math, compliance, or rules-based logic. IRR calculations, distribution waterfalls, tax treatment — that's all deterministic code. LLMs hallucinate percentages, and percentages in real estate investing are lawsuits waiting to happen.
+
+## Trade-offs we made on purpose
+
+We chose tighter coupling between portals for faster iteration. If we'd gone pure microservices, we'd have better independence but slower shipping. For an 18-month build with a small team, we needed shipping speed more than we needed service isolation. We can pull portals apart later if we ever need to.
+
+We also chose to skip a real-time collaboration layer on v1. No live cursors, no "someone else is editing this" indicators. That cost us maybe two features we could have shipped for demos, but it saved us from spending a month on WebSocket plumbing for something users weren't actually asking for.
+
+## What we'd do differently
+
+Two things, honestly.
+
+First, we'd invest in a proper **background job system** earlier. We got away with sync operations for a long time because deals are small. Then a client imported 400 historical deals at once and everything melted. Inngest or Trigger.dev from day one would have saved a weekend.
+
+Second, we'd write the **role permission matrix as a living document** before building UI. We reverse-engineered it halfway through and had to retrofit a bunch of routes. "Who can see what, under what conditions" should be a spreadsheet you keep next to the database schema, updated as often.
+
+## The closing thought
+
+The lesson from DealProp isn't about real estate. It's about building for a specific industry. If you actually understand how the people in that industry work — not how you *think* they work — you can build something they'll use every day. If you don't, you're building a worse version of what they already have.
+
+We spent the first month of DealProp not writing code. Just asking operators how they actually spent their Tuesday. Every good decision in this app came out of those conversations.
