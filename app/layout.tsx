@@ -68,7 +68,6 @@ export default function RootLayout({
       <body className="min-h-screen bg-surface-0 font-sans antialiased">
         <script
           type="application/ld+json"
-          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <ThemeProvider>

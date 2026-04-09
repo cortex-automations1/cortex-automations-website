@@ -12,10 +12,9 @@ export default function TermsPage() {
 
   return (
     <div className="relative bg-surface-0 pt-32 pb-24">
-      <div className="absolute inset-0 bg-grid opacity-10 pointer-events-none" />
       <div className="max-w-3xl mx-auto px-6 relative z-10">
         <header className="mb-12">
-          <p className="text-sm font-mono text-brand-400 uppercase tracking-widest mb-4">
+          <p className="text-sm font-medium text-brand-400 uppercase tracking-widest mb-4">
             Legal
           </p>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">

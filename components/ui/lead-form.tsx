@@ -197,7 +197,7 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
 
       {/* Error State */}
       {status === "error" && (
-        <div className="flex items-center gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm animate-fade-in">
+        <div className="flex items-center gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
           <AlertCircle className="w-5 h-5 shrink-0" />
           <p>{errorMessage}</p>
         </div>

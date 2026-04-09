@@ -5,10 +5,9 @@ export default function NotFound() {
   return (
     <div className="min-h-[80vh] flex flex-col items-center justify-center bg-surface-0 relative overflow-hidden px-6 text-center">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] glow-brand opacity-10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-brand-500/5 blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 animate-fade-in-up">
+      <div className="relative z-10">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-surface-100 border border-surface-200 text-brand-500 mb-6 shadow-2xl">
           <Terminal className="w-8 h-8" />
         </div>

@@ -92,9 +92,8 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       {/* HERO */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-surface-0 border-b border-surface-200">
-        <div className="absolute inset-0 bg-grid opacity-20 pointer-events-none" />
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] glow-brand opacity-15 blur-[120px] pointer-events-none" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10 animate-fade-in">
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-brand-500/5 blur-[120px] pointer-events-none" />
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <Link
             href="/services"
             className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm font-medium mb-10 group"
@@ -130,7 +129,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       <section className="py-24 bg-surface-50 relative z-10">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Key Capabilities */}
-          <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200 card-gradient-border">
+          <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200">
             <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <Terminal className="w-5 h-5 text-brand-500" /> Key Capabilities
             </h2>
@@ -145,7 +144,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           </div>
 
           {/* Ideal For */}
-          <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200 card-gradient-border">
+          <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200">
             <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
               <Users className="w-5 h-5 text-brand-500" /> Who Is This For?
             </h2>
@@ -190,7 +189,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 <Link
                   key={project.slug}
                   href={`/portfolio/${project.slug}`}
-                  className="group p-6 rounded-2xl bg-surface-100 border border-surface-200 hover:border-brand-500/40 transition-colors card-gradient-border"
+                  className="group p-6 rounded-2xl bg-surface-100 border border-surface-200 hover:border-brand-500/40 transition-colors"
                 >
                   <p className="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
                     {project.category}
@@ -212,7 +211,7 @@ export default async function ServiceDetailPage({ params }: Props) {
 
       {/* CTA */}
       <section className="py-24 bg-surface-0 border-t border-surface-200 relative overflow-hidden z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] glow-brand opacity-10 blur-[100px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-brand-500/5 blur-[100px] pointer-events-none" />
         <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Ready to build your {service.name.toLowerCase()}?
@@ -224,7 +223,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             href={`/contact?scope=${service.slug}`}
             className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-medium rounded-lg transition-colors group"
           >
-            Initialize Project
+            Start This Project
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
