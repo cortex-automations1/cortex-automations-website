@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -13,11 +14,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Cortex Automations | Engineering Scalable Digital Infrastructure",
+    default: "Cortex Automations | Custom Software Development",
     template: "%s | Cortex Automations",
   },
   description:
-    "Full-stack development agency specializing in SaaS platforms, mobile apps, web design, and AI automation. We build software that scales.",
+    "We build custom software for businesses — SaaS platforms, websites, mobile apps, and AI automations. Based in Florida, working everywhere.",
   metadataBase: new URL("https://cortexautomations.ai"),
   openGraph: {
     type: "website",
@@ -44,7 +45,7 @@ const jsonLd = {
   url: "https://cortexautomations.ai",
   logo: "https://cortexautomations.ai/images/logo-icon.png",
   description:
-    "Full-stack development agency specializing in SaaS platforms, mobile apps, web design, and AI automation.",
+    "We build custom software for businesses — SaaS platforms, websites, mobile apps, and AI automations.",
   email: "hello@cortexautomations.ai",
   address: {
     "@type": "PostalAddress",
@@ -63,15 +64,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-surface-0 font-sans text-white antialiased">
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <body className="min-h-screen bg-surface-0 font-sans antialiased">
         <script
           type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        <ThemeProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>
