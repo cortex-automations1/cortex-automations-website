@@ -45,23 +45,91 @@ Add an amber/orange accent color alongside the existing brand blue for energy an
 - Section labels: switch from `font-mono uppercase tracking-widest` to `font-semibold text-brand-500 text-sm`
 - Keep bold headings, tracking-tight — that part works well
 
-### 1.4 Effects — Tone Down
+### 1.4 Effects — Tone Down CSS, Add Framer Motion
 
-**Remove:**
+**New dependency:** `framer-motion` — used for scroll-triggered animations, testimonial carousel, animated counters, and theme toggle. Replaces the current CSS-only animation approach with a more controlled, interactive system.
+
+**Remove (CSS effects):**
 - `.bg-grid` dot pattern on all pages (the #1 AI-generated-site tell)
 - `.glow-brand` blur orbs on section backgrounds
 - `.card-gradient-border` pseudo-element trick (replace with simpler borders)
 - `glow-pulse` ping animation on hero badge
+- CSS `animate-fade-in-up` / `animate-fade-in` classes on individual elements (replaced by Framer Motion scroll-reveal)
+- CSS animation delay classes (`.animate-delay-100` etc.)
+
+**Add (Framer Motion effects — adapted from Capital Property Group):**
+
+1. **ScrollReveal component** (`components/ui/scroll-reveal.tsx`):
+   - Wraps any content, animates it into view when it enters the viewport
+   - Supports directional variants: up, down, left, right
+   - Custom easing `[0.25, 0.1, 0.25, 1]`, default 0.6s duration
+   - `once: true` — animates only the first time
+   - Viewport margin: `-80px` (triggers slightly early)
+   - Used sparingly: 3-4 reveals per page max, NOT on every element
+
+2. **StaggerContainer + StaggerItem** (inside `scroll-reveal.tsx`):
+   - Parent/child pattern for sequential reveal of list items
+   - Default stagger delay: 0.1s between children
+   - Used on: service cards grid, portfolio cards, value highlights
+
+3. **AnimatedCounter component** (`components/ui/animated-counter.tsx`):
+   - Spring-physics number counting from 0 to target when scrolling into view
+   - `useInView` + `useSpring` + `useTransform`
+   - Spring config: configurable duration, `bounce: 0`
+   - Supports prefix/suffix (e.g., "$", "+", "%")
+   - Used on: about page inline stats, portfolio case study highlight metrics
+
+4. **Testimonial carousel transitions** (in homepage testimonials section):
+   - `AnimatePresence` with `mode="wait"`
+   - Enter: `opacity: 0, x: 30` -> `opacity: 1, x: 0` (0.4s)
+   - Exit: `opacity: 0, x: -30` (0.4s)
+   - Auto-advance every 6 seconds, with dot indicators
+
+5. **Theme toggle icon animation** (in `theme-toggle.tsx`):
+   - Sun/moon icons rotate and scale simultaneously during switch
+   - Sun: `scale-0 rotate-90` <-> `scale-100 rotate-0`
+   - Moon: `scale-100 rotate-0` <-> `scale-0 -rotate-90`
+   - Transition: 200ms
+
+**Add (CSS micro-interactions):**
+
+6. **Nav link hover underline:**
+   - Brand-colored underline that scales from `scale-x-0` to `scale-x-100` (origin-left) on hover
+   - Applied via `::after` pseudo-element, `transition-transform duration-300`
+   - Replaces current simple color change on nav links
+
+7. **Card image zoom on hover:**
+   - `group-hover:scale-110` with `transition-transform duration-500` inside `overflow-hidden` container
+   - Ready for portfolio cards when screenshots are added
+
+8. **Service card bottom accent line:**
+   - 2px brand-colored line at card bottom
+   - `scale-x-0` -> `group-hover:scale-x-100`, `origin-left`, `transition-transform duration-500`
+   - Subtle directional reveal on hover
+
+9. **Film grain texture overlay:**
+   - Subtle SVG noise pattern as `::after` on `body`
+   - Opacity: 0.02 (dark mode), 0.03 (light mode)
+   - Kills the flat digital feel, adds tactile quality
+   - `pointer-events-none`, fixed position, full viewport
+
+10. **Glassmorphism header on scroll:**
+    - When scrolled: `bg-surface-0/80 backdrop-blur-lg` (instead of current `bg-surface-0/80 backdrop-blur-md`)
+    - Increase blur strength, add subtle `border-b border-white/[0.06]`
+    - Smooth transition: `transition-all duration-300`
+
+11. **Theme transition smoothing:**
+    - When toggling theme, temporarily add `html.transitioning` class
+    - Applies `transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease` to all elements
+    - Removed after 200ms to avoid performance overhead during normal interactions
 
 **Keep:**
-- `fade-in-up` animations (but reduce to 3-4 per page max, not every single element)
-- Hover transitions on cards and buttons
-- `text-gradient` on hero headlines only (1 per page max)
+- Hover transitions on cards and buttons (color, shadow, transform)
 
 **Replace with:**
 - Subtle gradient section backgrounds (e.g., `bg-gradient-to-b from-surface-0 to-surface-50`)
-- Clean card shadows instead of glow effects
-- Occasional accent-colored left border or underline for visual interest
+- Clean card shadows instead of glow effects (`shadow-lg shadow-surface-0/10` on hover)
+- Occasional accent-colored left border for visual interest
 
 ### 1.5 Card Patterns
 
@@ -367,19 +435,22 @@ Replace placeholder testimonials with realistic ones matching actual client type
 
 | File | Change |
 |------|--------|
-| `app/globals.css` | Add light theme variables via `[data-theme]` selectors, remove `.bg-grid` / `.glow-brand` / `.card-gradient-border` / `.text-gradient`, add accent color tokens, add `.brand-underline` utility, add card shadow utilities |
+| `package.json` | Add `framer-motion` dependency |
+| `app/globals.css` | Add light theme variables via `[data-theme]` selectors, remove `.bg-grid` / `.glow-brand` / `.card-gradient-border` / `.text-gradient` / CSS animation classes, add accent color tokens, add `.brand-underline` utility, add film grain overlay, add nav underline hover, add card shadow utilities, add theme transition smoothing |
 | `app/layout.tsx` | Wrap with `ThemeProvider`, update metadata title/description |
-| `app/page.tsx` | Rewrite all copy, left-align hero, replace value-prop cards with inline highlights, convert process steps to horizontal stepper, convert testimonials to single-featured-quote carousel, remove bg effects, reduce animations |
-| `app/about/page.tsx` | Rewrite copy, inline stats as sentence, use highlight-card style for values, remove sci-fi labels/badges, update team section |
-| `app/services/page.tsx` | Rewrite copy, remove decorative icons from headers, simplify card effects |
-| `app/portfolio/page.tsx` | Rewrite copy, fix icon map, add image support to cards, make featured project full-width |
-| `app/portfolio/[slug]/page.tsx` | Add image hero support, rewrite "Back to Architecture" -> "Back to Portfolio" |
+| `app/page.tsx` | Rewrite all copy, left-align hero, replace value-prop cards with inline highlights, convert process steps to horizontal stepper, convert testimonials to single-featured-quote carousel with Framer Motion, wrap sections in ScrollReveal, remove bg effects |
+| `app/about/page.tsx` | Rewrite copy, inline stats with AnimatedCounter, use highlight-card style for values, remove sci-fi labels/badges, update team section |
+| `app/services/page.tsx` | Rewrite copy, remove decorative icons from headers, add bottom accent line hover to service cards, wrap in ScrollReveal |
+| `app/portfolio/page.tsx` | Rewrite copy, fix icon map, add image support to cards with hover zoom, make featured project full-width, wrap in StaggerContainer |
+| `app/portfolio/[slug]/page.tsx` | Add image hero support, use AnimatedCounter for highlight metrics, rewrite "Back to Architecture" -> "Back to Portfolio" |
 | `app/contact/page.tsx` | Rewrite all copy, remove decorative icons from section headers |
-| `components/layout/header.tsx` | Add theme toggle button, remove Terminal icon from CTA |
+| `components/layout/header.tsx` | Add theme toggle, glassmorphism on scroll, nav underline hover effect, remove Terminal icon from CTA |
 | `components/layout/footer.tsx` | **REWRITE** — replace 4-column grid with CTA banner + single-row bottom bar |
 | `components/sections/cta-section.tsx` | **DELETE** — functionality absorbed into new footer CTA banner |
-| `components/ui/theme-toggle.tsx` | **NEW** — sun/moon toggle button component |
-| `components/ui/theme-provider.tsx` | **NEW** — context provider for dark/light mode |
+| `components/ui/scroll-reveal.tsx` | **NEW** — ScrollReveal, StaggerContainer, StaggerItem components (Framer Motion) |
+| `components/ui/animated-counter.tsx` | **NEW** — spring-physics number counter triggered on scroll |
+| `components/ui/theme-toggle.tsx` | **NEW** — sun/moon toggle with rotate/scale animation |
+| `components/ui/theme-provider.tsx` | **NEW** — context provider for dark/light mode with localStorage |
 | `lib/constants.ts` | Add DealProp + Cortex Automations projects, update testimonials, add optional `image` field to project type |
 | `public/images/` | Add 4 stock images (hero, about, services, contact) |
 
