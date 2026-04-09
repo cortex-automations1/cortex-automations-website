@@ -1,0 +1,195 @@
+---
+title: "Building SignFlow: A Full Client-Lifecycle CRM for Service Businesses"
+slug: "building-signflow-crm-case-study"
+description: "How we consolidated five disconnected tools into one multi-tenant SaaS platform for service businesses — the architecture, the trade-offs, and what we learned."
+publishedAt: "2026-04-09"
+tags: ["case-study", "saas", "crm-development", "architecture"]
+author: "David Perez"
+featured: true
+---
+
+The client ran a pressure washing company with twelve field crews. When a new lead came in, here's what happened: the office manager entered it into Jobber, copied the address into Google Calendar for the estimator, sent a quote through PandaDoc, moved the signed deal into QuickBooks for invoicing, and then manually updated a shared spreadsheet so the owner could see pipeline numbers. Five tools. Four copy-paste operations per lead. Zero integration that actually worked.
+
+"I pay for all these tools and I still can't answer 'how many jobs did we close last month' without asking three people," he told us. That conversation became SignFlow Pro — a single platform that handles the entire client lifecycle from first contact to final invoice. Here's how we built it.
+
+## The real problem wasn't the tools
+
+Every service business owner we talked to had the same complaint: too many tools, not enough connection between them. But when we dug deeper, the problem wasn't really about tool count. It was about **handoff friction**.
+
+A lead becomes an estimate. An estimate becomes a job. A job becomes an invoice. An invoice becomes a payment. Each transition, in a multi-tool setup, requires a human to manually move data from one system to another. That's where things break. Estimates get sent twice. Jobs get scheduled for the wrong day. Invoices reference the wrong scope. The business owner spends Sunday mornings reconciling spreadsheets instead of resting.
+
+SignFlow's core bet was simple: if every stage of the client lifecycle lives in the same database, handoffs become automatic. An estimate converts to a job with one click because it's the same record changing status. An invoice pulls line items from the job because they share a foreign key. The CRM isn't a separate system — it's the same system wearing a different hat.
+
+## Architecture decisions that shaped everything
+
+The stack is Next.js 15 with App Router, PostgreSQL via Prisma, Clerk for authentication, Stripe for payments and subscriptions, and BoldSign for legally-binding e-signatures. Nothing bleeding-edge. The interesting work was in the data model and the multi-tenancy layer.
+
+**Multi-tenant from day one.** SignFlow serves multiple service businesses on a single codebase and database. Every table has an `orgId` column. Every query includes `WHERE orgId = ?`. We enforce this at the ORM layer with a wrapper that injects the tenant context automatically:
+
+```typescript
+function tenantQuery<T>(
+  ctx: { orgId: string },
+  queryFn: (db: PrismaClient, orgId: string) => Promise<T>
+): Promise<T> {
+  return queryFn(prisma, ctx.orgId);
+}
+
+// Usage
+const leads = await tenantQuery(ctx, (db, orgId) =>
+  db.lead.findMany({
+    where: { orgId, status: "new" },
+    orderBy: { createdAt: "desc" },
+  })
+);
+```
+
+Every data-fetching function in the app goes through this wrapper. If someone writes a raw query without tenant scoping, it fails code review. We've seen too many multi-tenant SaaS products ship data leaks because a developer forgot one `WHERE` clause. Making it impossible to forget is better than making it easy to remember.
+
+**One record, many views.** A "client" in SignFlow isn't stored in a CRM table separate from a "job" table separate from an "invoice" table. It's one `Client` record with related `Estimates`, `Jobs`, and `Invoices`. The CRM view, the scheduling view, and the billing view are all reading from the same normalized schema. This sounds obvious, but it's the opposite of how most businesses end up working — with the same customer duplicated across three systems with slightly different spellings of their address.
+
+Here's a simplified version of the core schema:
+
+```prisma
+model Client {
+  id        String   @id @default(cuid())
+  orgId     String
+  name      String
+  email     String?
+  phone     String?
+  address   String?
+  estimates Estimate[]
+  jobs      Job[]
+  invoices  Invoice[]
+  createdAt DateTime @default(now())
+}
+
+model Estimate {
+  id        String   @id @default(cuid())
+  orgId     String
+  clientId  String
+  client    Client   @relation(fields: [clientId], references: [id])
+  lineItems Json
+  total     Decimal
+  status    EstimateStatus @default(DRAFT)
+  signedAt  DateTime?
+  job       Job?
+  createdAt DateTime @default(now())
+}
+
+model Job {
+  id         String   @id @default(cuid())
+  orgId      String
+  clientId   String
+  client     Client   @relation(fields: [clientId], references: [id])
+  estimateId String?  @unique
+  estimate   Estimate? @relation(fields: [estimateId], references: [id])
+  scheduledFor DateTime?
+  completedAt  DateTime?
+  status     JobStatus @default(SCHEDULED)
+  invoice    Invoice?
+  createdAt  DateTime @default(now())
+}
+```
+
+When an estimate gets signed, we don't copy data into a new job record. We create a `Job` that points back to the `Estimate`. The line items, the total, the client — all inherited through relations. One source of truth, multiple stages of the lifecycle.
+
+**E-signatures as a first-class feature.** We integrated BoldSign for legally-binding signatures on estimates and contracts. This replaced PandaDoc in our client's workflow. The integration wasn't trivial — we had to handle webhook callbacks for signature events, PDF generation from estimate data, and audit trail storage for compliance. But getting signatures inside the app instead of sending people to a third-party tool cut the estimate-to-job conversion time from an average of 3.2 days to 1.4 days. People sign faster when they don't have to create another account.
+
+## What we replaced and what we kept
+
+SignFlow replaced five tools for our initial client:
+
+| Before | After |
+|--------|-------|
+| Jobber (CRM + scheduling) | SignFlow |
+| PandaDoc (estimates + signatures) | SignFlow |
+| Google Calendar (crew scheduling) | SignFlow |
+| Shared spreadsheet (pipeline tracking) | SignFlow |
+| Partial QuickBooks (invoicing) | SignFlow + QuickBooks sync |
+
+We didn't try to replace QuickBooks entirely. Accounting software is a special kind of beast — tax rules, chart of accounts, accountant workflows. We built a one-way sync that pushes invoices and payments from SignFlow into QuickBooks. The accountant works in QuickBooks. Everyone else works in SignFlow. Clean boundary.
+
+That decision — knowing what *not* to build — saved us probably two months of scope. Every SaaS case study should include the features you deliberately didn't ship.
+
+## The scheduling problem was harder than expected
+
+CRM features were straightforward. Lead tracking, pipeline stages, contact management — well-understood patterns. Scheduling twelve field crews across a metro area was a different beast.
+
+Service businesses don't schedule like offices. A pressure washing crew can do three residential jobs in a day or one large commercial job. Drive time matters. Equipment matters (some crews have the soft wash rig, some don't). Customer availability matters. The "calendar" isn't a grid of hour blocks — it's a constraint satisfaction problem.
+
+We built a scheduling view that shows crews as rows and days as columns, with jobs as draggable cards. Dropping a job onto a crew-day checks constraints: Does this crew have the right equipment? Is there enough time given the job's estimated duration plus drive time from the previous job? If constraints fail, the card snaps back and shows a tooltip explaining why.
+
+The constraint logic lives server-side. The drag-and-drop is optimistic UI with server validation. If the server rejects the move, the client reverts. This keeps the interaction snappy while ensuring the database never contains an invalid schedule.
+
+```typescript
+async function validateJobAssignment(
+  jobId: string,
+  crewId: string,
+  date: Date,
+  orgId: string
+): Promise<{ valid: boolean; reason?: string }> {
+  const [job, crew, existingJobs] = await Promise.all([
+    getJob(jobId, orgId),
+    getCrew(crewId, orgId),
+    getCrewJobsForDate(crewId, date, orgId),
+  ]);
+
+  // Check equipment requirements
+  if (job.requiresSoftWash && !crew.hasSoftWashRig) {
+    return { valid: false, reason: "Crew lacks soft wash equipment" };
+  }
+
+  // Check time availability
+  const totalHours = existingJobs.reduce((sum, j) => sum + j.estimatedHours, 0);
+  if (totalHours + job.estimatedHours > 10) {
+    return { valid: false, reason: "Exceeds crew daily capacity" };
+  }
+
+  return { valid: true };
+}
+```
+
+We spent three weeks on scheduling. We'd budgeted one. Every service business software project should triple their scheduling estimate.
+
+## Payments and the Stripe integration
+
+SignFlow handles invoicing and payment collection through Stripe. When a job is marked complete, the system generates an invoice from the job's line items. The client receives an email with a payment link. They pay with card or ACH. The payment posts to SignFlow, syncs to QuickBooks, and the job status updates to "Paid."
+
+We used Stripe's Payment Links initially, then migrated to embedded Checkout for a more branded experience. The migration took a day. Stripe's API is genuinely well-designed — one of the few third-party integrations where the documentation matches reality.
+
+One thing we learned: ACH payments are slow to confirm (3-5 business days) but much cheaper than cards (0.8% vs 2.9% + $0.30). For service businesses doing $2,000+ jobs, the fee difference is significant. We added an option for business owners to offer ACH-only for large invoices. Some do, some don't. The choice is theirs.
+
+## Performance on real data
+
+After six months in production with our initial client:
+
+- **4,200 clients** in the database
+- **8,100 jobs** completed
+- **$2.1M invoiced** through the platform
+- **Average page load: 340ms** (p95: 890ms)
+- **Estimate-to-signature time: 1.4 days** (down from 3.2 days with PandaDoc)
+- **Weekly admin time: ~6 hours** (down from ~18 hours across five tools)
+
+The performance numbers hold because we're aggressive about query optimization. Every list view is paginated. Every dashboard widget has its own API route so slow queries don't block fast ones. We use React Server Components for initial page loads and client components only for interactive elements.
+
+## What we'd do differently
+
+Three things stand out in hindsight.
+
+**Build the mobile experience earlier.** Field crews live on their phones. We shipped a responsive web app, which works, but a proper PWA with offline support would have been better. Crews lose signal on rural jobs. Right now they have to wait for connectivity to mark jobs complete. We're adding offline-first capabilities in v2, but retrofitting is harder than building it in.
+
+**Invest in reporting from the start.** We built operational features first — CRM, scheduling, invoicing. Reporting was an afterthought. But the business owner's main question is always "how is my business doing?" We ended up building a reporting module three months post-launch. It should have been in v1. The data was there; the dashboards weren't.
+
+**Use a proper state machine for job status.** Jobs move through statuses: Scheduled → In Progress → Completed → Invoiced → Paid. We modeled this as an enum and wrote transition logic in application code. It works, but edge cases crept in — a job marked "Paid" before "Invoiced" due to a race condition, a job stuck in "In Progress" because the crew forgot to mark it complete. A formal state machine library (XState or similar) would have prevented entire categories of bugs.
+
+## The consolidation argument
+
+The pitch for SignFlow isn't "we built a better CRM" or "we built a better scheduling tool." It's that **consolidation itself is the feature**.
+
+When a service business runs on five tools, they're paying five subscriptions, maintaining five logins, training staff on five interfaces, and manually bridging the gaps between all of them. The gaps are where data gets lost, where mistakes happen, where the owner spends their Sunday reconciling numbers.
+
+SignFlow isn't the best CRM. It's not the best scheduling tool. It's not the best invoicing system. But it's good enough at all three, and the fact that they're the same system makes it better than best-of-breed tools that don't talk to each other.
+
+That's the bet we made, and six months of production data suggests it was the right one. The pressure washing company went from five tools and eighteen hours of weekly admin to one tool and six hours. Their close rate went up because estimates get signed faster. Their cash flow improved because invoices go out the day the job completes instead of whenever someone remembers to enter it into QuickBooks.
+
+Multi-tenant SaaS for service businesses isn't glamorous. But replacing five tabs with one? That's the kind of software that actually changes how someone runs their Tuesday.
