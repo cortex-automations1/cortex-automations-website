@@ -82,7 +82,7 @@ export function Footer() {
                 </span>
               </Link>
               <p className="text-body text-sm leading-relaxed mb-6 max-w-xs">
-                We build custom software that helps businesses run better. Based in Florida, working with clients everywhere.
+                We build custom software that helps businesses run better. Based in the US, working with clients everywhere.
               </p>
               <div className="flex items-center gap-3">
                 {SOCIAL_LINKS.map(function (social) {

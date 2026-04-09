@@ -102,9 +102,9 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-heading mb-4">8. Governing Law</h2>
             <p>
-              These terms are governed by the laws of the State of Florida, United States. Any
-              disputes arising from these terms or our services shall be resolved in the courts of
-              Florida.
+              These terms are governed by the laws of the United States. Any disputes arising from
+              these terms or our services shall be resolved through binding arbitration or in a court
+              of competent jurisdiction in the United States.
             </p>
           </section>
 

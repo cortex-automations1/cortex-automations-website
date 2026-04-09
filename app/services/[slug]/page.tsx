@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import {
   ArrowRight,
   ArrowLeft,
-  Terminal,
   CheckCircle2,
   Layers,
   Smartphone,
@@ -16,6 +15,7 @@ import {
 } from "lucide-react";
 import { SERVICES, PROJECTS } from "@/lib/constants";
 import { createMetadata } from "@/lib/metadata";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -49,7 +49,7 @@ const IDEAL_FOR: Record<string, string[]> = {
     "Companies looking to reduce operational overhead with intelligent automation",
   ],
   consulting: [
-    "CTOs and engineering leads evaluating architecture decisions",
+    "CTOs and engineering leads evaluating decisions",
     "Startups preparing for technical due diligence or scale",
     "Teams that need expert guidance without a full-time hire",
   ],
@@ -83,7 +83,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   const service = SERVICES.find((s) => s.slug === slug);
   if (!service) notFound();
 
-  const IconComponent = ICON_MAP[service.icon] ?? Terminal;
+  const IconComponent = ICON_MAP[service.icon] ?? Layers;
   const idealFor = IDEAL_FOR[service.slug] ?? [];
   const relatedSlugs = RELATED_PROJECTS[service.slug] ?? [];
   const relatedProjects = PROJECTS.filter((p) => relatedSlugs.includes(p.slug));
@@ -92,7 +92,6 @@ export default async function ServiceDetailPage({ params }: Props) {
     <>
       {/* HERO */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-surface-0 border-b border-surface-200">
-        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] rounded-full bg-brand-500/5 blur-[120px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <Link
             href="/services"
@@ -108,7 +107,7 @@ export default async function ServiceDetailPage({ params }: Props) {
             <p className="text-sm font-mono text-brand-400 uppercase tracking-widest">Service</p>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-heading mb-6 tracking-tight max-w-4xl leading-tight">
-            {service.name}
+            <span className="brand-underline">{service.name}</span>
           </h1>
           <p className="text-body text-lg md:text-xl max-w-2xl leading-relaxed">
             {service.description}
@@ -126,45 +125,48 @@ export default async function ServiceDetailPage({ params }: Props) {
       </section>
 
       {/* CAPABILITIES + IDEAL FOR */}
-      <section className="py-24 bg-surface-50 relative z-10">
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Key Capabilities */}
-          <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200">
-            <h2 className="text-xl font-bold text-heading mb-6 flex items-center gap-2">
-              <Terminal className="w-5 h-5 text-brand-500" /> Key Capabilities
-            </h2>
-            <ul className="space-y-4">
-              {service.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-3 text-subtle">
-                  <CheckCircle2 className="w-5 h-5 text-brand-500 shrink-0 mt-0.5" />
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <ScrollReveal>
+        <section className="py-24 bg-surface-50 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* What's Included */}
+            <div className="group p-8 rounded-2xl bg-surface-100 border border-surface-200">
+              <h2 className="text-xl font-bold text-heading mb-6 flex items-center gap-2">
+                What&apos;s Included
+              </h2>
+              <ul className="space-y-4">
+                {service.features.map((feature) => (
+                  <li key={feature} className="flex items-start gap-3 text-subtle">
+                    <CheckCircle2 className="w-5 h-5 text-brand-500 shrink-0 mt-0.5" />
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="h-0.5 bg-brand-500 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left mt-6" />
+            </div>
 
-          {/* Ideal For */}
-          <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200">
-            <h2 className="text-xl font-bold text-heading mb-6 flex items-center gap-2">
-              <Users className="w-5 h-5 text-brand-500" /> Who Is This For?
-            </h2>
-            <ul className="space-y-4">
-              {idealFor.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-subtle">
-                  <ArrowRight className="w-5 h-5 text-brand-400 shrink-0 mt-0.5" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            {/* Ideal For */}
+            <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200">
+              <h2 className="text-xl font-bold text-heading mb-6 flex items-center gap-2">
+                <Users className="w-5 h-5 text-brand-500" /> Who Is This For?
+              </h2>
+              <ul className="space-y-4">
+                {idealFor.map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-subtle">
+                    <ArrowRight className="w-5 h-5 text-brand-400 shrink-0 mt-0.5" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </ScrollReveal>
 
       {/* TECH STACK */}
       <section className="py-16 bg-surface-0 border-t border-surface-200 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <p className="text-xs font-mono text-muted uppercase tracking-widest mb-6">
-            Technologies &amp; Tools
+            Tech We Use
           </p>
           <div className="flex flex-wrap gap-3">
             {service.techStack.map((tech) => (
@@ -181,53 +183,35 @@ export default async function ServiceDetailPage({ params }: Props) {
 
       {/* RELATED PROJECTS */}
       {relatedProjects.length > 0 && (
-        <section className="py-24 bg-surface-50 border-t border-surface-200 relative z-10">
-          <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-heading mb-10">Related Work</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {relatedProjects.map((project) => (
-                <Link
-                  key={project.slug}
-                  href={`/portfolio/${project.slug}`}
-                  className="group p-6 rounded-2xl bg-surface-100 border border-surface-200 hover:border-brand-500/40 transition-colors"
-                >
-                  <p className="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
-                    {project.category}
-                  </p>
-                  <h3 className="text-xl font-bold text-heading mb-2 group-hover:text-brand-300 transition-colors">
-                    {project.name}
-                  </h3>
-                  <p className="text-body text-sm leading-relaxed">{project.tagline}</p>
-                  <div className="flex items-center gap-1 mt-4 text-brand-400 text-sm font-medium">
-                    View Case Study{" "}
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </Link>
-              ))}
+        <ScrollReveal>
+          <section className="py-24 bg-surface-50 border-t border-surface-200 relative z-10">
+            <div className="max-w-7xl mx-auto px-6">
+              <h2 className="text-2xl md:text-3xl font-bold text-heading mb-10">Related Work</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {relatedProjects.map((project) => (
+                  <Link
+                    key={project.slug}
+                    href={`/portfolio/${project.slug}`}
+                    className="group p-6 rounded-2xl bg-surface-100 border border-surface-200 hover:border-brand-500/40 transition-colors"
+                  >
+                    <p className="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
+                      {project.category}
+                    </p>
+                    <h3 className="text-xl font-bold text-heading mb-2 group-hover:text-brand-300 transition-colors">
+                      {project.name}
+                    </h3>
+                    <p className="text-body text-sm leading-relaxed">{project.tagline}</p>
+                    <div className="flex items-center gap-1 mt-4 text-brand-400 text-sm font-medium">
+                      View Case Study{" "}
+                      <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </ScrollReveal>
       )}
-
-      {/* CTA */}
-      <section className="py-24 bg-surface-0 border-t border-surface-200 relative overflow-hidden z-10">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-brand-500/5 blur-[100px] pointer-events-none" />
-        <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-heading mb-4">
-            Ready to build your {service.name.toLowerCase()}?
-          </h2>
-          <p className="text-body text-lg mb-8">
-            Book a free discovery call and let&apos;s scope out your project.
-          </p>
-          <Link
-            href={`/contact?scope=${service.slug}`}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-medium rounded-lg transition-colors group"
-          >
-            Start This Project
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
-      </section>
     </>
   );
 }

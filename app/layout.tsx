@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | Cortex Automations",
   },
   description:
-    "We build custom software for businesses — SaaS platforms, websites, mobile apps, and AI automations. Based in Florida, working everywhere.",
+    "We build custom software for businesses — SaaS platforms, websites, mobile apps, and AI automations. Based in the US, working everywhere.",
   metadataBase: new URL("https://cortexautomations.ai"),
   openGraph: {
     type: "website",
@@ -47,11 +47,6 @@ const jsonLd = {
   description:
     "We build custom software for businesses — SaaS platforms, websites, mobile apps, and AI automations.",
   email: "hello@cortexautomations.ai",
-  address: {
-    "@type": "PostalAddress",
-    addressRegion: "FL",
-    addressCountry: "US",
-  },
   sameAs: [
     "https://github.com/cortex-automations1",
     "https://linkedin.com/company/cortex-automations",
