@@ -8,7 +8,7 @@ export const metadata: Metadata = createMetadata({
 });
 
 export default function PrivacyPage() {
-  const lastUpdated = "February 2026";
+  const lastUpdated = "April 2026";
 
   return (
     <div className="relative bg-surface-0 pt-32 pb-24">
@@ -66,6 +66,10 @@ export default function PrivacyPage() {
               <li>
                 <span className="text-heading font-medium">Vercel</span> — hosting and serverless
                 functions
+              </li>
+              <li>
+                <span className="text-heading font-medium">Vercel Analytics</span> — privacy-friendly,
+                cookie-free website analytics
               </li>
               <li>
                 <span className="text-heading font-medium">Calendar.com</span> — scheduling widget

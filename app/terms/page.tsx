@@ -8,7 +8,7 @@ export const metadata: Metadata = createMetadata({
 });
 
 export default function TermsPage() {
-  const lastUpdated = "February 2026";
+  const lastUpdated = "April 2026";
 
   return (
     <div className="relative bg-surface-0 pt-32 pb-24">
