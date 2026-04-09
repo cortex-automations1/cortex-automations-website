@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Clock } from "lucide-react";
 import { isAuthenticated } from "@/lib/admin-auth";
-import { getAllDrafts } from "@/lib/blog";
+import { listDraftsFromGitHub } from "@/lib/blog/github";
 import { GenerateButton } from "./generate-button";
 
 export const metadata = {
@@ -27,7 +27,10 @@ export default async function AdminBlogPage() {
     redirect("/admin/login");
   }
 
-  const drafts = getAllDrafts();
+  // Read drafts from GitHub directly instead of the local filesystem so
+  // the admin list reflects real-time state. The local filesystem is
+  // frozen at deploy time and doesn't update until a new Vercel deploy.
+  const drafts = await listDraftsFromGitHub();
 
   return (
     <div>

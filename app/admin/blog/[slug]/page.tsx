@@ -2,7 +2,7 @@ import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { isAuthenticated } from "@/lib/admin-auth";
-import { getDraftBySlug } from "@/lib/blog";
+import { getDraftFromGitHub } from "@/lib/blog/github";
 import { DraftReviewer } from "./draft-reviewer";
 
 export const metadata = {
@@ -20,7 +20,9 @@ export default async function AdminDraftPage({ params }: Props) {
   }
 
   const { slug } = await params;
-  const draft = getDraftBySlug(slug);
+  // Read from GitHub so we always see the current state of the draft,
+  // even right after an edit (local filesystem is frozen at deploy time).
+  const draft = await getDraftFromGitHub(slug);
   if (!draft) {
     notFound();
   }

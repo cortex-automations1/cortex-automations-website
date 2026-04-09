@@ -1,6 +1,34 @@
 import { Octokit } from "@octokit/rest";
+import matter from "gray-matter";
+import readingTime from "reading-time";
+import type { BlogPost, BlogPostFrontmatter } from "@/lib/blog";
 
 const [owner, repo] = (process.env.GITHUB_REPO ?? "cortex-automations1/cortex-automations-website").split("/");
+
+function octokitClient(): Octokit {
+  const token = process.env.GITHUB_TOKEN;
+  if (!token) throw new Error("GITHUB_TOKEN not set");
+  return new Octokit({ auth: token });
+}
+
+/**
+ * Parses a raw MDX file (frontmatter + body) into the same BlogPost
+ * shape that lib/blog.ts produces from filesystem reads. Keeps the
+ * two data sources interchangeable for the admin UI.
+ */
+function parsePost(
+  raw: string,
+  status: "published" | "draft",
+): BlogPost {
+  const { data, content } = matter(raw);
+  const frontmatter = data as BlogPostFrontmatter;
+  return {
+    ...frontmatter,
+    content,
+    readingTime: readingTime(content).text,
+    status,
+  };
+}
 
 /**
  * Commits a new MDX draft to content/blog/drafts/ via GitHub API.
@@ -146,6 +174,66 @@ export async function deleteDraft(
     committer: { name: "Cortex Blog Bot", email: "bot@cortexautomations.ai" },
     author: { name: "Cortex Blog Bot", email: "bot@cortexautomations.ai" },
   });
+}
+
+/**
+ * Lists all drafts directly from GitHub, bypassing the local filesystem.
+ *
+ * Why: content/blog/drafts/ on Vercel is frozen at deploy time. After a
+ * draft is committed/deleted via the GitHub API, the local filesystem
+ * doesn't reflect that change until a new deployment propagates. Reading
+ * from GitHub gives us the real-time state so the admin UI updates
+ * immediately after actions.
+ */
+export async function listDraftsFromGitHub(): Promise<BlogPost[]> {
+  const octokit = octokitClient();
+
+  let files: Array<{ name: string; path: string }>;
+  try {
+    const response = await octokit.repos.getContent({
+      owner,
+      repo,
+      path: "content/blog/drafts",
+    });
+    if (!Array.isArray(response.data)) {
+      return [];
+    }
+    files = response.data
+      .filter((item) => item.type === "file" && item.name.endsWith(".mdx"))
+      .map((item) => ({ name: item.name, path: item.path }));
+  } catch (err: unknown) {
+    const status = (err as { status?: number })?.status;
+    if (status === 404) return [];
+    throw err;
+  }
+
+  const posts = await Promise.all(
+    files.map(async (file) => {
+      const fileResponse = await octokit.repos.getContent({
+        owner,
+        repo,
+        path: file.path,
+      });
+      if (Array.isArray(fileResponse.data) || fileResponse.data.type !== "file") {
+        return null;
+      }
+      const raw = Buffer.from(fileResponse.data.content, "base64").toString("utf-8");
+      return parsePost(raw, "draft");
+    }),
+  );
+
+  return posts
+    .filter((p): p is BlogPost => p !== null)
+    .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+}
+
+/**
+ * Fetches a single draft by slug, directly from GitHub. Returns null
+ * if no draft with that slug exists.
+ */
+export async function getDraftFromGitHub(slug: string): Promise<BlogPost | null> {
+  const drafts = await listDraftsFromGitHub();
+  return drafts.find((d) => d.slug === slug) ?? null;
 }
 
 /**
