@@ -59,8 +59,8 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
         <div className="w-16 h-16 bg-brand-500/10 border border-brand-500/20 rounded-full flex items-center justify-center mb-6">
           <CheckCircle className="w-8 h-8 text-brand-400" />
         </div>
-        <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
-        <p className="text-neutral-400 max-w-sm mb-8">
+        <h3 className="text-2xl font-bold text-heading mb-2">Message Sent!</h3>
+        <p className="text-body max-w-sm mb-8">
           Thanks for reaching out! We&apos;ll review your message and get back to you within 24 hours.
         </p>
         <button
@@ -73,8 +73,8 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
     );
   }
 
-  const inputClasses = "mt-2 block w-full rounded-lg border border-surface-200 bg-surface-100 px-4 py-3 text-sm text-white transition-all placeholder:text-neutral-600 focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 disabled:opacity-50";
-  const labelClasses = "flex items-center gap-2 text-sm font-medium text-neutral-300";
+  const inputClasses = "mt-2 block w-full rounded-lg border border-surface-200 bg-surface-100 px-4 py-3 text-sm text-heading transition-all placeholder:text-muted focus:border-brand-500 focus:outline-none focus:ring-1 focus:ring-brand-500 disabled:opacity-50";
+  const labelClasses = "flex items-center gap-2 text-sm font-medium text-subtle";
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 p-8">
@@ -164,7 +164,7 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
           onChange={handleChange}
           className={inputClasses}
         >
-          <option value="" disabled className="text-neutral-500">
+          <option value="" disabled className="text-muted">
             Pick a service...
           </option>
           {SERVICES.map(function (service) {

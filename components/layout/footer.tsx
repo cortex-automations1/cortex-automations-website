@@ -39,7 +39,7 @@ export function Footer() {
           <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
             Got a project in mind?
           </h2>
-          <p className="text-neutral-400 text-lg mb-8 max-w-xl mx-auto">
+          <p className="text-body text-lg mb-8 max-w-xl mx-auto">
             Tell us what you&apos;re building. We&apos;d love to help.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -73,16 +73,16 @@ export function Footer() {
               height={20}
               className="object-contain"
             />
-            <p className="text-neutral-500 text-sm">
+            <p className="text-muted text-sm">
               &copy; {currentYear} Cortex Automations
             </p>
           </div>
 
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-sm text-neutral-500 hover:text-brand-400 transition-colors">
+            <Link href="/privacy" className="text-sm text-muted hover:text-brand-400 transition-colors">
               Privacy
             </Link>
-            <Link href="/terms" className="text-sm text-neutral-500 hover:text-brand-400 transition-colors">
+            <Link href="/terms" className="text-sm text-muted hover:text-brand-400 transition-colors">
               Terms
             </Link>
             {SOCIAL_LINKS.map(function (social) {
@@ -94,7 +94,7 @@ export function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-neutral-500 hover:text-brand-400 transition-colors"
+                  className="text-muted hover:text-brand-400 transition-colors"
                   aria-label={social.label}
                 >
                   <Icon />

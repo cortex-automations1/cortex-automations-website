@@ -17,16 +17,16 @@ export default function PrivacyPage() {
           <p className="text-sm font-medium text-brand-400 uppercase tracking-widest mb-4">
             Legal
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+          <h1 className="text-4xl md:text-5xl font-bold text-heading mb-4 tracking-tight">
             Privacy Policy
           </h1>
-          <p className="text-neutral-500 text-sm">Last updated: {lastUpdated}</p>
+          <p className="text-muted text-sm">Last updated: {lastUpdated}</p>
         </header>
 
-        <div className="prose prose-invert max-w-none space-y-10 text-neutral-400 leading-relaxed">
+        <div className="prose prose-invert max-w-none space-y-10 text-body leading-relaxed">
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">1. Information We Collect</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">1. Information We Collect</h2>
             <p>
               When you submit an inquiry through our contact form, we collect the following
               information: your name, work email address, company name, phone number (optional),
@@ -36,7 +36,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">2. How We Use Your Information</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">2. How We Use Your Information</h2>
             <p>We use the information you provide solely to:</p>
             <ul className="list-disc list-inside space-y-2 mt-3 ml-2">
               <li>Respond to your project inquiry and scope your requirements</li>
@@ -50,7 +50,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">3. Data Storage &amp; Security</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">3. Data Storage &amp; Security</h2>
             <p>
               Inquiry data submitted through our contact form is forwarded to our internal CRM
               (SignFlow) for lead management. All data is transmitted over HTTPS and stored
@@ -60,19 +60,19 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">4. Third-Party Services</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">4. Third-Party Services</h2>
             <p>This website uses the following third-party services:</p>
             <ul className="list-disc list-inside space-y-2 mt-3 ml-2">
               <li>
-                <span className="text-white font-medium">Vercel</span> — hosting and serverless
+                <span className="text-heading font-medium">Vercel</span> — hosting and serverless
                 functions
               </li>
               <li>
-                <span className="text-white font-medium">Calendar.com</span> — scheduling widget
+                <span className="text-heading font-medium">Calendar.com</span> — scheduling widget
                 for discovery calls
               </li>
               <li>
-                <span className="text-white font-medium">SignFlow</span> — CRM for lead and client
+                <span className="text-heading font-medium">SignFlow</span> — CRM for lead and client
                 management
               </li>
             </ul>
@@ -83,7 +83,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">5. Cookies</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">5. Cookies</h2>
             <p>
               This website does not use tracking cookies or analytics beyond what is necessary for
               core functionality. Vercel may set cookies for performance and security purposes as
@@ -92,7 +92,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">6. Your Rights</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">6. Your Rights</h2>
             <p>You have the right to:</p>
             <ul className="list-disc list-inside space-y-2 mt-3 ml-2">
               <li>Request access to the personal data we hold about you</li>
@@ -112,7 +112,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">7. Changes to This Policy</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">7. Changes to This Policy</h2>
             <p>
               We may update this policy as our services evolve. Material changes will be reflected
               by updating the &ldquo;last updated&rdquo; date at the top of this page. Continued use of our
@@ -121,7 +121,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-white mb-4">8. Contact</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">8. Contact</h2>
             <p>
               For any privacy-related questions, please reach out to us at{" "}
               <a

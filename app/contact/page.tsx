@@ -19,10 +19,10 @@ export default async function ContactPage({ searchParams }: Props) {
       {/* HERO SECTION */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-surface-0 border-b border-surface-200">
         <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-heading mb-6 tracking-tight">
             Get in <span className="brand-underline">Touch</span>
           </h1>
-          <p className="text-neutral-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-body text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Tell us about your project, or book a call and we&apos;ll figure it out together.
           </p>
         </div>
@@ -36,10 +36,10 @@ export default async function ContactPage({ searchParams }: Props) {
             {/* Left Column: Form */}
             <div>
               <div className="mb-8">
-                <h2 className="text-3xl font-bold text-white mb-3">
+                <h2 className="text-3xl font-bold text-heading mb-3">
                   Send Us a Message
                 </h2>
-                <p className="text-neutral-400">
+                <p className="text-body">
                   Tell us what you&apos;re working on. We&apos;ll get back to you within 24 hours.
                 </p>
               </div>
@@ -52,10 +52,10 @@ export default async function ContactPage({ searchParams }: Props) {
             {/* Right Column: Calendar */}
             <div>
               <div className="mb-8">
-                <h2 className="text-3xl font-bold text-white mb-3">
+                <h2 className="text-3xl font-bold text-heading mb-3">
                   Book a Call
                 </h2>
-                <p className="text-neutral-400">
+                <p className="text-body">
                   Prefer to talk it through? Pick a time that works for you.
                 </p>
               </div>

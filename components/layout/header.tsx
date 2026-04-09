@@ -42,7 +42,7 @@ export function Header() {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         scrolled
-          ? "bg-surface-0/80 backdrop-blur-lg border-white/[0.06] shadow-sm"
+          ? "bg-surface-0/80 backdrop-blur-lg border-surface-200 shadow-sm"
           : "bg-transparent border-transparent",
       )}
     >
@@ -73,7 +73,7 @@ export function Header() {
                   href={item.href}
                   className={cn(
                     "nav-link text-sm font-medium transition-colors hover:text-brand-400",
-                    isActive ? "text-brand-500" : "text-neutral-400",
+                    isActive ? "text-brand-500" : "text-body",
                   )}
                 >
                   {item.name}
@@ -105,7 +105,7 @@ export function Header() {
           <div className="flex md:hidden items-center gap-3">
             <ThemeToggle />
             <button
-              className="p-2 text-neutral-400 hover:text-white transition-colors"
+              className="p-2 text-body hover:text-heading transition-colors"
               onClick={() => setIsOpen(!isOpen)}
               aria-label="Toggle menu"
             >
@@ -131,7 +131,7 @@ export function Header() {
                 href={item.href}
                 className={cn(
                   "text-base font-medium transition-colors block py-2",
-                  isActive ? "text-brand-400" : "text-neutral-300 hover:text-brand-500",
+                  isActive ? "text-brand-400" : "text-body hover:text-brand-500",
                 )}
               >
                 {item.name}

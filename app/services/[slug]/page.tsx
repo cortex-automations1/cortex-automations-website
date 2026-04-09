@@ -96,7 +96,7 @@ export default async function ServiceDetailPage({ params }: Props) {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm font-medium mb-10 group"
+            className="inline-flex items-center gap-2 text-body hover:text-heading transition-colors text-sm font-medium mb-10 group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             All Services
@@ -107,10 +107,10 @@ export default async function ServiceDetailPage({ params }: Props) {
             </div>
             <p className="text-sm font-mono text-brand-400 uppercase tracking-widest">Service</p>
           </div>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight max-w-4xl leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold text-heading mb-6 tracking-tight max-w-4xl leading-tight">
             {service.name}
           </h1>
-          <p className="text-neutral-400 text-lg md:text-xl max-w-2xl leading-relaxed">
+          <p className="text-body text-lg md:text-xl max-w-2xl leading-relaxed">
             {service.description}
           </p>
           <div className="mt-10">
@@ -130,12 +130,12 @@ export default async function ServiceDetailPage({ params }: Props) {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Key Capabilities */}
           <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200">
-            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-heading mb-6 flex items-center gap-2">
               <Terminal className="w-5 h-5 text-brand-500" /> Key Capabilities
             </h2>
             <ul className="space-y-4">
               {service.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-3 text-neutral-300">
+                <li key={feature} className="flex items-start gap-3 text-subtle">
                   <CheckCircle2 className="w-5 h-5 text-brand-500 shrink-0 mt-0.5" />
                   <span>{feature}</span>
                 </li>
@@ -145,12 +145,12 @@ export default async function ServiceDetailPage({ params }: Props) {
 
           {/* Ideal For */}
           <div className="p-8 rounded-2xl bg-surface-100 border border-surface-200">
-            <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <h2 className="text-xl font-bold text-heading mb-6 flex items-center gap-2">
               <Users className="w-5 h-5 text-brand-500" /> Who Is This For?
             </h2>
             <ul className="space-y-4">
               {idealFor.map((item) => (
-                <li key={item} className="flex items-start gap-3 text-neutral-300">
+                <li key={item} className="flex items-start gap-3 text-subtle">
                   <ArrowRight className="w-5 h-5 text-brand-400 shrink-0 mt-0.5" />
                   <span>{item}</span>
                 </li>
@@ -163,14 +163,14 @@ export default async function ServiceDetailPage({ params }: Props) {
       {/* TECH STACK */}
       <section className="py-16 bg-surface-0 border-t border-surface-200 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
-          <p className="text-xs font-mono text-neutral-500 uppercase tracking-widest mb-6">
+          <p className="text-xs font-mono text-muted uppercase tracking-widest mb-6">
             Technologies &amp; Tools
           </p>
           <div className="flex flex-wrap gap-3">
             {service.techStack.map((tech) => (
               <span
                 key={tech}
-                className="px-4 py-2 rounded-full bg-surface-100 border border-surface-200 text-neutral-300 text-sm font-mono"
+                className="px-4 py-2 rounded-full bg-surface-100 border border-surface-200 text-subtle text-sm font-mono"
               >
                 {tech}
               </span>
@@ -183,7 +183,7 @@ export default async function ServiceDetailPage({ params }: Props) {
       {relatedProjects.length > 0 && (
         <section className="py-24 bg-surface-50 border-t border-surface-200 relative z-10">
           <div className="max-w-7xl mx-auto px-6">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-10">Related Work</h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-heading mb-10">Related Work</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {relatedProjects.map((project) => (
                 <Link
@@ -194,10 +194,10 @@ export default async function ServiceDetailPage({ params }: Props) {
                   <p className="text-xs font-mono text-brand-400 uppercase tracking-widest mb-2">
                     {project.category}
                   </p>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-brand-300 transition-colors">
+                  <h3 className="text-xl font-bold text-heading mb-2 group-hover:text-brand-300 transition-colors">
                     {project.name}
                   </h3>
-                  <p className="text-neutral-400 text-sm leading-relaxed">{project.tagline}</p>
+                  <p className="text-body text-sm leading-relaxed">{project.tagline}</p>
                   <div className="flex items-center gap-1 mt-4 text-brand-400 text-sm font-medium">
                     View Case Study{" "}
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -213,10 +213,10 @@ export default async function ServiceDetailPage({ params }: Props) {
       <section className="py-24 bg-surface-0 border-t border-surface-200 relative overflow-hidden z-10">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full bg-brand-500/5 blur-[100px] pointer-events-none" />
         <div className="max-w-3xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-heading mb-4">
             Ready to build your {service.name.toLowerCase()}?
           </h2>
-          <p className="text-neutral-400 text-lg mb-8">
+          <p className="text-body text-lg mb-8">
             Book a free discovery call and let&apos;s scope out your project.
           </p>
           <Link

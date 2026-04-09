@@ -9,7 +9,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="relative w-9 h-9 rounded-lg bg-surface-100 border border-surface-200 flex items-center justify-center text-neutral-400 hover:text-white transition-colors"
+      className="relative w-9 h-9 rounded-lg bg-surface-100 border border-surface-200 flex items-center justify-center text-body hover:text-heading transition-colors"
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
     >
       <Sun

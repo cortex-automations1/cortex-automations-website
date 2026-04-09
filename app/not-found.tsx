@@ -12,16 +12,16 @@ export default function NotFound() {
           <Terminal className="w-8 h-8" />
         </div>
 
-        <h1 className="text-7xl md:text-9xl font-bold text-white mb-4 tracking-tight">404</h1>
-        <h2 className="text-2xl md:text-3xl font-bold text-white mb-6">Endpoint Not Found</h2>
-        <p className="text-neutral-400 text-lg max-w-md mx-auto mb-10">
+        <h1 className="text-7xl md:text-9xl font-bold text-heading mb-4 tracking-tight">404</h1>
+        <h2 className="text-2xl md:text-3xl font-bold text-heading mb-6">Endpoint Not Found</h2>
+        <p className="text-body text-lg max-w-md mx-auto mb-10">
           The architecture you are looking for has been moved, deleted, or never existed in this
           environment.
         </p>
 
         <Link
           href="/"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-surface-100 border border-surface-200 text-white font-medium hover:bg-surface-200 transition-colors group"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-lg bg-surface-100 border border-surface-200 text-heading font-medium hover:bg-surface-200 transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Return to Base

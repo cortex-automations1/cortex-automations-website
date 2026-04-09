@@ -24,10 +24,10 @@ export default function PortfolioPage() {
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header */}
           <header className="mb-16 md:mb-24">
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
+            <h1 className="text-5xl md:text-7xl font-bold text-heading mb-6 tracking-tight">
               Our <span className="brand-underline">Work</span>
             </h1>
-            <p className="text-neutral-400 text-xl max-w-2xl leading-relaxed">
+            <p className="text-body text-xl max-w-2xl leading-relaxed">
               Real projects we&apos;ve built for real businesses. Take a look around.
             </p>
           </header>
@@ -70,12 +70,12 @@ export default function PortfolioPage() {
                       <p className="text-brand-400 text-sm font-mono mb-2 uppercase tracking-wider">
                         {project.category}
                       </p>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                      <h3 className="text-2xl md:text-3xl font-bold text-heading mb-2">
                         {project.name}
                       </h3>
-                      <p className="text-neutral-400 max-w-md">{project.tagline}</p>
+                      <p className="text-body max-w-md">{project.tagline}</p>
 
-                      <div className="mt-6 flex items-center text-white text-sm font-medium opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                      <div className="mt-6 flex items-center text-heading text-sm font-medium opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                         View Project <ArrowRight className="ml-2 w-4 h-4" />
                       </div>
                     </div>

@@ -73,7 +73,7 @@ export default async function ProjectCaseStudy({ params }: Props) {
         {/* Back Navigation */}
         <Link
           href="/portfolio"
-          className="inline-flex items-center text-neutral-400 hover:text-white transition-colors text-sm font-medium mb-12 group"
+          className="inline-flex items-center text-body hover:text-heading transition-colors text-sm font-medium mb-12 group"
         >
           <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
           Back to Portfolio
@@ -86,10 +86,10 @@ export default async function ProjectCaseStudy({ params }: Props) {
               {project.category}
             </span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-bold text-heading mb-6 tracking-tight">
             <span className="brand-underline">{project.name}</span>
           </h1>
-          <p className="text-xl text-neutral-400 leading-relaxed max-w-2xl">
+          <p className="text-xl text-body leading-relaxed max-w-2xl">
             {project.tagline}
           </p>
         </header>
@@ -115,7 +115,7 @@ export default async function ProjectCaseStudy({ params }: Props) {
                       highlight.value
                     )}
                   </div>
-                  <div className="text-xs font-mono text-neutral-500 uppercase tracking-wider">
+                  <div className="text-xs font-mono text-muted uppercase tracking-wider">
                     {highlight.label}
                   </div>
                 </div>
@@ -130,10 +130,10 @@ export default async function ProjectCaseStudy({ params }: Props) {
 
             {/* Executive Summary */}
             <section>
-              <h2 className="text-2xl font-bold text-white mb-6">
+              <h2 className="text-2xl font-bold text-heading mb-6">
                 Executive Summary
               </h2>
-              <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200 text-neutral-300 leading-relaxed text-lg">
+              <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200 text-subtle leading-relaxed text-lg">
                 {project.description}
               </div>
             </section>
@@ -143,18 +143,18 @@ export default async function ProjectCaseStudy({ params }: Props) {
               <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {project.challenge && (
                   <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200">
-                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <h2 className="text-lg font-bold text-heading mb-4 flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-red-400 inline-block" /> The Challenge
                     </h2>
-                    <p className="text-neutral-400 leading-relaxed">{project.challenge}</p>
+                    <p className="text-body leading-relaxed">{project.challenge}</p>
                   </div>
                 )}
                 {project.solution && (
                   <div className="p-8 rounded-2xl bg-surface-50 border border-surface-200">
-                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <h2 className="text-lg font-bold text-heading mb-4 flex items-center gap-2">
                       <span className="w-2 h-2 rounded-full bg-brand-400 inline-block" /> The Solution
                     </h2>
-                    <p className="text-neutral-400 leading-relaxed">{project.solution}</p>
+                    <p className="text-body leading-relaxed">{project.solution}</p>
                   </div>
                 )}
               </section>
@@ -162,7 +162,7 @@ export default async function ProjectCaseStudy({ params }: Props) {
 
             {/* Tech Stack */}
             <section>
-              <h2 className="text-2xl font-bold text-white mb-6">
+              <h2 className="text-2xl font-bold text-heading mb-6">
                 Technical Stack
               </h2>
               <div className="flex flex-wrap gap-3">
@@ -170,7 +170,7 @@ export default async function ProjectCaseStudy({ params }: Props) {
                   return (
                     <div
                       key={tech}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-100 border border-surface-200 text-neutral-300 font-mono text-sm"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-surface-100 border border-surface-200 text-subtle font-mono text-sm"
                     >
                       <CheckCircle2 className="w-4 h-4 text-brand-500" />
                       {tech}
@@ -183,10 +183,10 @@ export default async function ProjectCaseStudy({ params }: Props) {
             {/* Action Bar */}
             <section className="pt-12 border-t border-surface-200 flex flex-col sm:flex-row items-center justify-between gap-6">
               <div className="text-center sm:text-left">
-                <h3 className="text-lg font-bold text-white mb-1">
+                <h3 className="text-lg font-bold text-heading mb-1">
                   Like what you see?
                 </h3>
-                <p className="text-sm text-neutral-400">
+                <p className="text-sm text-body">
                   Let&apos;s scope out your technical requirements.
                 </p>
               </div>
@@ -197,7 +197,7 @@ export default async function ProjectCaseStudy({ params }: Props) {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 sm:flex-none inline-flex items-center justify-center px-6 py-3 rounded-lg bg-surface-100 border border-surface-200 text-white font-medium hover:bg-surface-200 transition-colors group"
+                    className="flex-1 sm:flex-none inline-flex items-center justify-center px-6 py-3 rounded-lg bg-surface-100 border border-surface-200 text-heading font-medium hover:bg-surface-200 transition-colors group"
                   >
                     View Live{" "}
                     <ExternalLink className="w-4 h-4 ml-2 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform" />
