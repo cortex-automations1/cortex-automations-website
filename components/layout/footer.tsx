@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import { SOCIAL_LINKS, CAL_LINK } from "@/lib/constants";
+import { SERVICES, SOCIAL_LINKS, CAL_LINK } from "@/lib/constants";
 
 function GitHubIcon() {
   return (
-    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -17,7 +17,7 @@ function GitHubIcon() {
 
 function LinkedInIcon() {
   return (
-    <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
       <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
     </svg>
   );
@@ -36,7 +36,7 @@ export function Footer() {
       {/* CTA Banner */}
       <section className="bg-brand-500/5 border-t border-surface-200 py-20">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-heading mb-4">
             Got a project in mind?
           </h2>
           <p className="text-body text-lg mb-8 max-w-xl mx-auto">
@@ -54,7 +54,7 @@ export function Footer() {
             </a>
             <Link
               href="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-surface-100 border border-surface-200 px-8 py-4 text-base font-medium transition-colors hover:bg-surface-200"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-surface-100 border border-surface-200 px-8 py-4 text-base font-medium text-heading transition-colors hover:bg-surface-200"
             >
               Send a Message
             </Link>
@@ -62,45 +62,137 @@ export function Footer() {
         </div>
       </section>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-surface-200 bg-surface-50 py-6">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <Image
-              src="/images/logo-icon.png"
-              alt="Cortex Automations"
-              width={20}
-              height={20}
-              className="object-contain"
-            />
-            <p className="text-muted text-sm">
-              &copy; {currentYear} Cortex Automations
-            </p>
+      {/* Main Footer */}
+      <div className="border-t border-surface-200 bg-surface-50 pt-16 pb-8">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12 mb-12">
+
+            {/* Brand Column */}
+            <div className="sm:col-span-2 lg:col-span-1">
+              <Link href="/" className="flex items-center gap-3 mb-5 group">
+                <Image
+                  src="/images/logo-icon.png"
+                  alt="Cortex Automations Logo"
+                  width={28}
+                  height={28}
+                  className="object-contain group-hover:scale-105 transition-transform"
+                />
+                <span className="text-lg font-bold tracking-tight text-heading">
+                  Cortex <span className="text-brand-400">Automations</span>
+                </span>
+              </Link>
+              <p className="text-body text-sm leading-relaxed mb-6 max-w-xs">
+                We build custom software that helps businesses run better. Based in Florida, working with clients everywhere.
+              </p>
+              <div className="flex items-center gap-3">
+                {SOCIAL_LINKS.map(function (social) {
+                  const Icon = SOCIAL_ICONS[social.label];
+                  if (!Icon) return null;
+                  return (
+                    <a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-10 h-10 rounded-lg bg-surface-100 border border-surface-200 flex items-center justify-center text-muted hover:text-brand-400 hover:border-brand-500/30 transition-colors"
+                      aria-label={social.label}
+                    >
+                      <Icon />
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Services Column */}
+            <div>
+              <h3 className="text-heading font-semibold mb-4">Services</h3>
+              <ul className="space-y-3">
+                {SERVICES.map(function (service) {
+                  return (
+                    <li key={service.slug}>
+                      <Link
+                        href={`/services/${service.slug}`}
+                        className="text-sm text-body hover:text-brand-400 transition-colors"
+                      >
+                        {service.name}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* Company Column */}
+            <div>
+              <h3 className="text-heading font-semibold mb-4">Company</h3>
+              <ul className="space-y-3">
+                <li>
+                  <Link href="/portfolio" className="text-sm text-body hover:text-brand-400 transition-colors">
+                    Portfolio
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/about" className="text-sm text-body hover:text-brand-400 transition-colors">
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="text-sm text-body hover:text-brand-400 transition-colors">
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/privacy" className="text-sm text-body hover:text-brand-400 transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/terms" className="text-sm text-body hover:text-brand-400 transition-colors">
+                    Terms of Service
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Contact Column */}
+            <div>
+              <h3 className="text-heading font-semibold mb-4">Get in Touch</h3>
+              <ul className="space-y-3">
+                <li>
+                  <a
+                    href="mailto:hello@cortexautomations.ai"
+                    className="text-sm text-body hover:text-brand-400 transition-colors"
+                  >
+                    hello@cortexautomations.ai
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href={CAL_LINK}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm text-body hover:text-brand-400 transition-colors"
+                  >
+                    Book a Discovery Call
+                  </a>
+                </li>
+                <li className="text-sm text-muted">
+                  Florida, USA
+                </li>
+              </ul>
+            </div>
+
           </div>
 
-          <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-sm text-muted hover:text-brand-400 transition-colors">
-              Privacy
-            </Link>
-            <Link href="/terms" className="text-sm text-muted hover:text-brand-400 transition-colors">
-              Terms
-            </Link>
-            {SOCIAL_LINKS.map(function (social) {
-              const Icon = SOCIAL_ICONS[social.label];
-              if (!Icon) return null;
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-muted hover:text-brand-400 transition-colors"
-                  aria-label={social.label}
-                >
-                  <Icon />
-                </a>
-              );
-            })}
+          {/* Bottom Bar */}
+          <div className="pt-8 border-t border-surface-200 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-muted text-sm">
+              &copy; {currentYear} Cortex Automations. All rights reserved.
+            </p>
+            <p className="text-muted text-xs">
+              Designed &amp; built by Cortex Automations
+            </p>
           </div>
         </div>
       </div>
