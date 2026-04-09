@@ -73,6 +73,73 @@ Add an amber/orange accent color alongside the existing brand blue for energy an
 - **Stat card:** Large number + label, no border, just background contrast
 - **Testimonial card:** Larger padding, accent-colored quote mark, different shape (rounded-3xl)
 
+### 1.6 Signature Brand Element
+
+Add a consistent visual motif used across the site to create a recognizable, hand-designed feel:
+
+- **Accent underline:** A short, slightly thick (3px) colored underline (brand-500 or accent-400) placed under key words in headings. Not a full-width underline — just 60-80% of the word width, slightly offset below. Applied via a utility class `.brand-underline` using a `background-image` gradient on the bottom.
+- Used on: one keyword per section heading (e.g., "We build the software your business **runs on**", "The People Behind the **Code**")
+- This replaces `text-gradient` as the primary heading accent — more distinctive, less AI-generic
+- `text-gradient` is removed entirely (gradient text on dark backgrounds is the most overused AI pattern)
+
+### 1.7 Layout Variety — Break the Grid Repetition
+
+**The problem:** Every section follows the same formula: centered h2 + centered subtitle + N-column card grid. This is the single biggest AI-generated-design tell.
+
+**Rules for the redesign:**
+- No more than 2 card-grid sections per page
+- Adjacent sections must NOT use the same layout pattern
+- At least one section per page should have left-aligned headers (not centered)
+- Vary section backgrounds: alternate between `surface-0` and `surface-50` but also use one full-bleed accent section per page (brand-500/10 tinted background)
+
+**Specific layout changes by page:**
+
+**Homepage (currently 5 card grids in a row):**
+- Hero: left-aligned text (60%) + right-side visual/abstract shape (40%), NOT centered
+- Value props: REMOVE the 3-card grid. Replace with a single bold statement block with 3 inline highlights (icon + short text) arranged horizontally, not as cards
+- Services teaser: keep the 4-card grid (this one works)
+- Process/How We Work: horizontal stepper with connected dots/line, NOT 4 separate cards. Numbers + titles inline, descriptions below on hover or always visible. Single row, not a grid.
+- Featured Projects: keep 2-card layout (works fine)
+- Testimonials: single featured quote (large, centered) with small prev/next or dots to cycle through — NOT 3 identical cards side by side
+- Bottom CTA: full-bleed tinted background section (brand-500/5 bg) for contrast
+
+**About page:**
+- Story section: keep the 2-column layout (works well)
+- Stats: present inline as a single sentence or short paragraph with bold numbers, NOT a 2x2 card grid. E.g., "We've shipped **50+ projects** with a **99.9% uptime** SLA and a **4.9/5** client satisfaction rating."
+- Core Values: keep as cards BUT use the highlight-card style (left accent border) instead of identical cards
+- Process/methodology: keep the timeline (already good)
+- Team: keep (already unique)
+
+**Services page:**
+- The alternating left/right layout is fine but add visual variety between items (alternate which side has the accent border, vary card background slightly)
+
+**Portfolio page:**
+- Keep the bento grid but make featured project significantly larger (full-width hero card with gradient overlay, ready for screenshot)
+
+### 1.8 Icon Usage — Less is More
+
+**Remove Lucide icons from:**
+- Section headers (the Terminal/Layers/etc icons before "Key Capabilities", "Direct Inquiry", etc.)
+- Decorative badges ("Root Access" with Terminal icon)
+- CTA buttons (Terminal icon on "Start Project", Cpu icon on "Start the Scoping Process")
+- The tech stack trust bar (Code2, Terminal, Cpu, Database, Zap icons before tech names — just use text)
+
+**Keep Lucide icons on:**
+- Navigation and interactive elements (Menu, X, ArrowRight on buttons)
+- The service cards (where the icon represents the service category)
+- Contact info cards (Mail icon is appropriate)
+- Functional UI (CheckCircle2 in feature lists — this is useful)
+
+### 1.9 Footer — Simplify
+
+**Current:** Generic 4-column grid footer (brand + socials, services links, company links, bottom bar).
+
+**Replace with:** A cleaner 2-section footer:
+- **Top section:** A bold CTA banner — "Got a project in mind? Let's talk." with a single button. Full-width, tinted background.
+- **Bottom section:** Single row with logo, copyright, and links (Privacy, Terms, GitHub, LinkedIn) all inline. No multi-column grid.
+
+This replaces both the CTA section component AND the current footer, since every page ends with a CTA + footer that are visually redundant.
+
 ---
 
 ## 2. Stock Images
@@ -300,17 +367,17 @@ Replace placeholder testimonials with realistic ones matching actual client type
 
 | File | Change |
 |------|--------|
-| `app/globals.css` | Add light theme variables, remove `.bg-grid`, remove `.glow-brand`, remove `.card-gradient-border`, add accent color tokens, add new card shadow utilities |
+| `app/globals.css` | Add light theme variables via `[data-theme]` selectors, remove `.bg-grid` / `.glow-brand` / `.card-gradient-border` / `.text-gradient`, add accent color tokens, add `.brand-underline` utility, add card shadow utilities |
 | `app/layout.tsx` | Wrap with `ThemeProvider`, update metadata title/description |
-| `app/page.tsx` | Rewrite all copy, remove bg effects, update section layouts, simplify animations |
-| `app/about/page.tsx` | Rewrite copy, remove sci-fi labels, update team section |
-| `app/services/page.tsx` | Rewrite copy, simplify card effects |
-| `app/portfolio/page.tsx` | Rewrite copy, fix icon map, add image support to cards |
+| `app/page.tsx` | Rewrite all copy, left-align hero, replace value-prop cards with inline highlights, convert process steps to horizontal stepper, convert testimonials to single-featured-quote carousel, remove bg effects, reduce animations |
+| `app/about/page.tsx` | Rewrite copy, inline stats as sentence, use highlight-card style for values, remove sci-fi labels/badges, update team section |
+| `app/services/page.tsx` | Rewrite copy, remove decorative icons from headers, simplify card effects |
+| `app/portfolio/page.tsx` | Rewrite copy, fix icon map, add image support to cards, make featured project full-width |
 | `app/portfolio/[slug]/page.tsx` | Add image hero support, rewrite "Back to Architecture" -> "Back to Portfolio" |
-| `app/contact/page.tsx` | Rewrite all copy |
+| `app/contact/page.tsx` | Rewrite all copy, remove decorative icons from section headers |
 | `components/layout/header.tsx` | Add theme toggle button, remove Terminal icon from CTA |
-| `components/layout/footer.tsx` | Rewrite copy, rename columns |
-| `components/sections/cta-section.tsx` | Update default copy, remove Terminal icon |
+| `components/layout/footer.tsx` | **REWRITE** — replace 4-column grid with CTA banner + single-row bottom bar |
+| `components/sections/cta-section.tsx` | **DELETE** — functionality absorbed into new footer CTA banner |
 | `components/ui/theme-toggle.tsx` | **NEW** — sun/moon toggle button component |
 | `components/ui/theme-provider.tsx` | **NEW** — context provider for dark/light mode |
 | `lib/constants.ts` | Add DealProp + Cortex Automations projects, update testimonials, add optional `image` field to project type |
