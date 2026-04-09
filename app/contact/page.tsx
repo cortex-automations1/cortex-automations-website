@@ -6,7 +6,7 @@ import { createMetadata } from "@/lib/metadata";
 export const metadata: Metadata = createMetadata({
   title: "Contact",
   description:
-    "Connect with our engineering team to architect your custom software solution, CRM, or specialized automated workflow.",
+    "Tell us about your project or book a call. We build custom software for businesses and respond within 24 hours.",
   path: "/contact",
 });
 

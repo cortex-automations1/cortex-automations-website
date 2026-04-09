@@ -9,7 +9,7 @@ import { StaggerContainer, StaggerItem } from "@/components/ui/scroll-reveal";
 export const metadata: Metadata = createMetadata({
   title: "Portfolio",
   description:
-    "See our work: SaaS platforms, monitoring tools, and workflow automation systems built for real businesses.",
+    "Real projects we've built for real businesses — SaaS platforms, websites, and custom software.",
   path: "/portfolio",
 });
 

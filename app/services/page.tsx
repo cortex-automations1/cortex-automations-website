@@ -9,7 +9,7 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 export const metadata: Metadata = createMetadata({
   title: "Services",
   description:
-    "Full-stack development services: SaaS platforms, mobile apps, web design, AI automation, and technical consulting.",
+    "Custom software development — SaaS platforms, mobile apps, websites, AI automations, and technical consulting.",
   path: "/services",
 });
 

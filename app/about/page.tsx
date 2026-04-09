@@ -6,7 +6,7 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 export const metadata: Metadata = createMetadata({
   title: "About",
-  description: "Meet the team behind Cortex Automations. Built by engineers, driven by results.",
+  description: "A small dev shop that builds custom software for businesses. Meet the people behind the code.",
   path: "/about",
 });
 
