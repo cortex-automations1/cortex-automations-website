@@ -1,0 +1,39 @@
+{
+  "queue": [
+    {
+      "id": "1",
+      "title": "Why we use Next.js 15 for every client project",
+      "angle": "Technical opinion — the specific features that made us standardize on this stack",
+      "keywords": ["nextjs 15", "app router", "react server components"],
+      "used": false
+    },
+    {
+      "id": "2",
+      "title": "The real cost of custom software vs templates",
+      "angle": "Business advice — what template sites can't do and when custom pays for itself",
+      "keywords": ["custom software cost", "template vs custom", "saas pricing"],
+      "used": false
+    },
+    {
+      "id": "3",
+      "title": "Building a multi-portal SaaS: lessons from DealProp",
+      "angle": "Technical case study — architectural decisions for role-based multi-tenant apps",
+      "keywords": ["multi-tenant saas", "role based access", "saas architecture"],
+      "used": false
+    },
+    {
+      "id": "4",
+      "title": "Why your business website is costing you customers",
+      "angle": "Marketing/conversion — common mistakes on small business sites",
+      "keywords": ["small business website", "website conversion", "web design"],
+      "used": false
+    },
+    {
+      "id": "5",
+      "title": "AI in business software: where it actually helps (and where it doesn't)",
+      "angle": "Balanced view — real AI use cases vs hype, with examples from actual client work",
+      "keywords": ["ai business software", "ai automation", "llm integration"],
+      "used": false
+    }
+  ]
+}
