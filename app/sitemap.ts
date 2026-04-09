@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL, PROJECTS, SERVICES } from "@/lib/constants";
+import { getAllPublishedPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseRoutes = ["", "/about", "/services", "/portfolio", "/contact"].map(
@@ -31,5 +32,27 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  return [...baseRoutes, ...serviceRoutes, ...projectRoutes];
+  const blogIndex = {
+    url: `${SITE_URL}/blog`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.7,
+  };
+
+  const blogPostRoutes = getAllPublishedPosts().map(function (post) {
+    return {
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: new Date(post.updatedAt ?? post.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    };
+  });
+
+  return [
+    ...baseRoutes,
+    ...serviceRoutes,
+    ...projectRoutes,
+    blogIndex,
+    ...blogPostRoutes,
+  ];
 }
