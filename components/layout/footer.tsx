@@ -177,9 +177,6 @@ export function Footer() {
                     Book a Discovery Call
                   </a>
                 </li>
-                <li className="text-sm text-muted">
-                  Florida, USA
-                </li>
               </ul>
             </div>
 
