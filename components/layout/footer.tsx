@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { SERVICES, SOCIAL_LINKS } from "@/lib/constants";
+import { ArrowRight } from "lucide-react";
+import { SOCIAL_LINKS, CAL_LINK } from "@/lib/constants";
 
 function GitHubIcon() {
   return (
@@ -31,103 +32,75 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-surface-50 border-t border-surface-200 pt-16 pb-8 relative overflow-hidden z-10">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-
-          {/* Brand Column */}
-          <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-6 group">
-              <Image
-                src="/images/logo-icon.png"
-                alt="Cortex Automations Logo"
-                width={32}
-                height={32}
-                className="object-contain group-hover:scale-105 transition-transform"
-              />
-              <span className="text-xl font-bold text-white tracking-tight">
-                Cortex <span className="text-brand-400">Automations</span>
-              </span>
+    <footer className="relative z-10">
+      {/* CTA Banner */}
+      <section className="bg-brand-500/5 border-t border-surface-200 py-20">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
+            Got a project in mind?
+          </h2>
+          <p className="text-neutral-400 text-lg mb-8 max-w-xl mx-auto">
+            Tell us what you&apos;re building. We&apos;d love to help.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href={CAL_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-brand-500 px-8 py-4 text-base font-medium text-white transition-colors hover:bg-brand-600 group"
+            >
+              Book a Call
+              <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </a>
+            <Link
+              href="/contact"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-surface-100 border border-surface-200 px-8 py-4 text-base font-medium transition-colors hover:bg-surface-200"
+            >
+              Send a Message
             </Link>
-            <p className="text-neutral-400 text-sm leading-relaxed max-w-sm mb-8">
-              Engineering scalable digital infrastructure. We build custom software systems,
-              complex automations, and premium user interfaces for modern enterprises.
-            </p>
-
-            <div className="flex items-center gap-4">
-              {SOCIAL_LINKS.map(function (social) {
-                const Icon = SOCIAL_ICONS[social.label];
-                if (!Icon) return null;
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-lg bg-surface-100 border border-surface-200 flex items-center justify-center text-neutral-400 hover:text-brand-400 hover:border-brand-500/50 transition-colors"
-                    aria-label={social.label}
-                  >
-                    <Icon />
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Architecture Column */}
-          <div>
-            <h3 className="text-white font-bold mb-6 tracking-wide">Architecture</h3>
-            <ul className="space-y-4">
-              {SERVICES.slice(0, 5).map(function (service) {
-                return (
-                  <li key={service.slug}>
-                    <Link
-                      href={`/services/${service.slug}`}
-                      className="text-sm text-neutral-400 hover:text-brand-400 transition-colors"
-                    >
-                      {service.name}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-
-          {/* Company Column */}
-          <div>
-            <h3 className="text-white font-bold mb-6 tracking-wide">Company</h3>
-            <ul className="space-y-4">
-              <li>
-                <Link href="/portfolio" className="text-sm text-neutral-400 hover:text-brand-400 transition-colors">
-                  Portfolio
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="text-sm text-neutral-400 hover:text-brand-400 transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-sm text-neutral-400 hover:text-brand-400 transition-colors">
-                  Initialize Project
-                </Link>
-              </li>
-            </ul>
           </div>
         </div>
+      </section>
 
-        {/* Bottom Bar */}
-        <div className="pt-8 border-t border-surface-200 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-neutral-500 text-sm">
-            &copy; {currentYear} Cortex Automations. All rights reserved.
-          </p>
+      {/* Bottom Bar */}
+      <div className="border-t border-surface-200 bg-surface-50 py-6">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <Image
+              src="/images/logo-icon.png"
+              alt="Cortex Automations"
+              width={20}
+              height={20}
+              className="object-contain"
+            />
+            <p className="text-neutral-500 text-sm">
+              &copy; {currentYear} Cortex Automations
+            </p>
+          </div>
+
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-sm text-neutral-500 hover:text-white transition-colors">
-              Privacy Policy
+            <Link href="/privacy" className="text-sm text-neutral-500 hover:text-brand-400 transition-colors">
+              Privacy
             </Link>
-            <Link href="/terms" className="text-sm text-neutral-500 hover:text-white transition-colors">
-              Terms of Service
+            <Link href="/terms" className="text-sm text-neutral-500 hover:text-brand-400 transition-colors">
+              Terms
             </Link>
+            {SOCIAL_LINKS.map(function (social) {
+              const Icon = SOCIAL_ICONS[social.label];
+              if (!Icon) return null;
+              return (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-neutral-500 hover:text-brand-400 transition-colors"
+                  aria-label={social.label}
+                >
+                  <Icon />
+                </a>
+              );
+            })}
           </div>
         </div>
       </div>
