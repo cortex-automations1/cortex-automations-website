@@ -18,7 +18,7 @@ export function createMetadata({
       ? title
       : `${title} | Cortex Automations`;
   const url = `${BASE_URL}${path}`;
-  const image = ogImage || `${BASE_URL}/images/og-image.jpg`;
+  const image = ogImage || `${BASE_URL}/og`;
 
   return {
     title: fullTitle,
