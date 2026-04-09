@@ -3,7 +3,6 @@ import { ArrowRight, Layers, Activity, Cloud, GitMerge, Sparkles } from "lucide-
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PROJECTS } from "@/lib/constants";
-import { CTASection } from "@/components/sections/cta-section";
 import { createMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = createMetadata({
@@ -92,10 +91,6 @@ export default function PortfolioPage() {
         </div>
       </div>
 
-      <CTASection
-        title="Want to see your project here?"
-        subtitle="Let's build something worth showcasing."
-      />
     </>
   );
 }
