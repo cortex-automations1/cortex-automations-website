@@ -1,0 +1,235 @@
+---
+title: "Building SignFlow Pro: Replacing 5 Tools With One CRM for Service Businesses"
+slug: "building-signflow-pro-crm-case-study"
+description: "How we built a multi-tenant SaaS that replaced scheduling, invoicing, contracts, CRM, and client portals — and the architectural bets that made it work."
+publishedAt: "2026-04-09"
+tags: ["case-study", "saas", "crm-development", "architecture"]
+author: "David Perez"
+featured: true
+---
+
+
+The owner of a residential cleaning company showed us her tech stack during our first call. Calendly for booking. QuickBooks for invoicing. DocuSign for contracts. HubSpot for lead tracking. A custom WordPress plugin for client logins. Five monthly subscriptions. Five logins. Five places where customer data lived, sort of synced, mostly not.
+
+She wasn't asking us to build a better version of any one tool. She was asking us to make the seams disappear.
+
+SignFlow Pro started there — not as "let's build a CRM" but as "let's build the thing that replaces the duct tape holding five tools together." Fourteen months later, we shipped a multi-tenant SaaS handling the full client lifecycle for service businesses: lead capture, scheduling, contracts, invoicing, payments, and client portals. One login. One source of truth.
+
+This is how we built it, what we got right, and what we'd do differently.
+
+## The real problem wasn't features — it was fragmentation
+
+Every tool our client was using worked fine in isolation. The problem was what happened between them.
+
+A lead would come in through the website. Someone would manually create them in HubSpot. Then manually create a calendar link in Calendly. Then manually send a contract through DocuSign. Then manually create an invoice in QuickBooks. Then manually email login credentials for the client portal. Five manual handoffs. Five chances for something to fall through. Five places to check when a client called asking "did you get my payment?"
+
+The service business software market is full of tools that do one thing well. What's missing is something that does six things adequately and connects them automatically. That's a less exciting pitch than "best-in-class scheduling" but it's what actually matters when you're running a 12-person cleaning crew and can't afford a full-time admin.
+
+So we set a constraint early: **SignFlow would be worse than the best-of-breed option at any single feature, but better than any combination of tools at the whole job.** That constraint shaped every decision.
+
+## Multi-tenant from day one, no exceptions
+
+We knew SignFlow would serve multiple businesses on the same infrastructure. The temptation with multi-tenant SaaS is to punt on it — build for one customer first, add tenancy later. We've seen that movie. It ends with a six-month refactor and a database migration that keeps you up at night.
+
+Instead, we made tenant isolation the first thing we built. Before we had a single feature, we had this pattern:
+
+```typescript
+interface TenantContext {
+  tenantId: string;
+  userId: string;
+  role: "owner" | "admin" | "staff" | "client";
+}
+
+function withTenant<T>(
+  ctx: TenantContext,
+  query: (tenantId: string) => Promise<T>
+): Promise<T> {
+  if (!ctx.tenantId) {
+    throw new Error("Tenant context required");
+  }
+  return query(ctx.tenantId);
+}
+
+// Every data access goes through this
+async function getClients(ctx: TenantContext) {
+  return withTenant(ctx, (tenantId) =>
+    db.query.clients.findMany({
+      where: eq(clients.tenantId, tenantId),
+    })
+  );
+}
+```
+
+Every table has a `tenantId` column. Every query filters by it. Every API route extracts tenant context from the session before doing anything else. There's no way to accidentally fetch another tenant's data because the architecture doesn't allow queries without tenant scope.
+
+This added maybe two weeks to the initial build. It saved us from a rewrite that would have taken months.
+
+## The six modules and how they connect
+
+SignFlow has six core modules. None of them are revolutionary on their own. The value is in how they talk to each other.
+
+**Lead Management.** Leads come in from website forms, manual entry, or API integrations. Each lead has a status, a source, and an assignment. When a lead converts, they become a client automatically — same record, different status, no re-entry.
+
+**Scheduling.** Calendar management with availability rules, service types, and duration settings. Clients book through a branded booking page. When they book, the system creates the appointment, sends confirmations, and (if configured) triggers a contract.
+
+**Contracts.** Digital signature via BoldSign integration. Templates with merge fields that pull from client and service data. When a contract is signed, the system can auto-generate an invoice, update the client status, or trigger a webhook. No manual "okay, they signed, now I need to go create the invoice."
+
+**Invoicing.** Line items, taxes, discounts, payment terms. Invoices can be one-time or recurring. They're connected to clients, services, and optionally to specific appointments. When an invoice is created, the client gets an email with a payment link.
+
+**Payments.** Stripe integration for cards and ACH. Clients pay through a branded checkout page. When payment clears, the invoice marks itself paid, the client record updates, and the business owner gets a notification. Refunds and partial payments are handled. Stripe handles PCI compliance; we handle the UX.
+
+**Client Portal.** Every business gets a subdomain (or custom domain) where their clients can log in. Clients see their upcoming appointments, past invoices, payment history, and signed documents. They can reschedule appointments, pay outstanding invoices, and download receipts. No more "can you resend that invoice?" emails.
+
+The magic isn't any one of these. It's the automation layer connecting them. A single client booking can trigger: appointment creation → contract generation → contract sent → (after signature) invoice created → payment link sent → (after payment) appointment confirmed. Six steps, zero manual intervention.
+
+## Architectural decisions that paid off
+
+**Postgres + Drizzle over a document database.** Service business data is inherently relational. Clients have appointments. Appointments have invoices. Invoices have payments. Trying to model this in MongoDB would have meant either duplicating data everywhere or doing application-level joins. Postgres with proper foreign keys and Drizzle's type-safe query builder gave us both flexibility and safety.
+
+**Event-driven automation, not workflow engine.** We debated building a visual workflow builder — drag-and-drop automation like Zapier. It would have been impressive in demos. It also would have taken four months and created a support burden we weren't staffed for. Instead, we built a simple event system: things that happen (lead created, contract signed, payment received) emit events, and businesses configure what those events trigger from a predefined list. Less flexible, much more maintainable.
+
+Here's the pattern:
+
+```typescript
+type EventType =
+  | "lead.created"
+  | "appointment.booked"
+  | "contract.signed"
+  | "invoice.created"
+  | "payment.received";
+
+type ActionType =
+  | "send_email"
+  | "create_invoice"
+  | "update_client_status"
+  | "send_webhook";
+
+interface AutomationRule {
+  id: string;
+  tenantId: string;
+  trigger: EventType;
+  action: ActionType;
+  config: Record<string, unknown>;
+}
+
+async function processEvent(event: EventType, payload: unknown, tenantId: string) {
+  const rules = await db.query.automationRules.findMany({
+    where: and(
+      eq(automationRules.tenantId, tenantId),
+      eq(automationRules.trigger, event)
+    ),
+  });
+  
+  for (const rule of rules) {
+    await executeAction(rule.action, rule.config, payload);
+  }
+}
+```
+
+Businesses get 90% of what they'd want from a workflow builder with 10% of the complexity. The ones who need more can use the webhook action to connect to Zapier or Make.
+
+**BoldSign over DocuSign.** DocuSign is the obvious choice for e-signatures. It's also expensive, has aggressive API rate limits, and their sandbox environment is painful for development. BoldSign costs less, has a cleaner API, and the team actually responds to support tickets. For a SaaS where every tenant might send dozens of contracts monthly, the per-envelope pricing difference adds up fast. We saved our clients roughly 60% on signature costs compared to a DocuSign integration.
+
+**Subdomain-based tenant routing.** Each business gets `businessname.signflowpro.com` by default, with the option to connect a custom domain. We handle this with middleware that extracts the subdomain, looks up the tenant, and injects the tenant context into the request. Custom domains use the same lookup against a `domains` table. Vercel handles the SSL certificates automatically.
+
+```typescript
+// Simplified middleware pattern
+export async function middleware(request: NextRequest) {
+  const host = request.headers.get("host") || "";
+  
+  let tenantSlug: string | null = null;
+  
+  if (host.endsWith(".signflowpro.com")) {
+    tenantSlug = host.replace(".signflowpro.com", "");
+  } else {
+    // Check custom domains
+    const customDomain = await getCustomDomain(host);
+    tenantSlug = customDomain?.tenantSlug || null;
+  }
+  
+  if (!tenantSlug) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+  
+  // Inject tenant context for downstream handlers
+  const response = NextResponse.next();
+  response.headers.set("x-tenant-slug", tenantSlug);
+  return response;
+}
+```
+
+## Where we got burned
+
+Not everything went smoothly. Two decisions cost us real time.
+
+**We underestimated recurring invoice complexity.** "Just copy the invoice every month" sounded simple. Then we hit: What if the service price changed? What if the client's card expired? What if they want to pause for a month? What if the recurring date falls on a weekend? What if they have multiple recurring services with different cycles?
+
+Recurring billing is a state machine with more edges than it looks. We ended up rewriting the recurring invoice system twice. The second rewrite took three weeks. If we'd studied how Stripe Billing handles edge cases before building our own, we'd have saved those weeks.
+
+**We shipped without proper background jobs.** For the first two months, things like "send contract email" and "generate invoice PDF" happened synchronously in API routes. It worked fine with ten test users. When a business imported 200 clients and triggered welcome emails for all of them, the request timed out and half the emails never sent.
+
+We added Inngest for background job processing after that incident. Should have been there from the start. The pattern now:
+
+```typescript
+// Instead of this (bad)
+async function createClient(data: ClientData) {
+  const client = await db.insert(clients).values(data);
+  await sendWelcomeEmail(client); // blocks, can timeout
+  return client;
+}
+
+// We do this (good)
+async function createClient(data: ClientData) {
+  const client = await db.insert(clients).values(data);
+  await inngest.send({
+    name: "client.created",
+    data: { clientId: client.id },
+  });
+  return client;
+}
+
+// Background job handles the email
+inngest.createFunction(
+  { id: "send-welcome-email" },
+  { event: "client.created" },
+  async ({ event }) => {
+    const client = await getClient(event.data.clientId);
+    await sendWelcomeEmail(client);
+  }
+);
+```
+
+Anything that can be async should be async. We learned that the hard way.
+
+## The numbers after launch
+
+SignFlow Pro launched with three pilot customers. Six months later:
+
+- 47 active businesses on the platform
+- 12,000+ client records managed
+- 8,400+ invoices processed
+- $2.1M in payments processed through Stripe Connect
+- Average business replaced 4.2 tools (self-reported)
+- Support tickets per business per month: 1.3 (lower than we expected)
+
+The metric we're proudest of: **time from lead to first payment dropped by 68%** for businesses that adopted the full automation flow. That's not a vanity metric. That's cash in their accounts faster.
+
+## What we'd do differently on a rebuild
+
+Three things.
+
+**Start with the client portal, not the admin dashboard.** We built the business owner's view first because that's who was paying us. But the client portal is what their customers actually see. We should have designed outside-in: what does the client experience, and what does the business need to configure to make that experience good? We ended up retrofitting the portal to match decisions we'd already made in the admin UI.
+
+**Build the reporting module earlier.** We shipped reporting in month ten. Businesses were asking for it in month two. "How much revenue did I do last month?" shouldn't require exporting to a spreadsheet. We deprioritized it because it wasn't "core functionality." It absolutely was.
+
+**Charge more from day one.** We launched at $49/month because we were nervous about pricing. Businesses were getting $300+/month in value from tool consolidation alone. We've since moved to $99/month for the base tier and $199/month for the full automation suite. No one complained. The ones who would have complained at $99 weren't our customers anyway.
+
+## The actual lesson
+
+The saas case study you usually read focuses on clever technical decisions. The real lesson from SignFlow is simpler: **understand the job, not the features.**
+
+Our client didn't want a better CRM. She wanted to stop copying data between five tabs. She wanted to stop chasing clients for signatures. She wanted to stop manually matching payments to invoices at 10pm.
+
+Every feature in SignFlow exists because it eliminates a manual step in that workflow. The multi-tenant architecture, the event-driven automation, the integrated payments — none of it matters except as infrastructure for making the seams disappear.
+
+That's what CRM development for service business software actually looks like. Not building a better tool. Building the thing that makes the tools unnecessary.
