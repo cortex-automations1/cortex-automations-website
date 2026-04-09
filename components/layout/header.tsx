@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, Terminal } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CAL_LINK } from "@/lib/constants";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const NAVIGATION = [
   { name: "Home", href: "/" },
@@ -41,7 +42,7 @@ export function Header() {
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300 border-b",
         scrolled
-          ? "bg-surface-0/80 backdrop-blur-md border-surface-200 shadow-lg shadow-surface-0/20"
+          ? "bg-surface-0/80 backdrop-blur-lg border-white/[0.06] shadow-sm"
           : "bg-transparent border-transparent",
       )}
     >
@@ -57,7 +58,7 @@ export function Header() {
               height={32}
               className="object-contain group-hover:scale-105 transition-transform"
             />
-            <span className="text-xl font-bold text-white tracking-tight">
+            <span className="text-xl font-bold tracking-tight">
               Cortex <span className="text-brand-400">Automations</span>
             </span>
           </Link>
@@ -71,8 +72,8 @@ export function Header() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-brand-400",
-                    isActive ? "text-white" : "text-neutral-400",
+                    "nav-link text-sm font-medium transition-colors hover:text-brand-400",
+                    isActive ? "text-brand-500" : "text-neutral-400",
                   )}
                 >
                   {item.name}
@@ -82,31 +83,35 @@ export function Header() {
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             <a
               href={CAL_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-2.5 text-sm font-medium text-white bg-surface-100 border border-surface-200 rounded-lg hover:bg-surface-200 transition-colors"
+              className="px-5 py-2.5 text-sm font-medium bg-surface-100 border border-surface-200 rounded-lg hover:bg-surface-200 transition-colors"
             >
-              Book Discovery Call
+              Book a Call
             </a>
             <Link
               href="/contact"
-              className="px-5 py-2.5 text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600 transition-colors shadow-lg shadow-brand-500/20 flex items-center gap-2"
+              className="px-5 py-2.5 text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600 transition-colors"
             >
-              <Terminal className="w-4 h-4" /> Start Project
+              Start a Project
             </Link>
           </div>
 
           {/* Mobile toggle */}
-          <button
-            className="md:hidden p-2 text-neutral-400 hover:text-white transition-colors"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle menu"
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <div className="flex md:hidden items-center gap-3">
+            <ThemeToggle />
+            <button
+              className="p-2 text-neutral-400 hover:text-white transition-colors"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle menu"
+            >
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -126,7 +131,7 @@ export function Header() {
                 href={item.href}
                 className={cn(
                   "text-base font-medium transition-colors block py-2",
-                  isActive ? "text-brand-400" : "text-neutral-300 hover:text-white",
+                  isActive ? "text-brand-400" : "text-neutral-300 hover:text-brand-500",
                 )}
               >
                 {item.name}
@@ -138,15 +143,15 @@ export function Header() {
               href="/contact"
               className="w-full py-3 text-center text-sm font-medium text-white bg-brand-500 rounded-lg hover:bg-brand-600 transition-colors"
             >
-              Start Project
+              Start a Project
             </Link>
             <a
               href={CAL_LINK}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full py-3 text-center text-sm font-medium text-white bg-surface-100 border border-surface-200 rounded-lg hover:bg-surface-200 transition-colors"
+              className="w-full py-3 text-center text-sm font-medium bg-surface-100 border border-surface-200 rounded-lg hover:bg-surface-200 transition-colors"
             >
-              Book Discovery Call
+              Book a Call
             </a>
           </div>
         </div>
