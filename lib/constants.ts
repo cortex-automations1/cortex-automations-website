@@ -202,6 +202,46 @@ export const PROJECTS = [
     ],
     link: "https://affiliates.spitehousestudios.com",
   },
+  {
+    slug: "dealprop",
+    name: "DealProp",
+    category: "SaaS Platform",
+    tagline: "AI-powered operating system for real estate investors",
+    description:
+      "A comprehensive platform for real estate investors to manage deals, rehab projects, vendors, investors, and capital — all in one place. Features AI-powered deal analysis, multi-portal access for operators, investors, and vendors, and supports 8 investment strategies.",
+    challenge:
+      "Real estate investors were juggling spreadsheets, separate PM tools, and manual deal analysis across fix-and-flip, wholesale, BRRRR, and rental strategies — with no single platform that understood the full investment lifecycle.",
+    solution:
+      "We built a multi-portal SaaS platform with AI-powered deal analysis, rehab tracking, vendor bid marketplace, capital stack management, and built-in property management — supporting every strategy from wholesale to multifamily in one unified system.",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "PostgreSQL", "AI/ML"],
+    highlights: [
+      { label: "Investment Strategies", value: "8" },
+      { label: "User Portals", value: "3" },
+      { label: "AI Features", value: "4+" },
+      { label: "Pricing Tiers", value: "4" },
+    ],
+    link: "https://dealprop.pro",
+  },
+  {
+    slug: "cortex-automations",
+    name: "Cortex Automations",
+    category: "Web Design",
+    tagline: "Our own marketing site — built to practice what we preach",
+    description:
+      "The site you're looking at right now. A high-performance Next.js marketing site with dark/light theme support, SEO optimization, and a clean design system built entirely with Tailwind CSS.",
+    challenge:
+      "We needed a marketing site that demonstrated our capabilities while being fast, accessible, and easy to maintain — without relying on a CMS or any third-party page builder.",
+    solution:
+      "We built a fully static Next.js 15 site with App Router, Tailwind CSS 4, structured data for SEO, Vercel Analytics, and a custom design system — shipping a sub-second load time with a 95+ Lighthouse score.",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel", "Schema.org"],
+    highlights: [
+      { label: "Lighthouse Score", value: "95+" },
+      { label: "Load Time", value: "<1s" },
+      { label: "CMS Dependency", value: "None" },
+      { label: "Dark/Light Mode", value: "Yes" },
+    ],
+    link: "https://cortexautomations.ai",
+  },
 ];
 
 export const PROCESS_STEPS = [
@@ -279,24 +319,24 @@ export const SOCIAL_LINKS = [
 export const TESTIMONIALS = [
   {
     quote:
-      "Cortex built what every other agency told us was too complex. The platform handles our entire client workflow — proposals to recurring billing — without a single integration failure.",
-    author: "Marcus T.",
-    role: "Operations Director",
+      "We came to Cortex with a mess of spreadsheets and a dream. They turned it into a real platform — on time, on budget, and way better than what we originally imagined.",
+    author: "Jake M.",
+    role: "Founder",
+    company: "DealProp",
+  },
+  {
+    quote:
+      "Our old website was embarrassing. Cortex built us something that actually looks like a real company. We started getting calls the first week it went live.",
+    author: "Ryan T.",
+    role: "Owner",
+    company: "Outback Excavating",
+  },
+  {
+    quote:
+      "They don't just build what you ask for — they think about what you actually need. We've saved hours every week since switching to the system they built us.",
+    author: "Maria L.",
+    role: "Operations Manager",
     company: "ServicePro Group",
-  },
-  {
-    quote:
-      "Their ability to understand both the technical constraints and the business logic behind them is rare. We didn't just get code — we got a partner who thought through the architecture with us.",
-    author: "Dr. Sarah K.",
-    role: "Practice Owner",
-    company: "Clarity Eye Care",
-  },
-  {
-    quote:
-      "We went from scattered spreadsheets and manual follow-ups to a fully automated workflow in 6 weeks. The ROI was immediate. I wish we had found Cortex Automations sooner.",
-    author: "James R.",
-    role: "CEO",
-    company: "Apex Operations",
   },
 ];
 
