@@ -55,14 +55,13 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
 
   if (status === "success") {
     return (
-      <div className="flex flex-col items-center justify-center p-12 text-center animate-fade-in">
+      <div className="flex flex-col items-center justify-center p-12 text-center">
         <div className="w-16 h-16 bg-brand-500/10 border border-brand-500/20 rounded-full flex items-center justify-center mb-6">
           <CheckCircle className="w-8 h-8 text-brand-400" />
         </div>
-        <h3 className="text-2xl font-bold text-white mb-2">Transmission Received</h3>
+        <h3 className="text-2xl font-bold text-white mb-2">Message Sent!</h3>
         <p className="text-neutral-400 max-w-sm mb-8">
-          Your project parameters have been routed to our engineering team. We will review your
-          requirements and reach out within 24 hours.
+          Thanks for reaching out! We&apos;ll review your message and get back to you within 24 hours.
         </p>
         <button
           onClick={() => setStatus("idle")}
@@ -78,7 +77,7 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
   const labelClasses = "flex items-center gap-2 text-sm font-medium text-neutral-300";
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 p-8 animate-fade-in">
+    <form onSubmit={handleSubmit} className="space-y-6 p-8">
 
       {/* Name & Email */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -154,7 +153,7 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
       {/* Service Dropdown */}
       <div>
         <label htmlFor="service" className={labelClasses}>
-          <Layers className="w-4 h-4 text-brand-500" /> Architecture Required
+          <Layers className="w-4 h-4 text-brand-500" /> What do you need?
         </label>
         <select
           id="service"
@@ -166,7 +165,7 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
           className={inputClasses}
         >
           <option value="" disabled className="text-neutral-500">
-            Select a primary focus area...
+            Pick a service...
           </option>
           {SERVICES.map(function (service) {
             return (
@@ -181,7 +180,7 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
       {/* Message */}
       <div>
         <label htmlFor="message" className={labelClasses}>
-          <MessageSquare className="w-4 h-4 text-brand-500" /> Project Scope &amp; Details
+          <MessageSquare className="w-4 h-4 text-brand-500" /> Tell us about your project
         </label>
         <textarea
           id="message"
@@ -191,7 +190,7 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
           disabled={status === "loading"}
           value={form.message}
           onChange={handleChange}
-          placeholder="Briefly describe your goals, current stack, and timeline..."
+          placeholder="What are you building? What's the timeline?"
           className={`${inputClasses} resize-none`}
         />
       </div>
@@ -213,11 +212,11 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
         {status === "loading" ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
-            Transmitting...
+            Sending...
           </>
         ) : (
           <>
-            Initialize Protocol
+            Send Message
             <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
           </>
         )}
