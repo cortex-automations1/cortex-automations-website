@@ -1,0 +1,249 @@
+---
+title: "Rebuilding Capital Property Group: From a Broken Template to a Polished Real Estate Platform"
+slug: "rebuilding-capital-property-group"
+description: "How we took a slow, confusing real estate website and rebuilt it into a conversion-focused platform serving four distinct business lines."
+publishedAt: "2026-04-13"
+tags: ["case-study", "web-design", "real-estate"]
+author: "David Perez"
+featured: false
+---
+
+Capital Property Group came to us with a website that was actively losing them business. Not in the vague "we should probably update our site" way — in the "I had a client tell me they went with another agent because our site looked sketchy" way.
+
+The original site was a real estate website template that had been customized just enough to break. It loaded in 8+ seconds on mobile. The property search was a third-party iframe that styled itself. Half the pages were placeholder content that never got replaced. And the navigation made no distinction between someone looking to buy a house, rent an apartment, store their RV, or invest in a property management partnership.
+
+Four completely different customer types, one confusing homepage, and a bounce rate north of 70%.
+
+## The actual problem wasn't the template
+
+Here's what most website redesign projects get wrong: they treat the old site as the problem. It's not. The old site is a symptom. The problem is that nobody sat down and figured out what the site was supposed to do before they started building it.
+
+Capital Property Group operates four distinct business lines:
+
+- **Sales** — traditional real estate brokerage for buyers and sellers
+- **Rentals** — residential property management with available units
+- **Storage** — RV, boat, and vehicle storage facilities
+- **Investor services** — property management for out-of-state landlords
+
+The original site tried to serve all four on a single homepage with a giant hero slider. Slide one: "Find your dream home." Slide two: "Storage units available." Slide three: "Hassle-free property management." The user had to wait for the carousel to rotate to figure out if they were even in the right place.
+
+This is a common failure mode for property management websites. The business has multiple revenue streams, so the site tries to talk about all of them at once. The result is a homepage that speaks to no one.
+
+## The redesign started with routing, not design
+
+Before we opened Figma, we mapped out the user journeys. Four customer types means four entry points, four value propositions, and four conversion actions.
+
+| Customer | Entry point | Goal | Conversion |
+|----------|-------------|------|------------|
+| Buyer | Homepage → Sales | Find a property | Schedule showing |
+| Renter | Homepage → Rentals | Find available unit | Apply online |
+| Storage customer | Homepage → Storage | Check availability | Reserve unit |
+| Investor | Homepage → Investors | Evaluate services | Request consultation |
+
+The homepage's only job became: figure out which of these four people you are and get you to the right section in one click. Not a carousel. Not a wall of text. Four clear cards, four clear paths.
+
+Here's the component that replaced the hero slider:
+
+```tsx
+const serviceCards = [
+  {
+    title: "Buy or Sell",
+    description: "Southwest Missouri real estate with local expertise",
+    href: "/sales",
+    icon: HomeIcon,
+  },
+  {
+    title: "Rent a Home",
+    description: "Available properties with online applications",
+    href: "/rentals",
+    icon: KeyIcon,
+  },
+  {
+    title: "Storage Solutions",
+    description: "Secure RV, boat, and vehicle storage",
+    href: "/storage",
+    icon: WarehouseIcon,
+  },
+  {
+    title: "Property Investors",
+    description: "Full-service management for landlords",
+    href: "/investors",
+    icon: ChartIcon,
+  },
+];
+
+export function ServiceNav() {
+  return (
+    <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      {serviceCards.map((service) => (
+        <Link
+          key={service.href}
+          href={service.href}
+          className="group rounded-lg border border-gold/20 bg-zinc-900 p-6 transition-colors hover:border-gold/60"
+        >
+          <service.icon className="mb-4 h-8 w-8 text-gold" />
+          <h3 className="text-lg font-semibold text-white">{service.title}</h3>
+          <p className="mt-2 text-sm text-zinc-400">{service.description}</p>
+        </Link>
+      ))}
+    </div>
+  );
+}
+```
+
+Simple. Scannable. A user knows within two seconds whether this site can help them.
+
+## The dark theme was a business decision, not an aesthetic one
+
+Most real estate websites look the same: white background, blue accents, stock photos of happy families in front of houses. Capital Property Group wanted to stand out in a market where every competitor's site could be swapped with any other competitor's site and no one would notice.
+
+We went with a dark zinc base and gold accents. It photographs well (important for a business that does a lot of local networking), it feels premium, and it's memorable. When someone sees three agent sites in a row and one of them has a completely different visual language, that's the one they remember.
+
+But we didn't just pick colors we liked. Dark themes have specific UX requirements:
+
+- **Contrast ratios matter more.** Light text on dark backgrounds needs careful tuning. We tested every text style against WCAG AA standards. The gold accent color specifically is `#C9A227` — bright enough to pop, dark enough to not vibrate against the zinc background.
+- **Images need treatment.** Property photos shot in daylight look jarring on a dark page. We added a subtle vignette overlay to listing cards so photos blend into the surrounding UI.
+- **Light mode still exists.** Some users prefer it, and some contexts (outdoor mobile browsing) demand it. We shipped both themes with system preference detection and a manual toggle.
+
+The theme switcher is straightforward but worth showing because it's a pattern we reuse:
+
+```tsx
+"use client";
+
+import { useTheme } from "next-themes";
+import { SunIcon, MoonIcon } from "lucide-react";
+
+export function ThemeToggle() {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <button
+      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="rounded-full p-2 text-zinc-400 hover:text-gold"
+      aria-label="Toggle theme"
+    >
+      {theme === "dark" ? (
+        <SunIcon className="h-5 w-5" />
+      ) : (
+        <MoonIcon className="h-5 w-5" />
+      )}
+    </button>
+  );
+}
+```
+
+## Structured data was half the SEO battle
+
+The original site had zero structured data. Google had no idea what it was looking at. For a local real estate business, that's leaving money on the table.
+
+We implemented three schema types:
+
+**LocalBusiness** for the company itself — address, phone, hours, service area. This is table stakes for any property management website trying to rank in local search.
+
+**RealEstateAgent** for the team members. Google explicitly supports this type for real estate professionals, and it helps with "real estate agent near me" queries.
+
+**Product** schema for storage units with pricing. This was the sneaky win. Storage availability queries have high intent and low competition compared to real estate searches. By marking up the storage units with structured pricing data, we started appearing in rich results for "RV storage [city name]" within weeks.
+
+Here's the pattern we used for the storage schema:
+
+```tsx
+export function StorageUnitSchema({ unit }: { unit: StorageUnit }) {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${unit.size} Storage Unit`,
+    description: unit.description,
+    offers: {
+      "@type": "Offer",
+      price: unit.monthlyRate,
+      priceCurrency: "USD",
+      availability: unit.available
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+    areaServed: {
+      "@type": "Place",
+      name: "Southwest Missouri",
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+    />
+  );
+}
+```
+
+Every storage unit page includes this. It took an afternoon to implement and it's been generating organic leads for a service line that previously got zero web traffic.
+
+## Performance was embarrassing before, acceptable now
+
+The original site's Lighthouse score was 34. Mobile load time was 8.2 seconds on a throttled 3G connection. The culprit was a combination of unoptimized images, render-blocking third-party scripts, and a WordPress theme that loaded jQuery, three slider libraries, and a "megamenu" plugin on every page.
+
+The rebuild hit 91 on Lighthouse. Mobile load time dropped to under 1 second. Here's what actually moved the needle:
+
+**Next.js Image component everywhere.** Automatic WebP conversion, responsive srcsets, lazy loading by default. We didn't have to think about image optimization — we just used `<Image>` instead of `<img>` and the framework handled it.
+
+**No third-party scripts on initial load.** The original site loaded Google Analytics, a chat widget, a CRM pixel, and a retargeting script before the page even painted. We moved all of it behind `next/script` with `strategy="lazyOnload"`. The chat widget specifically loads only after the user has been on the page for 5 seconds — if they're bouncing immediately, they weren't going to chat anyway.
+
+**Static generation for everything possible.** Property listings pull from their MLS feed, but the feed updates once per hour. We revalidate the listings pages on a 30-minute interval, which means 99% of page loads are serving static HTML from Vercel's edge. No database query, no server render, just bytes from a CDN.
+
+## The conversion flow got simpler and more specific
+
+The original site had one contact form. "Contact Us." Name, email, phone, message. Every inquiry — buyer, renter, storage, investor — went into the same inbox and someone had to manually triage.
+
+We built four forms, one per business line, each with fields specific to that customer type:
+
+- **Buyer inquiry:** Property address (if specific), price range, timeline, pre-approval status
+- **Rental application:** Desired move-in date, number of occupants, pets, income verification consent
+- **Storage reservation:** Unit size needed, vehicle type, desired start date
+- **Investor consultation:** Number of properties, current management situation, goals
+
+Each form submits to a different webhook, tagged appropriately, routed to the right person. The buyer inquiries go to the sales team. The storage reservations go to the operations manager. No more inbox archaeology.
+
+The forms themselves are React Hook Form with Zod validation — a pattern we use on every project now:
+
+```tsx
+const buyerInquirySchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  email: z.string().email("Valid email required"),
+  phone: z.string().optional(),
+  propertyAddress: z.string().optional(),
+  priceRange: z.enum(["under-200k", "200k-400k", "400k-600k", "600k-plus"]),
+  timeline: z.enum(["asap", "1-3-months", "3-6-months", "just-looking"]),
+  preApproved: z.boolean(),
+  message: z.string().optional(),
+});
+```
+
+Validation happens client-side for instant feedback and server-side before the webhook fires. Belt and suspenders.
+
+## What we'd do differently
+
+Two things, in hindsight.
+
+First, we should have pushed harder on **MLS integration depth**. The current setup pulls listings from their MLS feed and displays them, but the search/filter functionality is basic. A proper faceted search with map view would have been a bigger lift but would have kept more users on-site instead of bouncing to Zillow. We scoped it out of v1 for budget reasons; it's on the roadmap for v2.
+
+Second, the **investor section undersells the service**. We built it as a simple "here's what we do, contact us" page. In retrospect, it should have been a mini-site unto itself: case studies, ROI calculators, a portfolio dashboard preview. Investor clients are the highest-value customer type and we gave them the least sophisticated experience. That's backwards.
+
+## The numbers
+
+Six months post-launch:
+
+- **Bounce rate:** 71% → 34%
+- **Average session duration:** 47 seconds → 2 minutes 12 seconds
+- **Storage inquiries:** 2/month → 11/month
+- **Lighthouse performance:** 34 → 91
+- **Page load (mobile 3G):** 8.2s → 0.9s
+
+The storage inquiry jump is the one the client talks about most. That revenue stream was basically dormant before the redesign. Now it's a meaningful part of the business, and the only marketing spend is the website itself.
+
+## The takeaway for anyone doing a website redesign
+
+Don't start with design. Don't start with technology. Start with: who are the three or four people who might land on this site, and what does each of them need to do?
+
+If you can answer that clearly, the design and technology decisions become obvious. If you can't, you're going to build another confusing homepage with a carousel that speaks to no one.
+
+Capital Property Group's site works now because it knows what it's for. Four customer types, four paths, four conversion points. Everything else is execution detail.
