@@ -1,0 +1,183 @@
+---
+title: "Rebuilding Capital Property Group: From a Broken Template to a Polished Real Estate Platform"
+slug: "rebuilding-capital-property-group"
+description: "How we took a real estate website that was hurting the business and rebuilt it into a platform that actually converts visitors into clients."
+publishedAt: "2026-04-20"
+tags: ["case-study", "web-design", "real-estate", "redesign"]
+author: "David Perez"
+featured: false
+---
+
+Capital Property Group came to us with a website that was actively costing them deals. Not "could be better" — actively harmful. Investors were bouncing. Renters couldn't find listings. The storage unit page was broken on mobile. The contact form submissions went to an email address nobody checked.
+
+This is the story of a website redesign that started with "can you fix a few things" and turned into a ground-up rebuild. We'll walk through what was broken, why it was broken, what we built instead, and what happened to the business after.
+
+## The site they had was a template graveyard
+
+Capital Property Group operates four distinct business lines in Southwest Missouri: residential sales, rental property management, storage units, and investor services. The original site was a real estate template — the kind you buy for $79 on ThemeForest — that had been stretched, patched, and duct-taped to accommodate all four.
+
+Here's what we found during the initial audit:
+
+**Navigation that lied.** The main nav had "Buy," "Rent," "Storage," and "Invest" links. Three of them worked. "Invest" went to a 404. It had been broken for at least six months. Nobody noticed because the team used the site so rarely they'd forgotten what was on it.
+
+**Mobile was an afterthought.** The template was "responsive" in the sense that it technically rendered on phones. But the hero image was 2.4MB. The hamburger menu required three taps to open. The storage unit availability grid was a horizontal scroll table that cut off unit sizes mid-word. 68% of their traffic was mobile. 68% of their visitors were having a bad time.
+
+**Four businesses, one confused message.** The homepage tried to serve everyone and served no one. A rotating carousel (always a red flag) cycled through stock photos of houses, storage units, and generic "investment" imagery. The headline was "Your Trusted Partner in Real Estate." That could mean anything. It meant nothing.
+
+**Zero structured data.** No schema markup. No local business JSON-LD. No property listings schema. Google had no idea what this site was or where it operated. They were invisible for "property management Springfield MO" despite that being their primary market.
+
+**Performance that punished visitors.** Lighthouse score: 34. Time to interactive: 8.2 seconds. The template loaded jQuery, three carousels, a chat widget that didn't work, and analytics for a company that had been acquired four years ago. Every page load was a small act of violence against the user's patience.
+
+## Why "just fix it" wasn't the answer
+
+The client's initial ask was reasonable: "Can you fix the broken link, speed up the mobile site, and maybe update the homepage copy?" We quoted that work at about $2,500. Then we had the conversation that changed the scope.
+
+We asked: "What happens when someone lands on your site from a Google search for 'rental homes Springfield MO'?"
+
+The answer was a flow that touched seven pages, three of which had broken filters, one of which was a dead-end with no call to action, and none of which had the phone number visible without scrolling. The "Apply Now" button linked to a PDF that required Adobe Reader.
+
+This wasn't a fixable site. It was a site that needed to not exist anymore.
+
+We proposed a full rebuild. Same content (mostly), completely new architecture, designed around the four distinct user journeys that actually mattered. The budget went from $2,500 to $18,000. They said yes because we showed them the math: if the new site converted even 2% better on rental applications alone, it would pay for itself in three months.
+
+## Four portals, one cohesive brand
+
+The core insight was that Capital Property Group wasn't one business with one audience. It was four businesses sharing a brand. Each needed its own entry point, its own flow, its own conversion goal.
+
+**Buyers** want to search listings, see photos, and contact an agent. They care about MLS integration, neighborhood info, and responsiveness.
+
+**Renters** want to see available units, understand pricing, and apply online. They care about move-in costs, pet policies, and application turnaround time.
+
+**Storage customers** want to see unit sizes, check availability, and reserve online. They care about access hours, climate control, and monthly rates.
+
+**Investors** want to understand the management model, see track record, and schedule a consultation. They care about fees, reporting, and asset protection.
+
+We built the site around these four personas. The homepage became a routing page — clear paths to each vertical, no carousel, no ambiguity. Each vertical got its own section with dedicated landing pages, CTAs, and conversion flows.
+
+The design language unified them: a dark theme with gold accents that felt premium without feeling stuffy. Real estate is full of sites that look like they were designed in 2009. We wanted something that signaled "these people take their business seriously."
+
+## The technical decisions that mattered
+
+We built on Next.js 15 with the App Router. For a site this content-heavy, the React Server Components model was perfect — most pages are static, a few widgets are dynamic, and the framework handles the boundary.
+
+**Route structure mirrors the business.** Four route groups: `/buy`, `/rent`, `/storage`, `/invest`. Each has its own layout, its own metadata, its own conversion tracking. When the client asks "how are our investor pages performing," we can answer in thirty seconds.
+
+```
+app/
+├── (marketing)/
+│   ├── page.tsx          # Homepage
+│   └── about/
+├── buy/
+│   ├── page.tsx          # Listings search
+│   └── [id]/page.tsx     # Individual listing
+├── rent/
+│   ├── page.tsx          # Available rentals
+│   ├── [id]/page.tsx     # Individual rental
+│   └── apply/page.tsx    # Application flow
+├── storage/
+│   ├── page.tsx          # Unit availability
+│   └── reserve/page.tsx  # Reservation flow
+└── invest/
+    ├── page.tsx          # Services overview
+    └── contact/page.tsx  # Consultation request
+```
+
+**Structured data on every page.** We implemented LocalBusiness schema for the company, RealEstateAgent schema for the sales vertical, and custom JSON-LD for storage units. Here's the pattern we used for the rental listings:
+
+```typescript
+function generateRentalSchema(rental: Rental) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Apartment",
+    name: rental.title,
+    description: rental.description,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: rental.address,
+      addressLocality: rental.city,
+      addressRegion: "MO",
+      postalCode: rental.zip,
+    },
+    numberOfRooms: rental.bedrooms,
+    floorSize: {
+      "@type": "QuantitativeValue",
+      value: rental.sqft,
+      unitCode: "FTK",
+    },
+    offers: {
+      "@type": "Offer",
+      price: rental.rent,
+      priceCurrency: "USD",
+      availability: rental.available
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+    },
+  };
+}
+```
+
+Every rental listing page includes this schema. Google started showing rich results within two weeks of launch.
+
+**Dark mode as the default, light mode as an option.** This was a deliberate brand choice. Most property management websites are white backgrounds with blue accents — the visual equivalent of a dentist's office. The dark theme with gold accents differentiated them immediately. We implemented it with CSS custom properties and a toggle that respects system preferences:
+
+```typescript
+const themes = {
+  dark: {
+    "--bg-primary": "#0a0a0a",
+    "--bg-secondary": "#141414",
+    "--text-primary": "#fafafa",
+    "--accent": "#d4af37",
+  },
+  light: {
+    "--bg-primary": "#fafafa",
+    "--bg-secondary": "#f4f4f5",
+    "--text-primary": "#0a0a0a",
+    "--accent": "#b8960c",
+  },
+};
+```
+
+**Performance as a feature.** The original site scored 34 on Lighthouse. The rebuild scores 94. Time to interactive dropped from 8.2 seconds to 1.1 seconds. We achieved this by:
+
+- Removing every third-party script that wasn't actively used (goodbye, dead chat widget)
+- Using Next.js Image for automatic optimization and lazy loading
+- Implementing proper font loading with `next/font` instead of render-blocking Google Fonts
+- Shipping zero JavaScript to pages that don't need interactivity
+
+## The storage unit problem
+
+Storage units were the most interesting technical challenge. The client had 127 units across three facilities, with real-time availability that changed daily. The old site had a static table that was manually updated (sometimes) by an admin who (sometimes) remembered.
+
+We built a simple admin interface where staff could update unit status in under ten seconds — tap the unit, tap "rented" or "available," done. The public-facing grid pulls from this data and renders availability with clear visual indicators.
+
+But here's the decision that actually mattered: we made the reservation flow dead simple. Old flow: find unit → download PDF → print PDF → fill out PDF → scan PDF → email PDF → wait for callback. New flow: find unit → click "Reserve" → enter name, email, phone → done. The client calls them within the hour.
+
+Reservation requests increased 340% in the first month. Not because more people wanted storage — because the people who wanted storage could actually reserve it.
+
+## What we'd do differently
+
+Two things we'd change if we rebuilt this tomorrow.
+
+**We'd push harder on the MLS integration.** The buy section currently links out to their MLS provider's search interface. It works, but it's a jarring context switch. We quoted a custom MLS integration and they declined for budget reasons. Fair. But the user experience suffers, and I suspect they're losing buyer leads to that friction.
+
+**We'd implement a proper CMS from day one.** The site currently uses MDX for the few content-heavy pages (About, Services descriptions). For a team that updates content maybe twice a year, it's fine. But when they wanted to add a new team member, they had to email us. A lightweight headless CMS like Sanity or Payload would've added maybe $1,500 to the build and saved ongoing friction.
+
+## The business impact
+
+Six months post-launch, here's what changed:
+
+- **Rental applications up 89%.** Same inventory, same advertising spend. The only variable was the website.
+- **Storage reservations up 340%.** The simplified flow removed enough friction that people who previously gave up now complete the process.
+- **Investor consultation requests up 156%.** Having a dedicated investor section with clear value propositions and a simple contact form turned a dead page into a lead source.
+- **Organic traffic up 67%.** The structured data and improved technical SEO started showing results within 60 days.
+- **Average session duration up 2.4x.** People are actually reading the site instead of bouncing.
+
+The $18,000 rebuild paid for itself in increased rental applications alone within the first quarter. The storage and investor leads were gravy.
+
+## The real lesson
+
+A property management website isn't a brochure. It's a tool. Every page should have a job. Every user should have a clear path. Every form should actually work.
+
+Capital Property Group's original site failed because it was built as a checkbox — "we need a website" — rather than as a business asset. The rebuild succeeded because we treated it like what it was: the front door to four different businesses, each with different visitors who needed different things.
+
+If your website isn't actively helping your business, it's actively hurting it. There's no neutral. The question is whether you're willing to do the work to figure out which one you have.
