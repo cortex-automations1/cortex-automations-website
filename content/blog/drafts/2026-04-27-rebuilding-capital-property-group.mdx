@@ -1,0 +1,216 @@
+---
+title: "Rebuilding Capital Property Group: From a Broken Template to a Polished Real Estate Platform"
+slug: "rebuilding-capital-property-group"
+description: "How we took a slow, confusing real estate website and turned it into a conversion-focused platform serving four distinct business lines."
+publishedAt: "2026-04-27"
+tags: ["case-study", "web-design", "real-estate", "redesign"]
+author: "David Perez"
+featured: false
+---
+
+Capital Property Group came to us with a website that was actively losing them business. Not "could be better" — actively harmful. The site loaded in six seconds on mobile, had three different navigation systems that contradicted each other, and buried their most profitable service line (investor property management) four clicks deep behind a generic "Services" dropdown.
+
+They knew it was bad. What they didn't know was how much it was costing them until we dug in.
+
+## What we inherited
+
+The original site was a WordPress theme that had been customized by three different people over four years. Each person had added their own plugins, their own page templates, their own CSS overrides. The result was a 47-plugin Frankenstein that took 6.2 seconds to reach First Contentful Paint and scored a 31 on Lighthouse performance.
+
+But the speed wasn't even the real problem. The real problem was that Capital Property Group runs four distinct business lines — sales, rentals, storage units, and investor services — and the site treated them all as afterthoughts to a generic "About Us" page that nobody cared about.
+
+Here's what the user journey looked like for their highest-value customer: a real estate investor looking for property management.
+
+1. Land on homepage (generic hero image of a house)
+2. Click "Services" in the nav
+3. See a dropdown with 11 items, none of which say "investor" or "property management"
+4. Maybe click "Management" and land on a page about tenant screening
+5. Give up and call the office directly
+
+That last step sounds like a win, but it's not. The people who called were already sold. The people who gave up and left were the ones they never heard from. And in real estate, the investor who manages 12 rental properties is worth more lifetime revenue than 50 one-time home buyers.
+
+## The discovery that changed the project
+
+We spent the first two weeks not designing anything. Instead, we asked Capital Property Group to walk us through their actual business — who calls, who emails, what they ask for, what they buy.
+
+The breakdown was revealing:
+
+- **Home buyers and sellers:** ~60% of inquiries, ~25% of revenue
+- **Renters:** ~25% of inquiries, ~15% of revenue
+- **Storage customers:** ~10% of inquiries, ~10% of revenue
+- **Investors:** ~5% of inquiries, ~50% of revenue
+
+Read that again. Five percent of their website visitors were responsible for half their revenue. And the site was optimized for the 60% that generated a quarter of the money.
+
+This isn't unusual. Most real estate websites are designed for home buyers because that's what the templates assume. But Capital Property Group wasn't a typical residential brokerage — they'd built a serious investor services arm that the website completely ignored.
+
+The redesign wasn't going to be a fresh coat of paint. It was going to be a restructuring around the actual business.
+
+## Four portals, one site
+
+We proposed organizing the site around four clear verticals, each with its own entry point, its own user journey, and its own conversion goal:
+
+1. **Buy** — MLS search integration, featured listings, buyer resources
+2. **Rent** — Available rentals, application process, tenant portal link
+3. **Storage** — Unit sizes, availability, online reservations
+4. **Invest** — Property management services, portfolio analysis, investor onboarding
+
+The homepage became a routing page. Four clear cards, four clear value propositions, four clear calls to action. No more guessing which dropdown to click.
+
+Here's the component pattern we used for the service cards:
+
+```tsx
+interface ServiceCardProps {
+  title: string;
+  description: string;
+  href: string;
+  icon: React.ReactNode;
+  stats?: { label: string; value: string }[];
+}
+
+function ServiceCard({ title, description, href, icon, stats }: ServiceCardProps) {
+  return (
+    <Link
+      href={href}
+      className="group relative overflow-hidden rounded-2xl bg-stone-900 p-8 transition-all hover:bg-stone-800"
+    >
+      <div className="mb-6 text-amber-500">{icon}</div>
+      <h3 className="mb-3 text-2xl font-semibold text-white">{title}</h3>
+      <p className="mb-6 text-stone-400">{description}</p>
+      {stats && (
+        <div className="flex gap-6">
+          {stats.map((stat) => (
+            <div key={stat.label}>
+              <div className="text-2xl font-bold text-amber-500">{stat.value}</div>
+              <div className="text-sm text-stone-500">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      )}
+      <div className="absolute bottom-8 right-8 text-amber-500 opacity-0 transition-opacity group-hover:opacity-100">
+        <ArrowRight className="h-6 w-6" />
+      </div>
+    </Link>
+  );
+}
+```
+
+Each card includes real numbers — properties managed, units available, years in business. Not because stats are trendy, but because investors specifically told us they wanted to see scale before they'd fill out a contact form.
+
+## The dark theme decision
+
+Capital Property Group's original site was light-themed with stock photos of smiling families in front of houses. It looked like every other property management website in Missouri.
+
+We proposed a dark theme with gold accents. Not because dark themes are cool (though they are), but because of positioning. Their investor clients weren't browsing real estate sites — they were browsing financial dashboards, trading platforms, portfolio tools. Those are almost universally dark-themed. We wanted Capital Property Group to feel like a financial partner, not a residential realtor.
+
+The client pushed back initially. "Won't it feel too corporate?" We built two versions — light and dark — and showed them to five of their existing investor clients. Four out of five preferred the dark version. One said it "felt more serious." That was the end of the discussion.
+
+We did include a light/dark toggle for accessibility and preference, but the default is dark, and the marketing language is tuned for the dark presentation.
+
+## Performance as a feature
+
+The original site's 6.2-second load time wasn't just a technical problem — it was a trust problem. Real estate is a high-trust industry. If your website feels broken, people assume your business is broken.
+
+We rebuilt the site in Next.js 15 with static generation for everything that could be static (which was almost everything). The new site hits First Contentful Paint in 0.8 seconds and scores 94 on Lighthouse performance.
+
+The technical changes:
+
+- **No WordPress, no plugins.** Static Next.js deployed to Vercel's edge network.
+- **No stock photo library.** We worked with the client to get real photos of real properties, compressed and served in WebP/AVIF.
+- **No external fonts loaded at runtime.** We self-host Inter with `next/font`, eliminating the layout shift from font loading.
+- **No third-party scripts on initial load.** Analytics and chat widgets load after the page is interactive.
+
+Here's the font configuration we use on this and most client sites:
+
+```typescript
+import { Inter } from "next/font/google";
+
+export const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-inter",
+});
+```
+
+That `display: "swap"` is load-bearing. It means text renders immediately in a fallback font, then swaps to Inter when it's ready. No invisible text, no layout shift, no waiting.
+
+## Structured data for local search
+
+A real estate website that doesn't rank for local searches is a real estate website that doesn't exist. Capital Property Group serves Southwest Missouri — Springfield, Nixa, Ozark, Republic. They needed to show up when someone searched "property management Springfield MO" or "homes for rent Nixa."
+
+We implemented comprehensive Schema.org markup:
+
+```typescript
+function generateLocalBusinessSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "RealEstateAgent",
+    name: "Capital Property Group",
+    description: "Full-service real estate and property management in Southwest Missouri",
+    url: "https://capitalpghomes.com",
+    telephone: "+1-417-XXX-XXXX",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "123 Main Street",
+      addressLocality: "Springfield",
+      addressRegion: "MO",
+      postalCode: "65801",
+      addressCountry: "US",
+    },
+    areaServed: [
+      { "@type": "City", name: "Springfield, MO" },
+      { "@type": "City", name: "Nixa, MO" },
+      { "@type": "City", name: "Ozark, MO" },
+      { "@type": "City", name: "Republic, MO" },
+    ],
+    serviceType: [
+      "Real Estate Sales",
+      "Property Management",
+      "Rental Properties",
+      "Storage Units",
+    ],
+  };
+}
+```
+
+Every service page also gets its own `Service` schema with specific descriptions. The investor services page has `serviceType: "Property Management"` with a detailed description mentioning investor-specific terms. Google's crawlers eat this up.
+
+## The investor page that actually converts
+
+The investor services page was the highest-stakes part of the redesign. This is where half the revenue comes from. We couldn't afford to get it wrong.
+
+The old page was 200 words of generic copy about "professional management services" with a contact form at the bottom. The new page is structured around the specific questions investors ask before they hire a property manager:
+
+1. **What do you actually do?** — A clear breakdown of services: tenant screening, rent collection, maintenance coordination, financial reporting, eviction handling.
+2. **What does it cost?** — Transparent pricing tiers. Not "contact us for a quote" — actual percentages and fee structures.
+3. **Who else uses you?** — Portfolio size stats, years in business, number of doors under management.
+4. **What's the onboarding process?** — A three-step visual showing exactly what happens after they sign.
+
+The contact form moved from the bottom of the page to a sticky sidebar that follows the user as they scroll. On mobile, it becomes a fixed bottom bar with a single "Get Started" button.
+
+Conversion rate on the investor page went from 1.2% (form submissions / page visitors) to 4.8% in the first 90 days after launch. That's not a typo. Four times the conversion rate, on the page that generates half the revenue.
+
+## What we didn't build
+
+We scoped out a full MLS integration with real-time listings, saved searches, and email alerts. The client wanted it. We talked them out of it — for now.
+
+Here's why: MLS integrations are expensive to build, expensive to maintain, and compete directly with Zillow, Redfin, and Realtor.com. A small regional brokerage is never going to out-feature Zillow. What they can do is out-relationship Zillow. The MLS search on the site is a simple iframe embed from their existing MLS provider. It's not pretty, but it works, and it let us ship the rest of the site two months faster.
+
+The saved-search feature is on the roadmap for Q3. But launching with a polished investor experience and a "good enough" MLS search was the right call. Perfect is the enemy of shipped.
+
+## The numbers after six months
+
+- **Lighthouse performance:** 31 → 94
+- **First Contentful Paint:** 6.2s → 0.8s
+- **Investor page conversion rate:** 1.2% → 4.8%
+- **Organic search impressions (Google Search Console):** +340% for "property management" keywords
+- **Investor inquiry volume:** +85% (comparing same six-month period year-over-year)
+
+The client's exact words in our six-month review call: "We used to be embarrassed to send people to our website. Now we lead with it."
+
+## What we learned
+
+Every website redesign project teaches you something. This one taught us that information architecture matters more than visual design. We could have made the original site beautiful — better colors, better typography, better photos — and it still would have buried the investor services four clicks deep. The business impact came from restructuring the site around how the business actually makes money.
+
+The other lesson: dark themes aren't just aesthetic choices. They're positioning choices. Capital Property Group's dark theme with gold accents doesn't just look different from competitors — it signals a different kind of company. That signal brought in the exact clients they wanted more of.
+
+If your website was designed around a template's assumptions instead of your business's reality, you're probably leaving money on the table. The fix isn't a redesign — it's a rethink.
