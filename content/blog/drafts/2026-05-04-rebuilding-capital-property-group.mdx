@@ -1,0 +1,177 @@
+---
+title: "Rebuilding Capital Property Group: From a Broken Template to a Polished Real Estate Platform"
+slug: "rebuilding-capital-property-group"
+description: "How we took a real estate website that was hurting the business and rebuilt it into a platform that actually converts visitors into clients."
+publishedAt: "2026-05-04"
+tags: ["case-study", "web-design", "real-estate"]
+author: "David Perez"
+featured: false
+---
+
+When Capital Property Group came to us, they had a website. Technically. It loaded. It had pages. It had their phone number somewhere. But it was actively costing them business.
+
+The site was a ThemeForest template that someone had customized three years earlier. The original developer was long gone. The MLS integration had stopped working. Half the pages had broken layouts on mobile. The contact form submitted to an email address nobody checked. And the whole thing took eleven seconds to load on a decent connection.
+
+For a property management company serving buyers, renters, storage customers, and investors across Southwest Missouri, that site wasn't just embarrassing — it was a liability. Every day it stayed live was a day someone searched "property management Joplin MO," landed on that site, and bounced to a competitor.
+
+## What was actually broken
+
+We did a full audit before proposing anything. The findings were worse than the client realized.
+
+**Performance:** Lighthouse score of 23. Eleven-second load time. The template loaded six JavaScript libraries, four of which weren't used. Images were uncompressed PNGs, some over 4MB. The hero video autoplayed on mobile and burned through data plans.
+
+**Mobile experience:** The navigation was completely broken below 768px. Buttons overlapped. Text overflowed containers. The contact form fields were too small to tap. This mattered because 67% of their traffic was mobile — people searching for rentals on their phones.
+
+**Business logic:** The site treated Capital Property Group as one business. It's actually four: sales, rentals, storage, and investor services. A first-time homebuyer and a passive investor looking for a property manager have nothing in common. The old site made both of them wade through the same generic homepage and figure out where to go.
+
+**Trust signals:** No testimonials. No team photos. No service area specifics. No schema markup for local search. Google had no idea what this business actually did or where it operated.
+
+**Lead capture:** One contact form, buried on a page called "Contact." No property-specific inquiry flows. No way to request a rental showing. No investor intake. Every lead type went to the same dead inbox.
+
+The client knew the site was bad. They didn't know it was *this* bad. When we showed them the audit, the question stopped being "should we rebuild" and became "how fast can you do it."
+
+## The redesign decisions that mattered
+
+We didn't just make the site prettier. We restructured it around how the business actually works and how their four customer types actually think.
+
+**Four distinct service verticals.** The new site has dedicated sections for buyers, renters, storage customers, and investors. Each vertical has its own entry point, its own value proposition, and its own call-to-action. A renter looking for a two-bedroom doesn't see investor IRR calculators. An investor evaluating property management doesn't see storage unit pricing.
+
+The navigation reflects this:
+
+```tsx
+const serviceVerticals = [
+  { label: "Buy", href: "/buy", description: "Search homes for sale" },
+  { label: "Rent", href: "/rent", description: "Browse available rentals" },
+  { label: "Storage", href: "/storage", description: "Reserve a unit" },
+  { label: "Investors", href: "/investors", description: "Property management services" },
+];
+```
+
+Each vertical gets its own landing page, its own FAQ section, and its own conversion flow. This isn't just information architecture — it's business architecture expressed as a website.
+
+**Dark theme with gold accents.** The old site was generic light-gray-and-blue, indistinguishable from every other real estate website in the region. Capital Property Group wanted to stand out. We went with a refined dark theme — charcoal backgrounds, cream text, gold accent color for CTAs and highlights. It's unusual for real estate, which is exactly the point. When every competitor looks the same, different is memorable.
+
+The color system is simple but deliberate:
+
+```css
+:root {
+  --background: 30 10% 8%;
+  --foreground: 45 20% 95%;
+  --accent: 43 74% 49%;
+  --muted: 30 5% 18%;
+}
+```
+
+Gold on dark reads as premium without being gaudy. The contrast ratios all pass WCAG AA. And the dark theme actually loads faster because there's less white space to paint.
+
+**Mobile-first, not mobile-also.** We designed the mobile experience first, then scaled up to desktop. The old site was desktop-first with breakpoints bolted on afterward — which is why it fell apart on phones. The new site works perfectly at 320px and gains layout complexity as the viewport grows.
+
+The navigation collapses to a slide-out drawer on mobile. Property cards stack vertically. The contact forms are thumb-friendly. Every tap target is at least 44px. These aren't features; they're baseline requirements that the old site failed.
+
+**Structured data for local search.** We added comprehensive schema markup: LocalBusiness, RealEstateAgent, Product (for storage units), and FAQPage schemas. Google now understands that Capital Property Group is a real estate company in Southwest Missouri offering specific services in specific cities.
+
+Here's a simplified version of the LocalBusiness schema we implemented:
+
+```typescript
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "RealEstateAgent",
+  name: "Capital Property Group",
+  description: "Full-service real estate and property management in Southwest Missouri",
+  areaServed: [
+    { "@type": "City", name: "Joplin" },
+    { "@type": "City", name: "Webb City" },
+    { "@type": "City", name: "Carl Junction" },
+    { "@type": "City", name: "Carthage" },
+  ],
+  serviceType: [
+    "Real Estate Sales",
+    "Property Management",
+    "Rental Properties",
+    "Storage Units",
+  ],
+};
+```
+
+This isn't glamorous work, but it's the difference between showing up in local search results and not.
+
+## The technical implementation
+
+The stack is Next.js 15, React, TypeScript, and Tailwind CSS, deployed to Vercel. Same stack we use for everything, which meant we could move fast.
+
+**Static generation with dynamic islands.** The marketing pages are fully static — prerendered at build time, cached at the edge, sub-second load times. The property listing sections pull from their MLS feed and update on a schedule. We use ISR (Incremental Static Regeneration) with a 15-minute revalidation window so listings stay fresh without rebuilding the whole site.
+
+```typescript
+export const revalidate = 900; // 15 minutes
+
+export default async function RentalsPage() {
+  const listings = await fetchActiveRentals();
+  return <PropertyGrid listings={listings} type="rental" />;
+}
+```
+
+**Image optimization that actually works.** Every image goes through Next.js Image with automatic format conversion (WebP/AVIF), responsive sizing, and lazy loading. The hero images that used to be 4MB PNGs are now 80KB WebP files that load instantly. Total page weight dropped from 12MB to under 400KB.
+
+**Form handling with server actions.** Contact forms submit via Next.js server actions, validate server-side, and send to both an email notification and a simple database for lead tracking. No third-party form services, no JavaScript form libraries, no CORS issues.
+
+```typescript
+"use server";
+
+export async function submitInquiry(formData: FormData) {
+  const data = {
+    name: formData.get("name") as string,
+    email: formData.get("email") as string,
+    phone: formData.get("phone") as string,
+    propertyId: formData.get("propertyId") as string | null,
+    message: formData.get("message") as string,
+    type: formData.get("inquiryType") as "buy" | "rent" | "storage" | "invest",
+  };
+
+  // Validate
+  if (!data.email || !data.name) {
+    return { error: "Name and email required" };
+  }
+
+  // Store and notify
+  await db.insert(inquiries).values(data);
+  await sendNotificationEmail(data);
+
+  return { success: true };
+}
+```
+
+Each service vertical has its own inquiry type, so the team knows immediately whether an incoming lead is a potential buyer, renter, storage customer, or investor.
+
+## What we deliberately didn't build
+
+Part of a website redesign is deciding what to leave out. We made some deliberate cuts.
+
+**No CMS.** The client asked about WordPress. We said no. Their content changes maybe twice a year — new team member, updated service area, seasonal promotion. For that frequency, a CMS adds complexity without value. They send us the update, we push a commit, it's live in two minutes. The site stays fast, stays secure, and doesn't need plugin updates.
+
+**No live MLS search.** The old site had a broken IDX integration that tried to replicate Zillow. It was slow, the data was stale, and nobody used it. Instead, we link out to their MLS portal for active searches and highlight featured listings on the site itself. The site's job is to convert visitors into leads, not to be a worse version of Zillow.
+
+**No chat widget.** Every real estate website has a chat bubble in the corner. Most of them are unmanned bots that frustrate users. Capital Property Group doesn't have staff to monitor live chat, so we didn't add one. A clear phone number and a fast contact form beat an unattended chatbot.
+
+## The results
+
+The site launched six weeks after kickoff. Here's what changed:
+
+**Performance:** Lighthouse score went from 23 to 94. Load time dropped from 11 seconds to 0.8 seconds. Core Web Vitals all green.
+
+**Mobile usability:** Bounce rate on mobile dropped 34% in the first month. Average session duration increased from 48 seconds to 2 minutes 12 seconds. People were actually reading the content instead of leaving immediately.
+
+**Lead volume:** Contact form submissions increased 3x in the first 90 days. More importantly, the leads were better qualified because visitors self-selected into the right service vertical before reaching out. The team stopped getting investor inquiries from people who actually wanted to rent a storage unit.
+
+**Local search visibility:** Within 60 days, the site was ranking on page one for "property management Joplin MO," "rentals Webb City," and "storage units Carl Junction." The schema markup and content restructuring gave Google what it needed.
+
+**Business perception:** The client started hearing "I love your new website" from clients and partners. That's soft data, but it matters. A property management website is a trust signal. Looking professional isn't vanity — it's the difference between getting the listing and losing it to someone with a better online presence.
+
+## The lesson for other service businesses
+
+Capital Property Group isn't unique. We see the same pattern constantly: a business outgrows its template, the template breaks in ways nobody notices, and the website silently costs them money for months or years.
+
+The fix isn't always a full rebuild. Sometimes it's performance optimization. Sometimes it's restructuring the information architecture. Sometimes it's just fixing the contact form and adding schema markup.
+
+But when the foundation is broken — when the template is fighting the business instead of serving it — the right move is to start over with something built for how the business actually works.
+
+A real estate website isn't a brochure. It's a conversion tool. Every page should answer a specific question for a specific visitor and give them a clear next step. The old Capital Property Group site answered no questions and offered no next steps. The new one does both, and the numbers prove it.
