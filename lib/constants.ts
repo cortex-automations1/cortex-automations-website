@@ -223,6 +223,26 @@ export const PROJECTS = [
     link: "https://dealprop.pro",
   },
   {
+    slug: "thryve-advisors",
+    name: "Thryve Advisors",
+    category: "Web Design",
+    tagline: "Dual pricing site that helps Springfield-area merchants stop paying credit card fees",
+    description:
+      "A focused marketing site for a Springfield, MO dual pricing solution provider that helps restaurants, auto repair shops, and liquor & convenience stores eliminate or offset credit card processing fees. The site walks merchants through how dual pricing works, makes the savings tangible, and converts a free statement review into qualified leads.",
+    challenge:
+      "Dual pricing is a powerful but unfamiliar model for most small business owners — Thryve needed a site that could educate skeptical merchants, address the common objections, and stand out as a trusted local advisor against national processors with much larger marketing budgets.",
+    solution:
+      "We built a fast, mobile-first marketing site organized around a 3-step explainer (display two prices → customer chooses → save thousands), industry-specific value props for restaurants, auto repair, and liquor & convenience, and a low-friction \"send your statement\" intake with a one-business-day response promise.",
+    techStack: ["Next.js", "React", "Tailwind CSS", "Vercel", "Schema.org"],
+    highlights: [
+      { label: "Response Time", value: "1 day" },
+      { label: "Industries Served", value: "3" },
+      { label: "Lighthouse Score", value: "95+" },
+      { label: "Mobile-First", value: "Yes" },
+    ],
+    link: "https://thryveadvisors.com",
+  },
+  {
     slug: "cortex-automations",
     name: "Cortex Automations",
     category: "Web Design",
