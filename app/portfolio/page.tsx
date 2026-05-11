@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { ArrowRight, Layers, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -51,22 +52,43 @@ export default function PortfolioPage() {
                     target={project.link ? "_blank" : undefined}
                     rel={project.link ? "noopener noreferrer" : undefined}
                     className={cn(
-                      "group relative p-8 rounded-2xl border border-surface-200 bg-surface-50 overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-500/10 flex flex-col justify-between min-h-[280px]",
+                      "group relative rounded-2xl border border-surface-200 bg-surface-50 overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-500/10 flex flex-col h-full",
                       isFeatured && "bg-surface-100",
                     )}
                   >
-                    <div className="relative z-10 flex justify-between items-start">
-                      <div className="p-3 bg-surface-200 rounded-xl border border-surface-300">
-                        <Icon className="w-6 h-6 text-brand-500" />
+                    {project.image ? (
+                      <div className={cn(
+                        "relative w-full overflow-hidden bg-surface-200",
+                        isFeatured ? "aspect-[2.4/1]" : "aspect-[1.9/1]",
+                      )}>
+                        <Image
+                          src={project.image}
+                          alt={`${project.name} preview`}
+                          fill
+                          sizes={isFeatured ? "100vw" : "(min-width: 768px) 33vw, 100vw"}
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          priority={isFeatured}
+                        />
+                        {isFeatured && (
+                          <span className="absolute top-4 right-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-0/90 backdrop-blur text-brand-500 text-xs font-mono uppercase tracking-wider border border-brand-500/20">
+                            <Sparkles className="w-3 h-3" /> Featured Project
+                          </span>
+                        )}
                       </div>
-                      {isFeatured && (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 text-brand-400 text-xs font-mono uppercase tracking-wider border border-brand-500/20">
-                          <Sparkles className="w-3 h-3" /> Featured Project
-                        </span>
-                      )}
-                    </div>
+                    ) : (
+                      <div className="relative flex justify-between items-start p-8 pb-0">
+                        <div className="p-3 bg-surface-200 rounded-xl border border-surface-300">
+                          <Icon className="w-6 h-6 text-brand-500" />
+                        </div>
+                        {isFeatured && (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-500/10 text-brand-400 text-xs font-mono uppercase tracking-wider border border-brand-500/20">
+                            <Sparkles className="w-3 h-3" /> Featured Project
+                          </span>
+                        )}
+                      </div>
+                    )}
 
-                    <div className="relative z-10 mt-auto pt-8">
+                    <div className="relative z-10 p-8 flex-1 flex flex-col justify-end">
                       <p className="text-brand-400 text-sm font-mono mb-2 uppercase tracking-wider">
                         {project.category}
                       </p>

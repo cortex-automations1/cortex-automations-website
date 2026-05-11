@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink, CheckCircle2 } from "lucide-react";
@@ -92,6 +93,19 @@ export default async function ProjectCaseStudy({ params }: Props) {
           <p className="text-xl text-body leading-relaxed max-w-2xl">
             {project.tagline}
           </p>
+
+          {project.image && (
+            <div className="relative aspect-[1.9/1] w-full mt-12 rounded-2xl overflow-hidden border border-surface-200 bg-surface-50">
+              <Image
+                src={project.image}
+                alt={`${project.name} preview`}
+                fill
+                sizes="(min-width: 768px) 56rem, 100vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+          )}
         </header>
 
         {/* Highlights Metrics Grid */}

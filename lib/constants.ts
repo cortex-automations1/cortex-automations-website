@@ -121,6 +121,7 @@ export const PROJECTS = [
       { label: "API Endpoints", value: "40+" },
     ],
     link: "https://signflow.pro",
+    image: "/portfolio/signflow-pro.jpg",
   },
   {
     slug: "outback-excavating",
@@ -141,6 +142,7 @@ export const PROJECTS = [
       { label: "Load Time", value: "<1s" },
     ],
     link: "https://outbackexcavating.com",
+    image: "/portfolio/outback-excavating.jpg",
   },
   {
     slug: "timber-and-turf",
@@ -161,6 +163,7 @@ export const PROJECTS = [
       { label: "Mobile-First", value: "Yes" },
     ],
     link: "https://timberandturf.pro",
+    image: "/portfolio/timber-and-turf.jpg",
   },
   {
     slug: "capital-pg-homes",
@@ -181,6 +184,7 @@ export const PROJECTS = [
       { label: "Markets Served", value: "SW Missouri" },
     ],
     link: "https://capitalpghomes.com",
+    image: "/portfolio/capital-pg-homes.png",
   },
   {
     slug: "spite-house-affiliates",
@@ -233,7 +237,7 @@ export const PROJECTS = [
       "Dual pricing is a powerful but unfamiliar model for most small business owners — Thryve needed a site that could educate skeptical merchants, address the common objections, and stand out as a trusted local advisor against national processors with much larger marketing budgets.",
     solution:
       "We built a fast, mobile-first marketing site organized around a 3-step explainer (display two prices → customer chooses → save thousands), industry-specific value props for restaurants, auto repair, and liquor & convenience, and a low-friction \"send your statement\" intake with a one-business-day response promise.",
-    techStack: ["Next.js", "React", "Tailwind CSS", "Vercel", "Schema.org"],
+    techStack: ["Astro", "Preact", "Tailwind CSS", "Cloudflare Workers", "Satori"],
     highlights: [
       { label: "Response Time", value: "1 day" },
       { label: "Industries Served", value: "3" },
@@ -241,6 +245,7 @@ export const PROJECTS = [
       { label: "Mobile-First", value: "Yes" },
     ],
     link: "https://thryveadvisors.com",
+    image: "/portfolio/thryve-advisors.png",
   },
   {
     slug: "cortex-automations",
@@ -261,6 +266,7 @@ export const PROJECTS = [
       { label: "Dark/Light Mode", value: "Yes" },
     ],
     link: "https://cortexautomations.ai",
+    image: "/portfolio/cortex-automations.png",
   },
 ];
 
