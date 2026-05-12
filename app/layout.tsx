@@ -20,6 +20,7 @@ export const metadata: Metadata = {
   description:
     "We build custom software for businesses — SaaS platforms, websites, mobile apps, and AI automations. Based in the US, working everywhere.",
   metadataBase: new URL("https://cortexautomations.ai"),
+  alternates: { canonical: "https://cortexautomations.ai" },
   openGraph: {
     type: "website",
     siteName: "Cortex Automations",

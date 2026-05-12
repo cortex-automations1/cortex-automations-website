@@ -13,29 +13,29 @@ export function createMetadata({
   path?: string;
   ogImage?: string;
 }): Metadata {
-  const fullTitle =
-    title === "Cortex Automations"
-      ? title
-      : `${title} | Cortex Automations`;
+  // Bare title — the root layout's title template ("%s | Cortex Automations")
+  // applies the brand suffix once. Returning the suffixed string here caused
+  // every sub-page to render as "X | Cortex Automations | Cortex Automations".
   const url = `${BASE_URL}${path}`;
   const image = ogImage || `${BASE_URL}/og`;
+  const brandedTitle = `${title} | Cortex Automations`;
 
   return {
-    title: fullTitle,
+    title,
     description,
     metadataBase: new URL(BASE_URL),
     alternates: { canonical: url },
     openGraph: {
-      title: fullTitle,
+      title: brandedTitle,
       description,
       url,
       siteName: "Cortex Automations",
-      images: [{ url: image, width: 1200, height: 630, alt: fullTitle }],
+      images: [{ url: image, width: 1200, height: 630, alt: brandedTitle }],
       type: "website",
     },
     twitter: {
       card: "summary_large_image",
-      title: fullTitle,
+      title: brandedTitle,
       description,
       images: [image],
     },
