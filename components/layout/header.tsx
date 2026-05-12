@@ -33,6 +33,7 @@ export function Header() {
 
   useEffect(
     function closeMobileOnNavigation() {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing internal menu state to external router state
       setIsOpen(false);
     },
     [pathname],
