@@ -1,15 +1,24 @@
 "use client";
 
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  useEffect,
+  useRef,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from "react";
+import { cn } from "@/lib/utils";
 
 type Direction = "up" | "down" | "left" | "right";
 
-const offsets: Record<Direction, { x?: number; y?: number }> = {
-  up: { y: 40 },
-  down: { y: -40 },
-  left: { x: 40 },
-  right: { x: -40 },
+const hiddenOffset: Record<Direction, string> = {
+  up: "translate-y-10",
+  down: "-translate-y-10",
+  left: "translate-x-10",
+  right: "-translate-x-10",
 };
 
 interface ScrollRevealProps {
@@ -20,6 +29,29 @@ interface ScrollRevealProps {
   className?: string;
 }
 
+function useReveal(rootMargin = "-80px") {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [rootMargin]);
+
+  return [ref, visible] as const;
+}
+
 export function ScrollReveal({
   children,
   direction = "up",
@@ -27,18 +59,25 @@ export function ScrollReveal({
   delay = 0,
   className,
 }: ScrollRevealProps) {
-  const offset = offsets[direction];
-
+  const [ref, visible] = useReveal();
   return (
-    <motion.div
-      initial={{ opacity: 0, ...offset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration, delay, ease: [0.25, 0.1, 0.25, 1] }}
-      className={className}
+    <div
+      ref={ref}
+      style={{
+        transitionDuration: `${Math.round(duration * 1000)}ms`,
+        transitionDelay: `${Math.round(delay * 1000)}ms`,
+        transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      }}
+      className={cn(
+        "transition-[opacity,transform] motion-reduce:transition-none motion-reduce:translate-x-0 motion-reduce:translate-y-0 motion-reduce:opacity-100",
+        visible
+          ? "opacity-100 translate-x-0 translate-y-0"
+          : `opacity-0 ${hiddenOffset[direction]}`,
+        className,
+      )}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -48,46 +87,52 @@ interface StaggerContainerProps {
   className?: string;
 }
 
+// Internal prop used by StaggerContainer to pass per-child reveal state
+// down to StaggerItem. Not part of the public API; consumers don't
+// pass __stagger directly.
+type InternalStagger = { visible: boolean; delay: number };
+
 export function StaggerContainer({
   children,
   stagger = 0.1,
   className,
 }: StaggerContainerProps) {
+  const [ref, visible] = useReveal();
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
-      variants={{
-        visible: { transition: { staggerChildren: stagger } },
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
+    <div ref={ref} className={className}>
+      {Children.map(children, (child, i) => {
+        if (!isValidElement(child)) return child;
+        return cloneElement(child as ReactElement<{ __stagger?: InternalStagger }>, {
+          __stagger: { visible, delay: i * stagger },
+        });
+      })}
+    </div>
   );
 }
 
-export function StaggerItem({
-  children,
-  className,
-}: {
+interface StaggerItemProps {
   children: ReactNode;
   className?: string;
-}) {
+  __stagger?: InternalStagger;
+}
+
+export function StaggerItem({ children, className, __stagger }: StaggerItemProps) {
+  const visible = __stagger?.visible ?? true;
+  const delay = __stagger?.delay ?? 0;
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] },
-        },
+    <div
+      style={{
+        transitionDelay: `${Math.round(delay * 1000)}ms`,
+        transitionDuration: "500ms",
+        transitionTimingFunction: "cubic-bezier(0.25, 0.1, 0.25, 1)",
       }}
-      className={className}
+      className={cn(
+        "transition-[opacity,transform] motion-reduce:transition-none motion-reduce:translate-y-0 motion-reduce:opacity-100",
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
+        className,
+      )}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }

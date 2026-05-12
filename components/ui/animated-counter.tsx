@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useInView, useMotionValue, useSpring, useTransform, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 
 interface AnimatedCounterProps {
   target: number;
@@ -19,16 +18,53 @@ export function AnimatedCounter({
   className,
 }: AnimatedCounterProps) {
   const ref = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true });
-  const motionValue = useMotionValue(0);
-  const spring = useSpring(motionValue, { duration: duration * 1000, bounce: 0 });
-  const display = useTransform(spring, (v) => `${prefix}${Math.round(v)}${suffix}`);
+  const [value, setValue] = useState(0);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    if (isInView) {
-      motionValue.set(target);
-    }
-  }, [isInView, motionValue, target]);
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setStarted(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "-40px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
-  return <motion.span ref={ref} className={className}>{display}</motion.span>;
+  useEffect(() => {
+    if (!started) return;
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      setValue(target);
+      return;
+    }
+    const start = performance.now();
+    const ms = duration * 1000;
+    let raf = 0;
+    function tick(now: number) {
+      const t = Math.min((now - start) / ms, 1);
+      // ease-out-cubic — same shape as framer's default spring tail
+      const eased = 1 - Math.pow(1 - t, 3);
+      setValue(Math.round(eased * target));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [started, target, duration]);
+
+  return (
+    <span ref={ref} className={className}>
+      {prefix}
+      {value}
+      {suffix}
+    </span>
+  );
 }
