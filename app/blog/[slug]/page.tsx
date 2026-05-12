@@ -176,12 +176,14 @@ export default async function BlogPostPage({ params }: PageProps) {
     datePublished: post.publishedAt,
     dateModified: post.updatedAt ?? post.publishedAt,
     author: {
-      "@type": "Person",
-      name: post.author,
+      "@type": "Organization",
+      name: "Cortex Automations",
+      url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
       name: "Cortex Automations",
+      url: SITE_URL,
       logo: {
         "@type": "ImageObject",
         url: `${SITE_URL}/images/logo-icon.png`,

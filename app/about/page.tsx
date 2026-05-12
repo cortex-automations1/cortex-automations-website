@@ -6,7 +6,7 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 export const metadata: Metadata = createMetadata({
   title: "About",
-  description: "A small dev shop that builds custom software for businesses. Meet the people behind the code.",
+  description: "A small, focused dev shop building custom software for businesses that need more than a template.",
   path: "/about",
 });
 
@@ -17,7 +17,7 @@ export default function AboutPage() {
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-surface-0 border-b border-surface-200">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <h1 className="text-5xl md:text-7xl font-bold text-heading mb-6 tracking-tight max-w-4xl leading-tight">
-            The People Behind the <span className="brand-underline">Code</span>
+            Custom Software, <span className="brand-underline">Built Right</span>
           </h1>
           <p className="text-body text-lg md:text-xl max-w-2xl leading-relaxed">
             Cortex Automations is a small, focused dev shop. We build custom software for
@@ -141,53 +141,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* TEAM */}
-      <ScrollReveal>
-        <section className="py-24 bg-surface-0 relative z-10">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-3xl md:text-5xl font-bold text-heading mb-4">Meet the founder</h2>
-            </div>
-
-            <div className="flex justify-center">
-              <div className="w-full max-w-3xl">
-                <div className="p-8 md:p-12 rounded-3xl bg-surface-50 border border-surface-200 flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-10">
-                  {/* Avatar */}
-                  <div className="shrink-0 relative">
-                    <div className="absolute inset-0 bg-brand-500/20 blur-2xl rounded-full" />
-                    <div className="relative flex h-32 w-32 items-center justify-center rounded-2xl border border-brand-500/30 bg-surface-100/80 backdrop-blur-sm text-4xl font-bold text-brand-400 shadow-xl shadow-surface-0/50">
-                      DP
-                    </div>
-                  </div>
-
-                  {/* Bio Content */}
-                  <div className="text-center md:text-left">
-                    <h3 className="text-3xl font-bold text-heading mb-1">David Perez</h3>
-                    <p className="text-brand-400 font-medium mb-6">Founder &amp; Lead Engineer</p>
-                    <p className="text-body leading-relaxed text-lg mb-8">
-                      Full-stack developer who loves building things that work. Started Cortex
-                      Automations to help businesses get the custom software they actually need —
-                      not another template with a logo swap. When I&apos;m not coding, you&apos;ll
-                      find me exploring new tech, working on side projects, or figuring out how to
-                      automate something that shouldn&apos;t take as long as it does.
-                    </p>
-
-                    {/* Tech Badges */}
-                    <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                      <span className="px-3 py-1.5 rounded-lg bg-surface-100 border border-surface-200 text-subtle text-xs font-medium">
-                        Full-Stack Architecture
-                      </span>
-                      <span className="px-3 py-1.5 rounded-lg bg-surface-100 border border-surface-200 text-subtle text-xs font-medium">
-                        UI/UX Design
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </ScrollReveal>
     </>
   );
 }

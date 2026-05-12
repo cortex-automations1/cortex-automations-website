@@ -15,7 +15,7 @@ description: "One-sentence meta description for SEO (~160 chars)"
 publishedAt: "2026-04-09"
 updatedAt: "2026-04-09"
 tags: ["case-study", "nextjs"]
-author: "David Perez"
+author: "Cortex Automations"
 featured: false
 ---
 ```
