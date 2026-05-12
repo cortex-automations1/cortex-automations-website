@@ -16,6 +16,12 @@ export default async function ContactPage({ searchParams }: Props) {
   const { scope } = await searchParams;
   return (
     <>
+      {/* Preconnect to Cal.com so the embedded widget's script and
+          asset fetches don't pay TCP/TLS handshake cost on first paint.
+          React 19 hoists these <link> tags into <head> automatically. */}
+      <link rel="preconnect" href="https://assets.calendar.com" />
+      <link rel="dns-prefetch" href="https://assets.calendar.com" />
+
       {/* HERO SECTION */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-24 overflow-hidden bg-surface-0 border-b border-surface-200">
         <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">

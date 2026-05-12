@@ -24,10 +24,18 @@ export function Header() {
   const pathname = usePathname();
 
   useEffect(function watchScroll() {
+    // rAF-throttle + passive listener: setScrolled was firing on every
+    // scroll frame, causing repeated React re-renders on long pages.
+    let ticking = false;
     function handleScroll() {
-      setScrolled(window.scrollY > 20);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 20);
+        ticking = false;
+      });
     }
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
