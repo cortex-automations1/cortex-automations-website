@@ -1,18 +1,14 @@
-"use client";
-
-import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowRight, Layers, ShieldCheck, Zap, Pause, Play } from "lucide-react";
+import { ArrowRight, Layers, ShieldCheck, Zap, Smartphone, Monitor, Brain } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { SERVICES, PROJECTS, PROCESS_STEPS, TESTIMONIALS } from "@/lib/constants";
+import { SERVICES, PROJECTS, PROCESS_STEPS } from "@/lib/constants";
 import {
   ScrollReveal,
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/scroll-reveal";
 import { HeroVisual } from "@/components/ui/hero-visual";
-import { Smartphone, Monitor, Brain } from "lucide-react";
+import { TestimonialCarousel } from "@/components/ui/testimonial-carousel";
 
 const SERVICE_ICONS: Record<string, LucideIcon> = {
   "saas-platforms": Layers,
@@ -24,42 +20,6 @@ const SERVICE_ICONS: Record<string, LucideIcon> = {
 const TRUST_ITEMS = ["Next.js", "TypeScript", "React", "PostgreSQL", "Tailwind CSS"];
 
 export default function HomePage() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [autoPlay, setAutoPlay] = useState(true);
-
-  // Respect prefers-reduced-motion: users who request reduced motion
-  // get the carousel paused by default. WCAG 2.2.2 also requires a
-  // visible pause control regardless (rendered below).
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mq.matches) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing to a client-only media-query default on mount
-      setAutoPlay(false);
-    }
-    function onChange(e: MediaQueryListEvent) {
-      if (e.matches) setAutoPlay(false);
-    }
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
-  const goToSlide = useCallback(
-    (index: number) => {
-      setActiveIndex(index);
-      setAutoPlay(false);
-    },
-    []
-  );
-
-  useEffect(() => {
-    if (!autoPlay) return;
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [autoPlay]);
-
   return (
     <>
       {/* ——— HERO ——— */}
@@ -232,7 +192,6 @@ export default function HomePage() {
 
           {/* Desktop: horizontal stepper */}
           <div className="hidden lg:flex items-start relative">
-            {/* Connecting line */}
             <div className="absolute top-6 left-[12.5%] right-[12.5%] h-px bg-surface-300" />
 
             {PROCESS_STEPS.map((step) => (
@@ -324,69 +283,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ——— TESTIMONIALS (carousel) ——— */}
-      <section className="section-padding bg-surface-0 border-t border-surface-200">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <ScrollReveal>
-            <h2 className="text-3xl md:text-5xl font-bold text-heading mb-12">
-              What Clients <span className="brand-underline">Say</span>
-            </h2>
-          </ScrollReveal>
-
-          <div className="relative min-h-[240px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeIndex}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.4 }}
-              >
-                <span className="text-accent-400 text-7xl font-serif leading-none select-none block mb-4">
-                  &ldquo;
-                </span>
-                <p className="text-subtle text-lg md:text-xl leading-relaxed mb-8">
-                  {TESTIMONIALS[activeIndex].quote}
-                </p>
-                <div>
-                  <p className="text-heading font-semibold">
-                    {TESTIMONIALS[activeIndex].author}
-                  </p>
-                  <p className="text-muted text-sm">
-                    {TESTIMONIALS[activeIndex].role},{" "}
-                    {TESTIMONIALS[activeIndex].company}
-                  </p>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Dot indicators + pause/play (WCAG 2.2.2) */}
-          <div className="flex justify-center items-center gap-3 mt-8">
-            {TESTIMONIALS.map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => goToSlide(i)}
-                aria-label={`Go to testimonial ${i + 1}`}
-                aria-current={i === activeIndex ? "true" : undefined}
-                className={`w-2.5 h-2.5 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-500 ${
-                  i === activeIndex ? "bg-brand-500" : "bg-surface-300"
-                }`}
-              />
-            ))}
-            <button
-              type="button"
-              onClick={() => setAutoPlay((p) => !p)}
-              aria-label={autoPlay ? "Pause testimonial carousel" : "Resume testimonial carousel"}
-              aria-pressed={!autoPlay}
-              className="ml-2 p-1.5 rounded-full text-body hover:text-heading hover:bg-surface-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
-            >
-              {autoPlay ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* ——— TESTIMONIALS (client island) ——— */}
+      <TestimonialCarousel />
     </>
   );
 }

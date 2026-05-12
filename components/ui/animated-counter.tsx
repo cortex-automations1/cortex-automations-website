@@ -43,6 +43,7 @@ export function AnimatedCounter({
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing to a client-only media-query preference
       setValue(target);
       return;
     }
