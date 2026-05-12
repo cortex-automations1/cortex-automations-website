@@ -1,0 +1,85 @@
+---
+title: "Why we built Thryve Advisors on Astro, Preact, and Cloudflare — and not Next.js"
+slug: "why-astro-preact-cloudflare-for-thryve-advisors"
+description: "Next.js is our default. For Thryve Advisors, it would have been overkill. Here's how picking the right stack for the right job produced a 10 KB homepage that loads in 300 ms."
+publishedAt: "2026-05-12"
+tags: ["case-study", "web-design", "astro", "preact", "cloudflare"]
+author: "David Perez"
+image: "/portfolio/thryve-advisors.png"
+---
+
+Most agencies pick a stack the way most people order coffee — they pick whatever they always pick. Default Next.js. Default Vercel. Default React. Default everything.
+
+That's how you end up shipping a 250 KB JavaScript bundle to a restaurant owner who just wants to know if dual pricing will save him money on processing fees.
+
+When we took on Thryve Advisors — a Springfield, MO firm that helps small businesses eliminate or offset credit-card processing fees through dual pricing — we discussed the project at length before opening the code editor. The site we ended up building runs on Astro, Preact, and Cloudflare Workers. Here's why each one was the right call for *this* job, and what the result looks like under the hood.
+
+## The job, in plain terms
+
+Thryve's audience isn't software developers. It's the owner of a Springfield deli or an Ozark auto-repair shop who's heard a hundred merchant-services pitches and stopped trusting any of them. The site has three jobs and only three:
+
+1. Explain dual pricing in plain English, in under thirty seconds, on a phone over LTE.
+2. Convince the visitor that Thryve is the trustworthy local advisor — not the third national processor calling them this month.
+3. Get them to upload a recent merchant statement so Thryve can quote a real savings number within a business day.
+
+That's a mostly-static marketing site with one moderately interactive component (a savings calculator) and a low-friction intake form. No app shell. No authentication. No dashboards. No real-time anything.
+
+If we'd reached for the stack we use for our SaaS work — Next.js, React, Vercel — we would have shipped a code-splitting framework, a virtual DOM runtime, and an edge-rendering platform to serve content that doesn't need any of them. That's not engineering. That's pattern-matching.
+
+## Astro over Next.js — the constraint that decided it
+
+Next.js is our default for SaaS. It earns its weight when there's real interactivity, complex routing, server data, or dynamic content. For Thryve, none of that applied.
+
+Astro starts from the opposite premise: ship zero JavaScript unless you specifically ask for it. The whole homepage — hero, 3-step explainer, industry-specific value props, testimonials, footer — renders as pure HTML at build time. The browser doesn't download a framework runtime to render text and images.
+
+Then, for the one place we needed interactivity (the Savings Calculator), we mark that single component as an *island*. It gets hydrated. Nothing else does.
+
+The result: the homepage HTML is 10 KB compressed over the wire. The total transferred page weight on first load — HTML, CSS, fonts, every script — is under 300 KB on mobile, and most of that is third-party analytics the client wanted included.
+
+A Next.js equivalent of the same page would have shipped React and React-DOM whether we needed them or not. We didn't.
+
+## Preact instead of React — for the one component that needed it
+
+When we did need interactivity, we used Preact, not React.
+
+The Savings Calculator is a small component: a few inputs, some arithmetic, a result panel. It's the only piece of the site with client-side state. React + react-dom together come in around 40 KB minified and gzipped. Preact + `preact/compat` is closer to 10 KB. Both render the same JSX with the same component model.
+
+For a complex SaaS app where bundle size is amortized across hundreds of components and screens, the 30 KB difference is invisible. For one component on one page on a marketing site, it's load-time difference a visitor can feel — especially on a phone in a parking lot with one bar of LTE.
+
+Astro's Preact integration made this a one-line decision. We wrote the calculator in normal-looking JSX and Preact handled it. Nothing in the codebase tells you it's not React.
+
+## Cloudflare Workers + Satori, instead of Vercel
+
+We deploy almost everything to Vercel. Thryve is the exception, and for two specific reasons.
+
+**Dynamic OG images.** Every page on the site has its own social-share image — the homepage, the 3-step explainer, each industry page, the contact page. We use Satori to render those images from JSX at the edge. Cloudflare Workers handles this at edge latency, with no separate build step and no per-image cost. It's the cleanest implementation of dynamic OG images we've shipped.
+
+**Cost shape.** Cloudflare's free tier is more generous than Vercel's hobby tier for the traffic pattern Thryve has: mostly-static content, occasional intake-form submissions. For a small business growing into its marketing, that matters. A site that "scales for free" is one less constraint on the business.
+
+We weren't running away from Vercel — we were running *toward* a platform that fit better for this job. That distinction is what most stack-choice posts miss.
+
+## What shipped — real numbers
+
+Pulled from a live measurement of thryveadvisors.com on a mobile-emulated browser:
+
+- **First Contentful Paint: 300 ms**
+- **DOM content loaded: 349 ms**
+- **Page fully loaded: under 1 second**
+- **Cumulative Layout Shift: 0.0000** — no movement after first paint
+- **HTML: 10 KB compressed**
+- **Application JavaScript: roughly 14 KB** (Preact runtime + the Savings Calculator island, decoded)
+- **Lighthouse Performance: 95+ on mobile**
+
+For context: more than half the total JavaScript weight on the page is Google Tag Manager, Microsoft Clarity, and Cloudflare's web-analytics beacon — third-party tags the client wanted. Our actual application code is smaller than any one of them.
+
+## The process is the point
+
+We get to the right stack the same way every time: we **discuss the business, research the right approach, plan the implementation, and then build.** We don't open the code editor until we've agreed on the decisions that matter, and we treat AI-assisted development as a force multiplier on judgment, not a replacement for it.
+
+A lot of agencies still start with the framework they know. We start with the question the framework is supposed to answer. For Thryve, *"what stack is right for a Springfield merchant on their phone in their parking lot?"* produces a different answer than *"what stack are we comfortable with?"* Both questions are reasonable. Only one of them leads to a 10 KB homepage that loads in 300 milliseconds.
+
+The win isn't Astro. The win isn't Preact. The win isn't Cloudflare. The win is being willing to question the default every single time — and having a process disciplined enough to act on the answer.
+
+---
+
+*Want a site that loads in under a second on the worst phone your customers own? [Tell us about your project](/contact).*
