@@ -107,9 +107,12 @@ export function Header() {
           <div className="flex md:hidden items-center gap-3">
             <ThemeToggle />
             <button
-              className="p-2 text-body hover:text-heading transition-colors"
+              type="button"
+              className="p-2 text-body hover:text-heading transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500 rounded"
               onClick={() => setIsOpen(!isOpen)}
-              aria-label="Toggle menu"
+              aria-label={isOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isOpen}
+              aria-controls="mobile-menu"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -119,9 +122,13 @@ export function Header() {
 
       {/* Mobile dropdown */}
       <div
+        id="mobile-menu"
+        aria-hidden={!isOpen}
         className={cn(
           "md:hidden absolute top-20 left-0 w-full bg-surface-50 border-b border-surface-200 transition-all duration-300 ease-in-out overflow-hidden",
-          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
+          isOpen
+            ? "max-h-96 opacity-100"
+            : "max-h-0 opacity-0 invisible pointer-events-none",
         )}
       >
         <div className="px-6 py-6 space-y-4 flex flex-col">

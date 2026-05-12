@@ -58,6 +58,30 @@ html[data-theme="light"] {
   --color-body: #495057;
   --color-muted: #6c757d;
   --color-subtle: #374151;
+
+  /* WCAG AA contrast fix: the raw brand-500 (#5B7FFF) on white is only
+     ~3.5:1, which fails AA for body-sized text. In light theme we shift
+     the lighter brand shades two steps darker — text utilities like
+     text-brand-500 / text-brand-400 / text-brand-300 (and their hover
+     variants) now resolve to colors that pass AA on light surfaces.
+     Button bg colors using bg-brand-500 also darken slightly, staying
+     in the same blue family. */
+  --color-brand-500: #3A56D6;
+  --color-brand-400: #4A6BF0;
+  --color-brand-300: #5B7FFF;
+}
+
+/* Respect the user's OS-level reduced-motion preference: gate framer
+   transitions, scroll smoothing, and our theme-transition class. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  html.transitioning * { transition: none !important; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 html.transitioning * {

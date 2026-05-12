@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { ArrowRight, Layers, ShieldCheck, Zap } from "lucide-react";
+import { ArrowRight, Layers, ShieldCheck, Zap, Pause, Play } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { SERVICES, PROJECTS, PROCESS_STEPS, TESTIMONIALS } from "@/lib/constants";
@@ -26,6 +26,23 @@ const TRUST_ITEMS = ["Next.js", "TypeScript", "React", "PostgreSQL", "Tailwind C
 export default function HomePage() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(true);
+
+  // Respect prefers-reduced-motion: users who request reduced motion
+  // get the carousel paused by default. WCAG 2.2.2 also requires a
+  // visible pause control regardless (rendered below).
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mq.matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- syncing to a client-only media-query default on mount
+      setAutoPlay(false);
+    }
+    function onChange(e: MediaQueryListEvent) {
+      if (e.matches) setAutoPlay(false);
+    }
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
 
   const goToSlide = useCallback(
     (index: number) => {
@@ -344,18 +361,29 @@ export default function HomePage() {
             </AnimatePresence>
           </div>
 
-          {/* Dot indicators */}
-          <div className="flex justify-center gap-2 mt-8">
+          {/* Dot indicators + pause/play (WCAG 2.2.2) */}
+          <div className="flex justify-center items-center gap-3 mt-8">
             {TESTIMONIALS.map((_, i) => (
               <button
                 key={i}
+                type="button"
                 onClick={() => goToSlide(i)}
                 aria-label={`Go to testimonial ${i + 1}`}
-                className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                aria-current={i === activeIndex ? "true" : undefined}
+                className={`w-2.5 h-2.5 rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-500 ${
                   i === activeIndex ? "bg-brand-500" : "bg-surface-300"
                 }`}
               />
             ))}
+            <button
+              type="button"
+              onClick={() => setAutoPlay((p) => !p)}
+              aria-label={autoPlay ? "Pause testimonial carousel" : "Resume testimonial carousel"}
+              aria-pressed={!autoPlay}
+              className="ml-2 p-1.5 rounded-full text-body hover:text-heading hover:bg-surface-100 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+            >
+              {autoPlay ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
+            </button>
           </div>
         </div>
       </section>
