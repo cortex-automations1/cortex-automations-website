@@ -46,7 +46,11 @@ export default async function LoginPage({
 
         {error && (
           <p className="text-sm text-red-400">
-            {error === "invalid" ? "Incorrect password." : "Login failed."}
+            {error === "invalid"
+              ? "Incorrect password."
+              : error === "rate-limit"
+                ? "Too many attempts. Try again in 15 minutes."
+                : "Login failed."}
           </p>
         )}
 
