@@ -248,6 +248,27 @@ export const PROJECTS = [
     image: "/portfolio/thryve-advisors.png",
   },
   {
+    slug: "tree-doctor",
+    name: "The Tree Doctor",
+    category: "Web Design",
+    tagline: "Diagnostic-first arborist site for Springfield, MO and the Ozarks",
+    description:
+      "A polished marketing site for an ISA-certified arborist serving Greene, Christian, and Webster counties in Southwest Missouri. The site leads with a \"diagnosis before chainsaw\" philosophy, organizes services by use case (removal, pruning, diagnostics, stump grinding, commercial maintenance, storm response), and converts visitors with both a free estimate form and a 24/7 emergency hotline.",
+    challenge:
+      "The Tree Doctor's owner brings rare credentials — ISA certification, former Springfield city arborist, Missouri Community Forestry Council representative — but his prior web presence didn't communicate that depth, and most local competitors compete on price for removals rather than on diagnostic expertise. He needed a site that signaled professionalism, surfaced his 5.0-star reputation, and pulled in homeowners and HOAs willing to pay for real tree care.",
+    solution:
+      "We built a fast Next.js site with a calm, modern visual identity that frames trees as living organisms deserving diagnosis, not problems to be cut down. Services are broken out with species-specific pruning detail, a portfolio of real jobs builds trust, a blog covers local tree diseases and seasonal guidance, and Google Places integration surfaces the company's 100+ five-star reviews. Estimate requests and the 24/7 emergency line are one tap away on mobile.",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Google Places API", "Vercel"],
+    highlights: [
+      { label: "Counties Served", value: "3+" },
+      { label: "Google Rating", value: "5.0" },
+      { label: "Emergency Line", value: "24/7" },
+      { label: "ISA Certified", value: "MW-5822A" },
+    ],
+    link: "https://thetreedoctorllc.com",
+    image: "/portfolio/tree-doctor.png",
+  },
+  {
     slug: "cortex-automations",
     name: "Cortex Automations",
     category: "Web Design",
