@@ -30,6 +30,7 @@ export function createMetadata({
       description,
       url,
       siteName: "Cortex Automations",
+      locale: "en_US",
       images: [{ url: image, width: 1200, height: 630, alt: brandedTitle }],
       type: "website",
     },

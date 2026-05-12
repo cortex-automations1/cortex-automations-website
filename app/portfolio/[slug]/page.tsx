@@ -68,8 +68,40 @@ export default async function ProjectCaseStudy({ params }: Props) {
     notFound();
   }
 
+  // Map our portfolio categories to schema.org types. SaaS Platform and
+  // Web App are software products; Web Design projects are websites.
+  const cat = project.category.toLowerCase();
+  const schemaType =
+    cat.includes("saas") || cat.includes("web app")
+      ? "SoftwareApplication"
+      : "WebSite";
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": schemaType,
+    name: project.name,
+    headline: project.tagline,
+    description: project.description,
+    url: project.link,
+    image: project.image ? `${SITE_URL}${project.image}` : undefined,
+    creator: {
+      "@type": "Organization",
+      name: "Cortex Automations",
+      url: SITE_URL,
+    },
+    keywords: [project.category, ...(project.techStack ?? [])].join(", "),
+  };
+  if (schemaType === "SoftwareApplication") {
+    jsonLd.applicationCategory = "BusinessApplication";
+    jsonLd.operatingSystem = "Web";
+  }
+  const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\u003c");
+
   return (
     <div className="min-h-screen bg-surface-0 pt-32 pb-24 relative overflow-hidden">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml }}
+      />
       <div className="max-w-4xl mx-auto px-6 relative z-10">
 
         {/* Back Navigation */}

@@ -24,6 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Cortex Automations",
+    locale: "en_US",
     images: [{ url: "/og", width: 1200, height: 630 }],
   },
   twitter: {
@@ -37,6 +38,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: "#0a0a0a",
+  colorScheme: "dark light",
 };
 
 const jsonLd = {

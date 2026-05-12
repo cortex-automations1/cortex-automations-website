@@ -13,7 +13,7 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import { SERVICES, PROJECTS } from "@/lib/constants";
+import { SERVICES, PROJECTS, SITE_URL } from "@/lib/constants";
 import { createMetadata } from "@/lib/metadata";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
@@ -90,8 +90,37 @@ export default async function ServiceDetailPage({ params }: Props) {
   const relatedSlugs = RELATED_PROJECTS[service.slug] ?? [];
   const relatedProjects = PROJECTS.filter((p) => relatedSlugs.includes(p.slug));
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name,
+    serviceType: service.name,
+    description: service.description,
+    url: `${SITE_URL}/services/${service.slug}`,
+    provider: {
+      "@type": "Organization",
+      name: "Cortex Automations",
+      url: SITE_URL,
+    },
+    areaServed: { "@type": "Country", name: "United States" },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `${service.name} features`,
+      itemListElement: service.features.map((feature, i) => ({
+        "@type": "Offer",
+        position: i + 1,
+        itemOffered: { "@type": "Service", name: feature },
+      })),
+    },
+  };
+  const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\u003c");
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml }}
+      />
       {/* HERO */}
       <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-surface-0 border-b border-surface-200">
         <div className="max-w-7xl mx-auto px-6 relative z-10">
