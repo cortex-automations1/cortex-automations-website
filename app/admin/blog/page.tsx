@@ -3,7 +3,6 @@ import Link from "next/link";
 import { Clock } from "lucide-react";
 import { isAuthenticated } from "@/lib/admin-auth";
 import { listDraftsFromGitHub } from "@/lib/blog/github";
-import { GenerateButton } from "./generate-button";
 
 export const metadata = {
   title: "Blog Drafts — Admin",
@@ -34,23 +33,20 @@ export default async function AdminBlogPage() {
 
   return (
     <div>
-      <div className="flex items-start justify-between mb-10 gap-6">
-        <div>
-          <h1 className="text-4xl font-bold text-heading mb-2 tracking-tight">
-            Blog Drafts
-          </h1>
-          <p className="text-body">
-            {drafts.length} {drafts.length === 1 ? "draft" : "drafts"} waiting for review.
-          </p>
-        </div>
-        <GenerateButton />
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold text-heading mb-2 tracking-tight">
+          Blog Drafts
+        </h1>
+        <p className="text-body">
+          {drafts.length} {drafts.length === 1 ? "draft" : "drafts"} waiting for review.
+        </p>
       </div>
 
       {drafts.length === 0 ? (
         <div className="p-12 rounded-2xl bg-surface-50 border border-surface-200 text-center">
           <p className="text-body mb-4">No drafts yet.</p>
           <p className="text-muted text-sm">
-            Click &ldquo;Generate New Blog&rdquo; to have Claude draft a post based on the next topic in the queue.
+            Add an MDX file to <code>content/blog/drafts/</code> to see it here.
           </p>
         </div>
       ) : (
