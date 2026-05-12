@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 import { getNextTopic } from "@/lib/blog/topics";
 import { generateBlogPost } from "@/lib/blog/generate";
 import { commitDraft } from "@/lib/blog/github";
+
+function bearerMatches(header: string | null, secret: string): boolean {
+  if (!header) return false;
+  const expected = `Bearer ${secret}`;
+  const a = Buffer.from(header);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
 
 export const runtime = "nodejs";
 export const maxDuration = 300;
@@ -37,7 +47,7 @@ export async function GET(request: Request) {
     );
   }
 
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  if (!bearerMatches(authHeader, cronSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -81,13 +91,8 @@ export async function GET(request: Request) {
     });
   } catch (err: unknown) {
     console.error("Cron blog generation failed:", err);
-    const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
-      {
-        error: "Generation failed",
-        message,
-        topic: topic.title,
-      },
+      { error: "Generation failed", topic: topic.title },
       { status: 500 },
     );
   }

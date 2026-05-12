@@ -1,7 +1,17 @@
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 import { getNextTopic } from "@/lib/blog/topics";
 import { generateBlogPost } from "@/lib/blog/generate";
 import { commitDraft } from "@/lib/blog/github";
+
+function bearerMatches(header: string | null, secret: string): boolean {
+  if (!header) return false;
+  const expected = `Bearer ${secret}`;
+  const a = Buffer.from(header);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
 
 export const runtime = "nodejs";
 export const maxDuration = 300; // 5 minutes — Claude generation can take a bit
@@ -25,8 +35,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "CRON_SECRET not configured" }, { status: 500 });
   }
 
-  const expectedAuth = `Bearer ${cronSecret}`;
-  if (authHeader !== expectedAuth) {
+  if (!bearerMatches(authHeader, cronSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -82,13 +91,8 @@ export async function POST(request: Request) {
     });
   } catch (err: unknown) {
     console.error("Blog generation failed:", err);
-    const message = err instanceof Error ? err.message : "Unknown error";
     return NextResponse.json(
-      {
-        error: "Generation failed",
-        message,
-        topic: topic.title,
-      },
+      { error: "Generation failed", topic: topic.title },
       { status: 500 }
     );
   }
@@ -104,7 +108,7 @@ export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
   const cronSecret = process.env.CRON_SECRET;
 
-  if (authHeader !== `Bearer ${cronSecret}`) {
+  if (!cronSecret || !bearerMatches(authHeader, cronSecret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

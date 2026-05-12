@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { isAuthenticated } from "@/lib/admin-auth";
+import { isAuthenticated, verifyOrigin } from "@/lib/admin-auth";
 import { getNextTopic } from "@/lib/blog/topics";
 import { generateBlogPost } from "@/lib/blog/generate";
 import { commitDraft } from "@/lib/blog/github";
@@ -14,7 +14,10 @@ export const maxDuration = 300;
  * so the client can show proper loading/success/error feedback instead of
  * a full page redirect.
  */
-export async function POST() {
+export async function POST(request: Request) {
+  if (!verifyOrigin(request)) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
   if (!(await isAuthenticated())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -51,7 +54,6 @@ export async function POST() {
     });
   } catch (err) {
     console.error("Admin generation failed:", err);
-    const message = err instanceof Error ? err.message : "Generation failed";
-    return NextResponse.json({ error: message }, { status: 500 });
+    return NextResponse.json({ error: "Generation failed" }, { status: 500 });
   }
 }
