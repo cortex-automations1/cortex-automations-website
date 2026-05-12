@@ -48,11 +48,30 @@ const jsonLd = {
   description:
     "We build custom software for businesses — SaaS platforms, websites, mobile apps, and AI automations.",
   email: "hello@cortexautomations.ai",
+  areaServed: { "@type": "Country", name: "United States" },
+  knowsAbout: [
+    "SaaS Platform Development",
+    "Mobile App Development",
+    "Web Design",
+    "AI Automation",
+    "Technical Consulting",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "Customer Service",
+    url: "https://cortexautomations.ai/contact",
+    email: "hello@cortexautomations.ai",
+    availableLanguage: ["English"],
+  },
   sameAs: [
     "https://github.com/cortex-automations1",
     "https://linkedin.com/company/cortex-automations",
   ],
 };
+
+// Same `<`-escaping pattern used in app/blog/[slug]/page.tsx — defense
+// in depth in case any field ever derives from user input.
+const jsonLdHtml = JSON.stringify(jsonLd).replace(/</g, "\\u003c");
 
 export default function RootLayout({
   children,
@@ -64,7 +83,7 @@ export default function RootLayout({
       <body className="min-h-screen bg-surface-0 font-sans antialiased">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: jsonLdHtml }}
         />
         <ThemeProvider>
           <Header />
