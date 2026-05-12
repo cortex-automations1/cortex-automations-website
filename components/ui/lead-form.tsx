@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { User, Mail, Building, Phone, Layers, MessageSquare, Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
 
@@ -11,6 +11,9 @@ interface FormData {
   phone: string;
   service: string;
   message: string;
+  // Honeypot field — must remain empty. Bots fill every visible-looking
+  // input; legitimate users never see this one. Server rejects when set.
+  website: string;
 }
 
 const INITIAL_FORM: FormData = {
@@ -20,12 +23,20 @@ const INITIAL_FORM: FormData = {
   phone: "",
   service: "",
   message: "",
+  website: "",
 };
 
 export function LeadForm({ initialService = "" }: { initialService?: string }) {
   const [form, setForm] = useState<FormData>({ ...INITIAL_FORM, service: initialService });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  // Render timestamp — submitted with the form so the server can reject
+  // bot submissions that fire faster than any human could read the form.
+  const renderedAt = useRef<number>(0);
+
+  useEffect(() => {
+    renderedAt.current = Date.now();
+  }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setForm(function (prev) { return { ...prev, [e.target.name]: e.target.value }; });
@@ -39,7 +50,7 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
       const res = await fetch("/api/leads", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, renderedAt: renderedAt.current }),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -78,6 +89,19 @@ export function LeadForm({ initialService = "" }: { initialService?: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 p-8">
+      {/* Honeypot — visually and AT-hidden, off-screen, not a tab stop. */}
+      <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+        <label htmlFor="website-url">Website (leave this empty)</label>
+        <input
+          id="website-url"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={form.website}
+          onChange={handleChange}
+        />
+      </div>
 
       {/* Name & Email */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
