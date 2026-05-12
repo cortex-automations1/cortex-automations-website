@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ExternalLink, CheckCircle2 } from "lucide-react";
-import { PROJECTS } from "@/lib/constants";
+import { PROJECTS, SITE_URL } from "@/lib/constants";
 import { createMetadata } from "@/lib/metadata";
 import { AnimatedCounter } from "@/components/ui/animated-counter";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
@@ -56,6 +56,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: project.name,
     description: project.tagline,
     path: `/portfolio/${project.slug}`,
+    ogImage: project.image ? `${SITE_URL}${project.image}` : undefined,
   });
 }
 
