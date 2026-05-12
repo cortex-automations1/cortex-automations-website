@@ -205,6 +205,7 @@ export const PROJECTS = [
       { label: "Creator-First UX", value: "Yes" },
     ],
     link: "https://affiliates.spitehousestudios.com",
+    image: "/portfolio/spite-house-affiliates.png",
   },
   {
     slug: "dealprop",
@@ -225,6 +226,7 @@ export const PROJECTS = [
       { label: "Pricing Tiers", value: "4" },
     ],
     link: "https://dealprop.pro",
+    image: "/portfolio/dealprop.png",
   },
   {
     slug: "thryve-advisors",
