@@ -8,7 +8,7 @@ export const metadata: Metadata = createMetadata({
 });
 
 export default function PrivacyPage() {
-  const lastUpdated = "April 2026";
+  const lastUpdated = "May 2026";
 
   return (
     <div className="relative bg-surface-0 pt-32 pb-24">
@@ -87,7 +87,47 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-heading mb-4">5. Cookies</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">5. QuickBooks Online Integration</h2>
+            <p>
+              Cortex Automations operates an internal business-management application,
+              Cortex Command Center, which we use to run our own client engagements,
+              invoicing, and accounting. This application connects to QuickBooks Online
+              through the official Intuit API so that our financial records stay
+              consistent between the two systems.
+            </p>
+            <p className="mt-4">
+              Through this integration we read and write the following records within our
+              own QuickBooks Online company: invoices, customers, products and services,
+              income accounts, and payments. We connect only our own QuickBooks Online
+              company. We do not access, request, or store QuickBooks data belonging to
+              our clients or to any other party.
+            </p>
+            <p className="mt-4">
+              QuickBooks data and the credentials used to access it are handled as
+              follows:
+            </p>
+            <ul className="list-disc list-inside space-y-2 mt-3 ml-2">
+              <li>
+                All communication with Intuit takes place over encrypted HTTPS
+                connections.
+              </li>
+              <li>
+                OAuth access and refresh tokens issued by Intuit are stored encrypted at
+                rest and are never exposed to any third party.
+              </li>
+              <li>
+                QuickBooks data is used solely for bookkeeping and payment reconciliation.
+                It is never sold, rented, or shared.
+              </li>
+              <li>
+                The QuickBooks connection can be revoked at any time, which removes the
+                stored Intuit credentials.
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2 className="text-xl font-bold text-heading mb-4">6. Cookies</h2>
             <p>
               This website does not use tracking cookies or analytics beyond what is necessary for
               core functionality. Vercel may set cookies for performance and security purposes as
@@ -96,7 +136,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-heading mb-4">6. Your Rights</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">7. Your Rights</h2>
             <p>You have the right to:</p>
             <ul className="list-disc list-inside space-y-2 mt-3 ml-2">
               <li>Request access to the personal data we hold about you</li>
@@ -116,7 +156,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-heading mb-4">7. Changes to This Policy</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">8. Changes to This Policy</h2>
             <p>
               We may update this policy as our services evolve. Material changes will be reflected
               by updating the &ldquo;last updated&rdquo; date at the top of this page. Continued use of our
@@ -125,7 +165,7 @@ export default function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-heading mb-4">8. Contact</h2>
+            <h2 className="text-xl font-bold text-heading mb-4">9. Contact</h2>
             <p>
               For any privacy-related questions, please reach out to us at{" "}
               <a
