@@ -53,9 +53,9 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-heading mb-4">3. Data Storage &amp; Security</h2>
             <p>
               Inquiry data submitted through our contact form is forwarded to our internal CRM
-              (SignFlow) for lead management. All data is transmitted over HTTPS and stored
-              securely. We retain lead data for up to 24 months, after which it is permanently
-              deleted unless an active client relationship exists.
+              (Cortex Command Center) for lead management. All data is transmitted over HTTPS and
+              stored securely. We retain lead data for up to 24 months, after which it is
+              permanently deleted unless an active client relationship exists.
             </p>
           </section>
 
@@ -74,10 +74,6 @@ export default function PrivacyPage() {
               <li>
                 <span className="text-heading font-medium">Calendar.com</span> — scheduling widget
                 for discovery calls
-              </li>
-              <li>
-                <span className="text-heading font-medium">SignFlow</span> — CRM for lead and client
-                management
               </li>
             </ul>
             <p className="mt-4">

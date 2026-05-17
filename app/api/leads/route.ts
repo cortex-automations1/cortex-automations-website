@@ -93,49 +93,64 @@ export async function POST(request: Request) {
 
     const { name, email, company, phone, service, message } = parsed.data;
 
-    // Forward to SignFlow API if configured
-    const apiUrl = process.env.SIGNFLOW_API_URL;
-    const apiKey = process.env.SIGNFLOW_API_KEY;
+    // Forward the lead to Cortex Command Center's public lead intake
+    // (app.cortexautomations.ai/api/leads). That endpoint is public and
+    // CORS-enabled by design for website forms — no API key required.
+    // Overridable via env for staging; defaults to production so a missing
+    // env var can never silently drop leads.
+    const leadsEndpoint =
+      process.env.CORTEX_LEADS_ENDPOINT ??
+      "https://app.cortexautomations.ai/api/leads";
 
-    if (apiUrl && apiKey) {
-      try {
-        const response = await fetch(`${apiUrl}/clients`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${apiKey}`,
-          },
-          body: JSON.stringify({
-            name,
-            email,
-            company,
-            phone: phone || undefined,
-            status: "lead",
-            notes: `Service Interest: ${service}\n\nMessage: ${message}`,
-          }),
-        });
+    // Command Center's lead schema accepts `phone` only as a US number that
+    // normalizes to exactly 10 digits — anything else 400s the whole request.
+    // Send a structured phone only when it qualifies; otherwise keep whatever
+    // the visitor typed in the notes so it is never lost.
+    const phoneDigits = (phone ?? "").replace(/\D/g, "");
+    const normalizedPhone =
+      phoneDigits.length === 11 && phoneDigits.startsWith("1")
+        ? phoneDigits.slice(1)
+        : phoneDigits;
+    const structuredPhone =
+      normalizedPhone.length === 10 ? normalizedPhone : undefined;
 
-        if (!response.ok) {
-          console.error(
-            "SignFlow API error:",
-            response.status,
-            await response.text(),
-          );
-        }
-      } catch (apiError) {
-        // Log but don't fail the user request
-        console.error("Failed to forward lead to SignFlow:", apiError);
-      }
-    } else {
-      // Log to console when SignFlow API is not configured
-      console.log("New lead submission (SignFlow API not configured):", {
-        name,
-        email,
-        company,
-        phone,
-        service,
-        message,
+    let notes = `Service Interest: ${service}\n\nMessage: ${message}`;
+    if (phone && !structuredPhone) {
+      notes += `\n\nPhone (as entered): ${phone}`;
+    }
+    // Command Center caps notes at 2000 chars; our message field allows more.
+    if (notes.length > 2000) {
+      notes = notes.slice(0, 1999) + "…";
+    }
+
+    try {
+      const response = await fetch(leadsEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          company,
+          phone: structuredPhone,
+          source: "website",
+          notes,
+        }),
       });
+
+      if (!response.ok) {
+        // Log but don't fail the visitor's request — the form still
+        // succeeds for them; the miss is visible in logs.
+        console.error(
+          "Cortex Command Center lead intake error:",
+          response.status,
+          await response.text().catch(() => ""),
+        );
+      }
+    } catch (apiError) {
+      console.error(
+        "Failed to forward lead to Cortex Command Center:",
+        apiError,
+      );
     }
 
     return NextResponse.json({ success: true });

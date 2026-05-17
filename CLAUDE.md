@@ -17,12 +17,15 @@ Marketing website for cortexautomations.ai.
 - All content data lives in `lib/constants.ts` - no database, no CMS
 - Brand color: `brand-500: #5B7FFF` (cornflower blue from logo)
 - Pages: Home, Services, Portfolio, About, Contact
-- Lead capture form posts to `/api/leads` which forwards to SignFlow API
+- Lead capture form posts to `/api/leads`, which forwards leads to the Cortex
+  Command Center lead intake (`app.cortexautomations.ai/api/leads` — a public,
+  CORS-enabled endpoint; no API key required)
 - Cal.com embedded on contact page for booking
 
 ## Environment Variables
-- `SIGNFLOW_API_URL` - SignFlow API base URL for lead capture
-- `SIGNFLOW_API_KEY` - API key for authentication
+- `CORTEX_LEADS_ENDPOINT` - (optional) override for the Cortex Command Center
+  lead-intake URL. Defaults to the production endpoint, so it does not need to
+  be set; provide it only to point lead capture at a staging instance.
 
 ## Conventions
 - Server components by default, `"use client"` only when needed
