@@ -58,9 +58,9 @@ const IDEAL_FOR: Record<string, string[]> = {
 // Real project slugs that exist in PROJECTS (lib/constants.ts). Empty
 // arrays render no "Related Work" section.
 const RELATED_PROJECTS: Record<string, string[]> = {
-  "saas-platforms": ["signflow-pro", "dealprop"],
+  "saas-platforms": ["quotehq", "dealprop", "cloud-x", "placed"],
   "mobile-apps": [],
-  "web-design": ["thryve-advisors", "capital-pg-homes", "tree-doctor"],
+  "web-design": ["thryve-advisors", "capital-pg-homes", "tree-doctor", "roughcut-cedar-co"],
   "ai-automation": ["dealprop"],
   consulting: [],
 };

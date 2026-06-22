@@ -15,7 +15,7 @@ export const metadata: Metadata = createMetadata({
 });
 
 const PROJECT_ICONS: Record<string, LucideIcon> = {
-  "signflow-pro": Layers,
+  quotehq: Layers,
 };
 
 export default function PortfolioPage() {
@@ -39,6 +39,7 @@ export default function PortfolioPage() {
               const Icon = PROJECT_ICONS[project.slug] ?? Sparkles;
               const isFeatured = index === 0;
               const href = project.link ?? "#";
+              const status = (project as { status?: string }).status;
 
               return (
                 <StaggerItem
@@ -89,6 +90,11 @@ export default function PortfolioPage() {
                     )}
 
                     <div className="relative z-10 p-8 flex-1 flex flex-col justify-end">
+                      {status ? (
+                        <span className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-amber-400">
+                          {status}
+                        </span>
+                      ) : null}
                       <p className="text-brand-400 text-sm font-mono mb-2 uppercase tracking-wider">
                         {project.category}
                       </p>
