@@ -103,25 +103,26 @@ export const SERVICES = [
 
 export const PROJECTS = [
   {
-    slug: "signflow-pro",
-    name: "SignFlow Pro",
+    slug: "quotehq",
+    name: "QuoteHQ",
     category: "SaaS Platform",
-    tagline: "The all-in-one CRM for service businesses",
+    status: "Under Development",
+    tagline: "Quote-to-cash platform for service businesses",
     description:
-      "A full-featured CRM platform with proposal building, e-signatures, invoicing, recurring billing, and a client portal. Built from scratch with multi-tenant architecture supporting hundreds of businesses.",
+      "An all-in-one quote-to-cash platform for service businesses — AI-assisted proposal generation, legally-binding e-signatures, invoicing, recurring billing, and a branded client portal in one multi-tenant SaaS. The next-generation successor to SignFlow.",
     challenge:
-      "Service businesses were managing proposals, contracts, invoicing, and client communication across 4–5 disconnected tools — leading to dropped leads, billing delays, and excessive manual data re-entry.",
+      "Service businesses still stitch quoting, contracts, e-signature, and billing across four or five disconnected tools — leaking leads and revenue between the cracks and re-keying the same data at every step.",
     solution:
-      "We architected a unified multi-tenant SaaS platform with a drag-and-drop proposal builder, legally-binding e-signatures via BoldSign, Stripe-powered recurring billing, and a white-labeled client portal — consolidating the entire client lifecycle into one product.",
-    techStack: ["Next.js", "React", "Prisma", "PostgreSQL", "Stripe", "BoldSign"],
+      "We're building a unified, AI-native quote-to-cash platform: generate a proposal with AI, send it for e-signature, convert it to an invoice with recurring billing and integrated payments, and give every client a branded portal — the entire revenue cycle in one product.",
+    techStack: ["Next.js", "React", "Drizzle", "Neon Postgres", "Better Auth", "Finix"],
     highlights: [
-      { label: "Block Types", value: "18+" },
-      { label: "Industry Templates", value: "8" },
-      { label: "Uptime", value: "99.9%" },
-      { label: "API Endpoints", value: "40+" },
+      { label: "Revenue Cycle", value: "Quote→Cash" },
+      { label: "AI Proposals", value: "Built-in" },
+      { label: "Payments", value: "Finix" },
+      { label: "Architecture", value: "Multi-tenant" },
     ],
-    link: "https://signflow.pro",
-    image: "/portfolio/signflow-pro.jpg",
+    link: "https://quotehq.app",
+    image: undefined, // screenshot pending: /portfolio/quotehq.png
   },
   {
     slug: "outback-excavating",
@@ -211,6 +212,7 @@ export const PROJECTS = [
     slug: "dealprop",
     name: "DealProp",
     category: "SaaS Platform",
+    status: "Under Development",
     tagline: "AI-powered operating system for real estate investors",
     description:
       "A comprehensive platform for real estate investors to manage deals, rehab projects, vendors, investors, and capital — all in one place. Features AI-powered deal analysis, multi-portal access for operators, investors, and vendors, and supports 8 investment strategies.",
@@ -227,6 +229,71 @@ export const PROJECTS = [
     ],
     link: "https://dealprop.pro",
     image: "/portfolio/dealprop.png",
+  },
+  {
+    slug: "cloud-x",
+    name: "Cloud X",
+    category: "SaaS Platform",
+    status: "Under Development",
+    tagline: "AI-native business OS for managed service providers",
+    description:
+      "An AI-native operating system for MSPs that runs the entire operation — lead to AI-generated proposal, e-signature, billing, and client portal as the PSA core, extended with remote monitoring, a vendor marketplace, commissions, and white-label tooling.",
+    challenge:
+      "MSPs run their business across a patchwork of PSA, RMM, billing, and documentation tools that don't talk to each other — so technicians lose hours to swivel-chair work and owners can't see the whole operation in one place.",
+    solution:
+      "We're building a single AI-native platform that unifies the MSP lifecycle: lead → AI proposal → e-sign → bill → portal as the core, then layering on remote monitoring, a marketplace, QBRs, and white-label options.",
+    techStack: ["Next.js", "React", "TypeScript", "PostgreSQL", "AI/ML"],
+    highlights: [
+      { label: "Core Flow", value: "Lead→Bill" },
+      { label: "AI-Native", value: "Yes" },
+      { label: "Built For", value: "MSPs" },
+      { label: "Modules", value: "PSA + RMM" },
+    ],
+    link: "https://cloud-x.co",
+    image: undefined, // screenshot pending: /portfolio/cloud-x.png
+  },
+  {
+    slug: "placed",
+    name: "Placed",
+    category: "SaaS Platform",
+    status: "Under Development",
+    tagline: "Vertical operating system for executive recruiting firms",
+    description:
+      "A recruiting CRM/ATS for contingent executive search firms covering the full revenue cycle — client proposal, candidate pipeline and placement, and payment collection — purpose-built for mid-market firms placing $25K–$50K roles.",
+    challenge:
+      "Contingent recruiting firms run on generic ATS tools and spreadsheets that ignore the money side — proposals, fee agreements, and collections live outside the system, so revenue tracking is manual and error-prone.",
+    solution:
+      "We're building a vertical OS for recruiting that connects client proposals, candidate placement, and payment collection in one platform — a single source of truth from pitch to paid, positioned against incumbents like Loxo.",
+    techStack: ["Next.js", "React", "TypeScript", "PostgreSQL", "Tailwind CSS"],
+    highlights: [
+      { label: "Revenue Cycle", value: "Proposal→Paid" },
+      { label: "Target Fees", value: "$25K–50K" },
+      { label: "Firm Size", value: "5–50 seats" },
+      { label: "Category", value: "ATS / CRM" },
+    ],
+    link: "https://placednow.com",
+    image: undefined, // screenshot pending: /portfolio/placed.png
+  },
+  {
+    slug: "roughcut-cedar-co",
+    name: "Roughcut Cedar Co",
+    category: "Web Design",
+    tagline: "Marketing site for a rough-cut cedar products company",
+    description:
+      "A clean, conversion-focused marketing website for a rough-cut cedar products company — showcasing cedar lumber and custom products, building credibility with prospective buyers, and making it easy to request a quote.",
+    challenge:
+      "Roughcut Cedar Co needed a professional online presence that conveyed the quality of their cedar products and turned local interest into quote requests, rather than relying on word-of-mouth alone.",
+    solution:
+      "We designed and built a fast, mobile-first site that highlights their cedar product lines, communicates craftsmanship and quality, and drives inquiries with clear calls-to-action and a simple quote-request flow.",
+    techStack: ["Next.js", "React", "Tailwind CSS", "Vercel"],
+    highlights: [
+      { label: "Product Focus", value: "Cedar" },
+      { label: "Mobile-First", value: "Yes" },
+      { label: "Lighthouse Score", value: "95+" },
+      { label: "Load Time", value: "<1s" },
+    ],
+    link: "https://roughcutcedarco.com",
+    image: undefined, // screenshot pending: /portfolio/roughcut-cedar-co.png
   },
   {
     slug: "thryve-advisors",
