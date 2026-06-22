@@ -122,7 +122,7 @@ export const PROJECTS = [
       { label: "Architecture", value: "Multi-tenant" },
     ],
     link: "https://quotehq.app",
-    image: undefined, // screenshot pending: /portfolio/quotehq.png
+    image: "/portfolio/quotehq.png",
   },
   {
     slug: "outback-excavating",
@@ -293,7 +293,7 @@ export const PROJECTS = [
       { label: "Load Time", value: "<1s" },
     ],
     link: "https://roughcutcedarco.com",
-    image: undefined, // screenshot pending: /portfolio/roughcut-cedar-co.png
+    image: "/portfolio/roughcut-cedar-co.png",
   },
   {
     slug: "thryve-advisors",
