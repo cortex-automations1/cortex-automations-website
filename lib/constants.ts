@@ -122,7 +122,7 @@ export const PROJECTS = [
       { label: "Architecture", value: "Multi-tenant" },
     ],
     link: "https://quotehq.app",
-    image: "/portfolio/quotehq.png",
+    image: undefined, // screenshot pending: /portfolio/quotehq.png
   },
   {
     slug: "outback-excavating",
@@ -250,7 +250,7 @@ export const PROJECTS = [
       { label: "Modules", value: "PSA + RMM" },
     ],
     link: "https://cloud-x.co",
-    image: "/portfolio/cloud-x.png",
+    image: undefined, // screenshot pending: /portfolio/cloud-x.png
   },
   {
     slug: "placed",
@@ -272,7 +272,7 @@ export const PROJECTS = [
       { label: "Category", value: "ATS / CRM" },
     ],
     link: "https://placednow.com",
-    image: "/portfolio/placed.png",
+    image: undefined, // screenshot pending: /portfolio/placed.png
   },
   {
     slug: "roughcut-cedar-co",
@@ -293,7 +293,7 @@ export const PROJECTS = [
       { label: "Load Time", value: "<1s" },
     ],
     link: "https://roughcutcedarco.com",
-    image: "/portfolio/roughcut-cedar-co.png",
+    image: undefined, // screenshot pending: /portfolio/roughcut-cedar-co.png
   },
   {
     slug: "thryve-advisors",
