@@ -1,0 +1,62 @@
+---
+title: "Building QuoteHQ: One Flow From Quote to Cash"
+slug: "building-quotehq-quote-to-cash"
+description: "QuoteHQ is our answer to a question every service business asks: why does it take five tools to get from 'yes' to 'paid'? Here's what we built, and why we narrowed instead of widened."
+publishedAt: "2026-07-15"
+tags: ["case-study", "saas", "quote-to-cash", "payments"]
+author: "Cortex Automations"
+featured: true
+image: "/portfolio/quotehq.png"
+---
+
+Two years ago we wrote about SignFlow Pro, our attempt to replace five tools with one CRM for service businesses. SignFlow taught us a lot. The most important lesson was uncomfortable: breadth was the wrong bet.
+
+QuoteHQ is what we built with that lesson. It's live today at [myquotehq.com](https://myquotehq.com), with plans starting at $29/month and a 14-day trial that doesn't ask for a card. This post is about what it does, what we deliberately left out, and the product decisions underneath it.
+
+## The problem, narrowed
+
+A service business — a contractor, a cleaning company, a bookkeeping firm — runs one process that actually produces revenue: someone says "yes," and money eventually arrives. Everything between those two moments is where deals stall and margins leak.
+
+In practice, that gap is stitched together from disconnected tools: a proposal written in a doc editor, an e-signature service, an invoicing app, a payment processor, and a spreadsheet pretending to be a CRM. Every seam means re-keyed data, and every re-key is a chance for the deal to sit in someone's inbox for a week.
+
+SignFlow tried to replace all of those tools at once — scheduling, invoicing, contracts, CRM, client portals. QuoteHQ makes the opposite bet: own *one* path, end to end, and be the best product in the world at that path. The path is quote → signature → payment → clean books. Nothing else earns a spot until that flow is airtight.
+
+## What the flow actually looks like
+
+The product promise is on the homepage: **quote it, sign it, get paid.** Concretely:
+
+**Quote it.** You describe the job in plain English and QuoteHQ drafts the proposal — scope and line items included. The AI drafting isn't a party trick; it exists because the number-one reason quotes go out late is that writing them is a chore. A proposal that goes out the same afternoon closes at a different rate than one that goes out Thursday.
+
+**Sign it.** The client signs in the browser — ESIGN-compliant, with a full audit trail, and countersigning for businesses that need both parties on the document. No "download, print, scan" ritual, no separate e-signature subscription.
+
+**Get paid.** The moment the signature lands, QuoteHQ invoices the deposit. This is the step most stitched-together stacks fumble: the contract lives in one system and the invoice in another, so "signed" and "billed" can drift days apart. In QuoteHQ they're the same event.
+
+**Keep the books clean.** Invoices, payments, and fees sync to QuickBooks automatically, categorized. After the signature, the client gets a portal — invoices, project status, tasks, and an activity log — so "can you resend that?" emails stop being part of the workflow. Recurring billing and autopay cover businesses whose work is a relationship, not a one-off.
+
+## The dual pricing decision
+
+The payments layer does something most invoicing tools don't: every invoice can present two prices — a card price and a bank-transfer price — and the client picks.
+
+Card processing costs the business a percentage of every sale. Most software either eats that silently (the business's margin pays), or slaps a "convenience fee" on at checkout (the client feels ambushed). Dual pricing shows both full prices up front, which is more honest than a surprise fee, and it routes a meaningful share of payments to bank transfer, where the fees aren't.
+
+We've watched this model work from two angles — we also built the website for [Thryve Advisors](/portfolio/thryve-advisors), a Springfield firm that helps brick-and-mortar merchants adopt dual pricing at the register. Building it into invoicing software was the natural next step: the mechanics that work at a point-of-sale work just as well on a $12,000 deposit invoice, where the fee difference is real money.
+
+We've written a full explainer on how dual pricing works in [a companion post](/blog/dual-pricing-explained-for-small-businesses).
+
+## What it's built on
+
+For those who care about the machinery: QuoteHQ is a multi-tenant Next.js and React application, with Drizzle ORM over Neon Postgres, Better Auth for authentication, and Finix as the payments infrastructure. It's the same core stack as our other SaaS work — this is the job Next.js is right for, the same way [it was wrong for Thryve's marketing site](/blog/why-astro-preact-cloudflare-for-thryve-advisors). Right tool, right job, every time.
+
+Multi-tenancy was in the foundation from the first migration, not retrofitted. Every table, every query, every background job is tenant-scoped. That's the kind of decision that's cheap on day one and unpayable later.
+
+## What we left out, on purpose
+
+The discipline in a product like this isn't the feature list — it's the rejection list. QuoteHQ doesn't do scheduling. It doesn't do payroll. It doesn't try to be your email client. Every one of those is a real need, and every one of them is a different product wearing your product's clothes.
+
+SignFlow's instinct was to make the seams disappear by owning everything. QuoteHQ makes the seams disappear by owning the one sequence where seams cost money — and syncing cleanly (QuickBooks) with the systems that own the rest.
+
+If you run a service business, the pitch is one sentence: a client conversation becomes a signed proposal, a paid deposit, and clean books — the same afternoon. You can try it at [myquotehq.com](https://myquotehq.com), and the full case study lives in [our portfolio](/portfolio/quotehq).
+
+---
+
+*Building a SaaS product and wrestling with what to leave out? [Tell us about it](/contact).*
