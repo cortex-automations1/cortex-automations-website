@@ -106,22 +106,22 @@ export const PROJECTS = [
     slug: "quotehq",
     name: "QuoteHQ",
     category: "SaaS Platform",
-    status: "Under Development",
-    tagline: "Quote-to-cash platform for service businesses",
+    status: "Live",
+    tagline: "Quote it, sign it, get paid — quote-to-cash for service businesses",
     description:
-      "An all-in-one quote-to-cash platform for service businesses — AI-assisted proposal generation, legally-binding e-signatures, invoicing, recurring billing, and a branded client portal in one multi-tenant SaaS. The next-generation successor to SignFlow.",
+      "An all-in-one quote-to-cash platform for service businesses — AI-assisted proposals, ESIGN-compliant e-signatures, dual pricing payments, recurring billing with autopay, QuickBooks sync, and a branded client portal in one multi-tenant SaaS. Live at myquotehq.com with plans from $29/month.",
     challenge:
       "Service businesses still stitch quoting, contracts, e-signature, and billing across four or five disconnected tools — leaking leads and revenue between the cracks and re-keying the same data at every step.",
     solution:
-      "We're building a unified, AI-native quote-to-cash platform: generate a proposal with AI, send it for e-signature, convert it to an invoice with recurring billing and integrated payments, and give every client a branded portal — the entire revenue cycle in one product.",
+      "We built and launched a unified, AI-native quote-to-cash platform: turn a client conversation into an AI-drafted proposal, collect a compliant e-signature, invoice the deposit on the spot with dual pricing that offsets card fees, and keep the books clean with automatic QuickBooks sync — the entire revenue cycle in one product.",
     techStack: ["Next.js", "React", "Drizzle", "Neon Postgres", "Better Auth", "Finix"],
     highlights: [
       { label: "Revenue Cycle", value: "Quote→Cash" },
       { label: "AI Proposals", value: "Built-in" },
-      { label: "Payments", value: "Finix" },
-      { label: "Architecture", value: "Multi-tenant" },
+      { label: "Dual Pricing", value: "Card/Bank" },
+      { label: "Plans From", value: "$29/mo" },
     ],
-    link: "https://quotehq.app",
+    link: "https://myquotehq.com",
     image: "/portfolio/quotehq.png",
   },
   {

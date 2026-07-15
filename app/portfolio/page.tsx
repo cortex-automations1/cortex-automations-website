@@ -77,7 +77,14 @@ function ProjectCard({
 
       <div className="relative z-10 p-8 flex-1 flex flex-col justify-end">
         {status ? (
-          <span className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full border border-amber-500/20 bg-amber-500/10 px-2.5 py-1 text-xs font-mono uppercase tracking-wider text-amber-400">
+          <span
+            className={cn(
+              "mb-3 inline-flex w-fit items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-mono uppercase tracking-wider",
+              status === "Live"
+                ? "border-emerald-500/20 bg-emerald-500/10 text-emerald-400"
+                : "border-amber-500/20 bg-amber-500/10 text-amber-400",
+            )}
+          >
             {status}
           </span>
         ) : null}
