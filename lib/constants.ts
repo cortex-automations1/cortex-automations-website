@@ -338,6 +338,27 @@ export const PROJECTS = [
     image: "/portfolio/tree-doctor.png",
   },
   {
+    slug: "rons-outdoor-maintenance",
+    name: "Ron's Outdoor Maintenance",
+    category: "Web Design",
+    tagline: "Owner-direct lawn care and landscaping site for Springfield, MO",
+    description:
+      "A conversion-focused marketing site for a locally-owned lawn care and landscaping company serving Springfield, Missouri and seven surrounding communities. The site leads with the owner-operator promise — you talk to Ron, not a call center — and turns visitors into quote requests with tap-to-call, text, and a simple estimate flow.",
+    challenge:
+      "Ron's Outdoor Maintenance competes against national lawn care franchises with big ad budgets. The business needed a site that made its local, owner-direct advantage unmistakable, ranked for lawn care searches across its service area, and made requesting a free estimate effortless from a phone.",
+    solution:
+      "We built a fast, mobile-first Next.js site organized around clear service pages — mowing, landscaping, mulching, cleanups, and seasonal plans — with a photo gallery of completed work, a service area map covering eight communities, and call, text, and quote CTAs one tap away throughout.",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Vercel"],
+    highlights: [
+      { label: "Service Areas", value: "8" },
+      { label: "Contact Options", value: "Call/Text" },
+      { label: "Estimates", value: "Free" },
+      { label: "Mobile-First", value: "Yes" },
+    ],
+    link: "https://ronsoutdoormaintenance.com",
+    image: "/portfolio/rons-outdoor-maintenance.jpg",
+  },
+  {
     slug: "cortex-automations",
     name: "Cortex Automations",
     category: "Web Design",
