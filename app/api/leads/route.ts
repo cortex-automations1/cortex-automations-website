@@ -9,8 +9,10 @@ const leadSchema = z.object({
   phone: z.string().max(30).optional().default(""),
   service: z.string().min(1, "Service interest is required"),
   message: z.string().min(1, "Message is required").max(5000),
-  // Honeypot — must be empty. A non-empty value is bot-filled.
-  website: z.string().max(0).optional().default(""),
+  // Honeypot — must be empty. A non-empty value is bot-filled. No max()
+  // here: a length constraint would fail validation with a revealing 400
+  // before the silent-200 honeypot branch below ever runs.
+  website: z.string().optional().default(""),
   // Client-supplied timestamp from useEffect on mount. Used as a
   // soft signal — we reject submits that fire too fast to be human.
   renderedAt: z.number().optional(),

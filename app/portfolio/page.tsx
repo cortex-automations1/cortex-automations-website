@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Layers, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -30,14 +31,14 @@ function ProjectCard({
   isFeatured: boolean;
 }) {
   const Icon = PROJECT_ICONS[project.slug] ?? Sparkles;
-  const href = project.link ?? "#";
   const status = (project as { status?: string }).status;
 
+  // Cards link to our own case-study pages; the external "View Live Site"
+  // button lives on the detail page. Linking cards straight to client sites
+  // left the detail pages orphaned (sitemap-only) for search engines.
   return (
-    <a
-      href={href}
-      target={project.link ? "_blank" : undefined}
-      rel={project.link ? "noopener noreferrer" : undefined}
+    <Link
+      href={`/portfolio/${project.slug}`}
       className={cn(
         "group relative rounded-2xl border border-surface-200 bg-surface-50 overflow-hidden transition-transform hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-500/10 flex flex-col h-full",
         isFeatured && "bg-surface-100",
@@ -100,7 +101,7 @@ function ProjectCard({
           View Project <ArrowRight className="ml-2 w-4 h-4" />
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 

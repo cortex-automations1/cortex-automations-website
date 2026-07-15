@@ -10,7 +10,15 @@ import { getAllPublishedPosts } from "@/lib/blog";
 // which dilutes the signal.
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseRoutes = ["", "/about", "/services", "/portfolio", "/contact"].map(
+  const baseRoutes = [
+    "",
+    "/about",
+    "/services",
+    "/portfolio",
+    "/contact",
+    "/privacy",
+    "/terms",
+  ].map(
     function (route) {
       return { url: `${SITE_URL}${route}` };
     },

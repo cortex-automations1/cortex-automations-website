@@ -3,7 +3,7 @@
 Marketing website for cortexautomations.ai.
 
 ## Tech Stack
-- Next.js 15 (App Router) + React 19 + TypeScript
+- Next.js 16 (App Router) + React 19 + TypeScript
 - Tailwind CSS 4 (`@tailwindcss/postcss`)
 - Lucide React (icons), clsx + tailwind-merge (utilities), zod (form validation)
 
@@ -20,7 +20,7 @@ Marketing website for cortexautomations.ai.
 - Lead capture form posts to `/api/leads`, which forwards leads to the Cortex
   Command Center lead intake (`app.cortexautomations.ai/api/leads` — a public,
   CORS-enabled endpoint; no API key required)
-- Cal.com embedded on contact page for booking
+- Calendar.com booking widget embedded on contact page
 
 ## Environment Variables
 - `CORTEX_LEADS_ENDPOINT` - (optional) override for the Cortex Command Center
@@ -31,6 +31,5 @@ Marketing website for cortexautomations.ai.
 - Server components by default, `"use client"` only when needed
 - `cn()` utility from `lib/utils.ts` for conditional classes
 - `createMetadata()` from `lib/metadata.ts` for page-level SEO
-- Section components in `components/sections/`
 - UI components in `components/ui/`
 - Layout components in `components/layout/`

@@ -194,7 +194,9 @@ export default async function BlogPostPage({ params }: PageProps) {
       "@id": `${SITE_URL}/blog/${post.slug}`,
     },
     keywords: (post.tags ?? []).join(", "),
-    image: post.image ? [post.image] : [`${SITE_URL}/og`],
+    image: post.image
+      ? [post.image.startsWith("http") ? post.image : `${SITE_URL}${post.image}`]
+      : [`${SITE_URL}/og`],
   };
 
   // JSON-LD is generated from trusted server-side frontmatter and safely
