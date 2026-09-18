@@ -231,48 +231,26 @@ export const PROJECTS = [
     image: "/portfolio/dealprop.png",
   },
   {
-    slug: "cloud-x",
-    name: "Cloud X",
+    slug: "saldera-psa",
+    name: "Saldera PSA",
     category: "SaaS Platform",
     status: "Under Development",
-    tagline: "AI-native business OS for managed service providers",
+    tagline: "One PSA for small MSPs — not a portfolio of acquired tools",
     description:
-      "An AI-native operating system for MSPs that runs the entire operation — lead to AI-generated proposal, e-signature, billing, and client portal as the PSA core, extended with remote monitoring, a vendor marketplace, commissions, and white-label tooling.",
+      "A professional services automation platform for small managed service providers — service desk, sales, and billing built as one product in one codebase, with remote monitoring designed alongside it rather than bolted on afterwards. AI assist is built in and metered per tenant.",
     challenge:
-      "MSPs run their business across a patchwork of PSA, RMM, billing, and documentation tools that don't talk to each other — so technicians lose hours to swivel-chair work and owners can't see the whole operation in one place.",
+      "The big MSP platforms grew by acquisition, and the seams show in every workflow — ticketing and billing were different products and still behave that way. Small MSPs end up stitching together five or six tools and re-typing the same client details into each one.",
     solution:
-      "We're building a single AI-native platform that unifies the MSP lifecycle: lead → AI proposal → e-sign → bill → portal as the core, then layering on remote monitoring, a marketplace, QBRs, and white-label options.",
-    techStack: ["Next.js", "React", "TypeScript", "PostgreSQL", "AI/ML"],
+      "We're building a single platform where the parts agree by construction: email-to-ticket service desk with SLAs and a knowledge base, lead capture to AI-drafted proposal to e-signature with a hash-chained audit trail, recurring invoicing, and a resumable migration path from Syncro — built HIPAA-first for MSPs with medical and dental clients.",
+    techStack: ["Next.js", "React", "TypeScript", "PostgreSQL", "Drizzle ORM", "AI/ML"],
     highlights: [
-      { label: "Core Flow", value: "Lead→Bill" },
-      { label: "AI-Native", value: "Yes" },
-      { label: "Built For", value: "MSPs" },
-      { label: "Modules", value: "PSA + RMM" },
+      { label: "Built For", value: "Small MSPs" },
+      { label: "Codebase", value: "One" },
+      { label: "AI Assist", value: "Metered" },
+      { label: "Compliance", value: "HIPAA-first" },
     ],
-    link: "https://cloud-x.co",
-    image: undefined, // screenshot pending: /portfolio/cloud-x.png
-  },
-  {
-    slug: "placed",
-    name: "Placed",
-    category: "SaaS Platform",
-    status: "Under Development",
-    tagline: "Vertical operating system for executive recruiting firms",
-    description:
-      "A recruiting CRM/ATS for contingent executive search firms covering the full revenue cycle — client proposal, candidate pipeline and placement, and payment collection — purpose-built for mid-market firms placing $25K–$50K roles.",
-    challenge:
-      "Contingent recruiting firms run on generic ATS tools and spreadsheets that ignore the money side — proposals, fee agreements, and collections live outside the system, so revenue tracking is manual and error-prone.",
-    solution:
-      "We're building a vertical OS for recruiting that connects client proposals, candidate placement, and payment collection in one platform — a single source of truth from pitch to paid, positioned against incumbents like Loxo.",
-    techStack: ["Next.js", "React", "TypeScript", "PostgreSQL", "Tailwind CSS"],
-    highlights: [
-      { label: "Revenue Cycle", value: "Proposal→Paid" },
-      { label: "Target Fees", value: "$25K–50K" },
-      { label: "Firm Size", value: "5–50 seats" },
-      { label: "Category", value: "ATS / CRM" },
-    ],
-    link: "https://placednow.com",
-    image: undefined, // screenshot pending: /portfolio/placed.png
+    link: "https://salderapsa.com",
+    image: undefined, // screenshot pending: /portfolio/saldera-psa.png
   },
   {
     slug: "roughcut-cedar-co",

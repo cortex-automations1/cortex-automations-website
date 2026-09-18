@@ -36,6 +36,13 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [
+      // Cloud X rebranded to Saldera PSA; Placed removed from the portfolio.
+      { source: "/portfolio/cloud-x", destination: "/portfolio/saldera-psa", permanent: true },
+      { source: "/portfolio/placed", destination: "/portfolio", permanent: true },
+    ];
+  },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
