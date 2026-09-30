@@ -337,6 +337,27 @@ export const PROJECTS = [
     image: "/portfolio/rons-outdoor-maintenance.jpg",
   },
   {
+    slug: "elevate-it-solutions",
+    name: "Elevate IT Solutions",
+    category: "Web Design",
+    tagline: "Founder-led managed IT site for Southwest Missouri and Kansas City",
+    description:
+      "A custom marketing site for a Missouri managed IT provider serving Springfield, Southwest Missouri, and the Kansas City metro. The site leads with a \"we learn your business first\" approach, lays out eight service lines from hardware procurement to AI implementation, and turns visitors into booked consultations and hardware quote requests.",
+    challenge:
+      "Small businesses are wary of IT vendors that sell a package before understanding how they work, and most MSP websites look interchangeable. Elevate needed a site that read as a credible, custom-built partner, made its process concrete, and gave prospects an easy first step.",
+    solution:
+      "We built a fast Next.js site around a five-step process where every step ends in something written that the client keeps. A hand-drawn office plan marked up with first-meeting questions sets the tone, and a real before-and-after project story builds trust. Visitors can book a call through an embedded scheduler or use a Turnstile-protected contact form that delivers leads through Postmark and sends the prospect an instant confirmation. Structured data targets local search across the service area.",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Postmark", "Cloudflare Turnstile", "Vercel"],
+    highlights: [
+      { label: "Service Lines", value: "8" },
+      { label: "Process Steps", value: "5" },
+      { label: "Lighthouse Score", value: "90+" },
+      { label: "Markets Served", value: "SW MO + KC" },
+    ],
+    link: "https://elevateitpro.com",
+    image: "/portfolio/elevate-it-solutions.png",
+  },
+  {
     slug: "cortex-automations",
     name: "Cortex Automations",
     category: "Web Design",
