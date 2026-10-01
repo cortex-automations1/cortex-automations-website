@@ -18,27 +18,36 @@ type Props = { params: Promise<{ slug: string }> };
  *   "3"      → { target: 3 }
  *   "95+"    → { target: 95, suffix: "+" }
  *   "$200K+" → { target: 200, prefix: "$", suffix: "K+" }
- *   "<1s"    → null
+ *   "5.0"    → { target: 5, decimals: 1 }
+ *   "MW-5822A" → null (an identifier, not a quantity)
  *   "Yes"    → null
  */
 function parseHighlightValue(
   value: string
-): { target: number; prefix?: string; suffix?: string } | null {
+): { target: number; prefix?: string; suffix?: string; decimals?: number } | null {
   // Strip leading non-digit characters as prefix (e.g. "$")
   const prefixMatch = value.match(/^([^0-9]*)(\d[\d,.]*)(.*)$/);
   if (!prefixMatch) return null;
 
   const prefix = prefixMatch[1];
+  // A lettered prefix means an identifier (e.g. a certification number like
+  // "MW-5822A"), not a quantity — show it as-is rather than counting it up.
+  if (/[a-z]/i.test(prefix)) return null;
+
   const numStr = prefixMatch[2].replace(/,/g, "");
   const suffix = prefixMatch[3];
 
   const target = parseFloat(numStr);
   if (isNaN(target)) return null;
 
+  // Keep the source's precision: "5.0" must not render as "5".
+  const decimals = numStr.includes(".") ? numStr.split(".")[1].length : 0;
+
   return {
     target,
     ...(prefix ? { prefix } : {}),
     ...(suffix ? { suffix } : {}),
+    ...(decimals ? { decimals } : {}),
   };
 }
 
@@ -157,6 +166,7 @@ export default async function ProjectCaseStudy({ params }: Props) {
                         target={parsed.target}
                         prefix={parsed.prefix}
                         suffix={parsed.suffix}
+                        decimals={parsed.decimals}
                       />
                     ) : (
                       highlight.value

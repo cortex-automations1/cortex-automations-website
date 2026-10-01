@@ -60,14 +60,16 @@ export default function AboutPage() {
                   />{" "}
                   projects with a{" "}
                   <AnimatedCounter
-                    target={99}
-                    suffix=".9%"
+                    target={99.9}
+                    decimals={1}
+                    suffix="%"
                     className="text-3xl font-bold text-brand-400"
                   />{" "}
                   uptime SLA and a{" "}
                   <AnimatedCounter
-                    target={4}
-                    suffix=".9/5"
+                    target={4.9}
+                    decimals={1}
+                    suffix="/5"
                     className="text-3xl font-bold text-brand-400"
                   />{" "}
                   client satisfaction rating.
