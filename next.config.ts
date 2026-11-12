@@ -34,13 +34,44 @@ const securityHeaders = [
   },
 ];
 
+const ELEVATE = "https://elevateitpro.com";
+const MAP: [string, string][] = [
+  ["/", "/"],
+  ["/about", "/about"],
+  ["/contact", "/contact"],
+  ["/privacy", "/privacy"],
+  ["/terms", "/terms"],
+  ["/services", "/solutions/build"],
+  ["/services/saas-platforms", "/services/custom-development"],
+  ["/services/mobile-apps", "/services/custom-development"],
+  ["/services/web-design", "/services/website-design"],
+  ["/services/ai-automation", "/solutions/automation-ai"],
+  ["/services/consulting", "/services/technology-strategy"],
+  ["/portfolio", "/work"],
+  ["/portfolio/outback-excavating", "/work/outback-excavating"],
+  ["/portfolio/timber-and-turf", "/work/timber-and-turf"],
+  ["/portfolio/capital-pg-homes", "/work/capital-property-group"],
+  ["/portfolio/roughcut-cedar-co", "/work/roughcut-cedar-co"],
+  ["/portfolio/thryve-advisors", "/work/thryve-advisors"],
+  ["/portfolio/tree-doctor", "/work/the-tree-doctor"],
+  ["/portfolio/rons-outdoor-maintenance", "/work/rons-outdoor-maintenance"],
+  ["/portfolio/elevate-it-solutions", "/"],
+  ["/blog/custom-software-vs-templates", "/services/custom-development"],
+  ["/blog/local-service-business-websites", "/services/website-design"],
+  ["/blog/why-astro-preact-cloudflare-for-thryve-advisors", "/work/thryve-advisors"],
+  ["/blog", "/solutions/build"],
+];
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Cortex Automations has moved to Elevate IT Solutions (David, 2026-11-11; Elevate D-044, ADR 0012). Every path
+  // forwards permanently to its closest Elevate page; anything unmapped goes to the Build hub. Email and the domain
+  // itself are untouched. The table and its live check are in docs/redirect-map.md.
   async redirects() {
     return [
-      // Cloud X rebranded to Saldera PSA; Placed removed from the portfolio.
-      { source: "/portfolio/cloud-x", destination: "/portfolio/saldera-psa", permanent: true },
-      { source: "/portfolio/placed", destination: "/portfolio", permanent: true },
+      ...MAP.map(([source, path]) => ({ source, destination: `${ELEVATE}${path}`, permanent: true })),
+      { source: "/portfolio/:slug*", destination: `${ELEVATE}/work`, permanent: true },
+      { source: "/:path*", destination: `${ELEVATE}/solutions/build`, permanent: true },
     ];
   },
   async headers() {
